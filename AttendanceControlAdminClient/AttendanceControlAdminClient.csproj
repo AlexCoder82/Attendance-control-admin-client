@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{51321280-396E-4E20-9DDF-32B8BA6C5AED}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>AttendanceControlAdminClient</RootNamespace>
+    <AssemblyName>AttendanceControlAdminClient</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Flurl, Version=2.8.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flurl.2.8.2\lib\net40\Flurl.dll</HintPath>
+    </Reference>
+    <Reference Include="Flurl.Http, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flurl.Http.2.4.2\lib\net46\Flurl.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.JScript" />
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enums\AbsenceType.cs" />
+    <Compile Include="Enums\Role.cs" />
+    <Compile Include="Exceptions\ServerErrorException.cs" />
+    <Compile Include="Exceptions\ServerErrorExceptionHandler.cs" />
+    <Compile Include="GUI\SignInForm\SignInForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\SignInForm\SignInForm.Designer.cs">
+      <DependentUpon>SignInForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\StudentsMenuForms\AbsencesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\StudentsMenuForms\AbsencesForm.Designer.cs">
+      <DependentUpon>AbsencesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CustomControls\CustomButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomControls\CustomCloseButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomControls\CustomComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomControls\CustomConfirmDialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomControls\CustomConfirmDialogForm.Designer.cs">
+      <DependentUpon>CustomConfirmDialogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CustomControls\CustomDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomControls\CustomDialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomControls\CustomErrorMessageWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomControls\CustomLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomControls\CustomMinimizeButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomControls\CustomSuccesMessageWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomControls\CustomTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\ShiftsMenuForms\ShiftsWindowControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\ShiftsMenuForms\ShiftsWindowControl.Designer.cs">
+      <DependentUpon>ShiftsWindowControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\StudentsMenuForms\ModifyStudentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\StudentsMenuForms\ModifyStudentForm.Designer.cs">
+      <DependentUpon>ModifyStudentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\StudentsMenuForms\CreateStudentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\StudentsMenuForms\CreateStudentForm.Designer.cs">
+      <DependentUpon>CreateStudentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\StudentsMenuForms\AssignCourseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\StudentsMenuForms\AssignCourseForm.Designer.cs">
+      <DependentUpon>AssignCourseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CyclesMenuForms\AssignSubjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\CyclesMenuForms\AssignSubjectForm.Designer.cs">
+      <DependentUpon>AssignSubjectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\ClassesMenuForms\CreateSchoolClassForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\ClassesMenuForms\CreateSchoolClassForm.Designer.cs">
+      <DependentUpon>CreateSchoolClassForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\TeachersMenuForms\CreateTeacherForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\TeachersMenuForms\CreateTeacherForm.Designer.cs">
+      <DependentUpon>CreateTeacherForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\SubjectsMenuForms\CreateSubjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\SubjectsMenuForms\CreateSubjectForm.Designer.cs">
+      <DependentUpon>CreateSubjectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CyclesMenuForms\CreateCycleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\CyclesMenuForms\CreateCycleForm.Designer.cs">
+      <DependentUpon>CreateCycleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CyclesMenuForms\CyclesWindowControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CyclesMenuForms\CyclesWindowControl.Designer.cs">
+      <DependentUpon>CyclesWindowControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Design\DataGridViewsStyle\DataGridViewAlternatingRowsStyle.cs" />
+    <Compile Include="GUI\Design\DataGridViewsStyle\DataGridViewCellStyle.cs" />
+    <Compile Include="GUI\Design\DataGridViewsStyle\DataGridViewHeaderStyle.cs" />
+    <Compile Include="GUI\StudentsMenuForms\AssignSubjectsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\StudentsMenuForms\AssignSubjectsForm.Designer.cs">
+      <DependentUpon>AssignSubjectsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\SubjectsMenuForms\AssignTeacherForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\SubjectsMenuForms\AssignTeacherForm.Designer.cs">
+      <DependentUpon>AssignTeacherForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\TeachersMenuForms\ModifyTeacherForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\TeachersMenuForms\ModifyTeacherForm.Designer.cs">
+      <DependentUpon>ModifyTeacherForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\SubjectsMenuForms\ModifySubjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\SubjectsMenuForms\ModifySubjectForm.Designer.cs">
+      <DependentUpon>ModifySubjectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CyclesMenuForms\ModifyCycleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\CyclesMenuForms\ModifyCycleForm.Designer.cs">
+      <DependentUpon>ModifyCycleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\ClassesMenuForms\ClassesWindowControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\ClassesMenuForms\ClassesWindowControl.Designer.cs">
+      <DependentUpon>ClassesWindowControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\StudentsMenuForms\StudentsWindowControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\StudentsMenuForms\StudentsWindowControl.Designer.cs">
+      <DependentUpon>StudentsWindowControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\SubjectsMenuForms\SubjectsWindowControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\SubjectsMenuForms\SubjectsWindowControl.Designer.cs">
+      <DependentUpon>SubjectsWindowControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\TeachersMenuForms\TeachersWindowControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\TeachersMenuForms\TeachersWindowControl.Designer.cs">
+      <DependentUpon>TeachersWindowControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\MainForm\MainAppForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\MainForm\MainAppForm.Designer.cs">
+      <DependentUpon>MainAppForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HttpServices\AbsenceHttpService.cs" />
+    <Compile Include="HttpServices\CourseHttpService.cs" />
+    <Compile Include="HttpServices\CycleHttpService.cs" />
+    <Compile Include="HttpServices\ScheduleHttpService.cs" />
+    <Compile Include="HttpServices\SchoolClassHttpService.cs" />
+    <Compile Include="HttpServices\ShiftHttpService.cs" />
+    <Compile Include="HttpServices\StudentHttpService.cs" />
+    <Compile Include="HttpServices\SubjectHttpService.cs" />
+    <Compile Include="HttpServices\TeacherHttpService.cs" />
+    <Compile Include="Models\Absence.cs" />
+    <Compile Include="Models\Admin.cs" />
+    <Compile Include="Models\APIError.cs" />
+    <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\Cycle.cs" />
+    <Compile Include="Models\PersonData.cs" />
+    <Compile Include="Models\Schedule.cs" />
+    <Compile Include="Models\SchoolClass.cs" />
+    <Compile Include="Models\Shift.cs" />
+    <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\Subject.cs" />
+    <Compile Include="Models\Teacher.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\SignInForm\SignInForm.resx">
+      <DependentUpon>SignInForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\StudentsMenuForms\AbsencesForm.resx">
+      <DependentUpon>AbsencesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomControls\CustomConfirmDialogForm.resx">
+      <DependentUpon>CustomConfirmDialogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomControls\CustomErrorMessageWindow.resx">
+      <DependentUpon>CustomErrorMessageWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomControls\CustomSuccesMessageWindow.resx">
+      <DependentUpon>CustomSuccesMessageWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ShiftsMenuForms\ShiftsWindowControl.resx">
+      <DependentUpon>ShiftsWindowControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\StudentsMenuForms\ModifyStudentForm.resx">
+      <DependentUpon>ModifyStudentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\StudentsMenuForms\CreateStudentForm.resx">
+      <DependentUpon>CreateStudentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\StudentsMenuForms\AssignCourseForm.resx">
+      <DependentUpon>AssignCourseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CyclesMenuForms\AssignSubjectForm.resx">
+      <DependentUpon>AssignSubjectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ClassesMenuForms\CreateSchoolClassForm.resx">
+      <DependentUpon>CreateSchoolClassForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\TeachersMenuForms\CreateTeacherForm.resx">
+      <DependentUpon>CreateTeacherForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\SubjectsMenuForms\CreateSubjectForm.resx">
+      <DependentUpon>CreateSubjectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CyclesMenuForms\CreateCycleForm.resx">
+      <DependentUpon>CreateCycleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CyclesMenuForms\CyclesWindowControl.resx">
+      <DependentUpon>CyclesWindowControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\StudentsMenuForms\AssignSubjectsForm.resx">
+      <DependentUpon>AssignSubjectsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\SubjectsMenuForms\AssignTeacherForm.resx">
+      <DependentUpon>AssignTeacherForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\TeachersMenuForms\ModifyTeacherForm.resx">
+      <DependentUpon>ModifyTeacherForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\SubjectsMenuForms\ModifySubjectForm.resx">
+      <DependentUpon>ModifySubjectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CyclesMenuForms\ModifyCycleForm.resx">
+      <DependentUpon>ModifyCycleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ClassesMenuForms\ClassesWindowControl.resx">
+      <DependentUpon>ClassesWindowControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\StudentsMenuForms\StudentsWindowControl.resx">
+      <DependentUpon>StudentsWindowControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\SubjectsMenuForms\SubjectsWindowControl.resx">
+      <DependentUpon>SubjectsWindowControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\TeachersMenuForms\TeachersWindowControl.resx">
+      <DependentUpon>TeachersWindowControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\MainForm\MainAppForm.resx">
+      <DependentUpon>MainAppForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\minimize_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\close-icon.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\logo-optima.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Assets\Icons\Close-icon-25px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\Close-icon-30px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\error-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\icono-cerrar30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\icono-cerrar35.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\icono_minimizar30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\icono_minimizar35.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\icono-ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\admin-icon-png.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
