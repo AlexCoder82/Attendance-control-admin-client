@@ -33,64 +33,89 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CyclesWindowControl));
             AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewAlternatingRowsStyle dataGridViewAlternatingRowsStyle1 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewAlternatingRowsStyle();
             AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewHeaderStyle dataGridViewHeaderStyle1 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewHeaderStyle();
             AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewDefaultCellStyle dataGridViewDefaultCellStyle1 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewDefaultCellStyle();
             AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewAlternatingRowsStyle dataGridViewAlternatingRowsStyle2 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewAlternatingRowsStyle();
             AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewHeaderStyle dataGridViewHeaderStyle2 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewHeaderStyle();
             AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewDefaultCellStyle dataGridViewDefaultCellStyle2 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewDefaultCellStyle();
-            this.btnRemoveSubject1 = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
-            this.btnAddSubject1 = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
+            this.buttonRemoveSubject = new AttendanceControlAdminClient.GUI.CustomControls.CustomCircularButton();
+            this.buttonAddSubject = new AttendanceControlAdminClient.GUI.CustomControls.CustomCircularButton();
+            this.buttonModify = new AttendanceControlAdminClient.GUI.CustomControls.CustomCircularButton();
+            this.buttonAdd = new AttendanceControlAdminClient.GUI.CustomControls.CustomCircularButton();
             this.dgvSubjects1 = new AttendanceControlAdminClient.GUI.CustomControls.CustomDataGridView();
             this.idCourse1Subject = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.course1SubjectName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CbCourses = new AttendanceControlAdminClient.GUI.CustomControls.CustomComboBox();
+            this.labelCourse = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
             this.dgvCycles = new AttendanceControlAdminClient.GUI.CustomControls.CustomDataGridView();
             this.idCycle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cycleName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnModifyCycle = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
-            this.btnAddCycle = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
-            this.labelCourse = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
-            this.CbCourses = new AttendanceControlAdminClient.GUI.CustomControls.CustomComboBox();
+            this.Shift = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSubjects1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCycles)).BeginInit();
             this.SuspendLayout();
             // 
-            // btnRemoveSubject1
+            // buttonRemoveSubject
             // 
-            this.btnRemoveSubject1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.btnRemoveSubject1.Enabled = false;
-            this.btnRemoveSubject1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRemoveSubject1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.btnRemoveSubject1.ForeColor = System.Drawing.Color.White;
-            this.btnRemoveSubject1.Location = new System.Drawing.Point(690, 277);
-            this.btnRemoveSubject1.Name = "btnRemoveSubject1";
-            this.btnRemoveSubject1.Size = new System.Drawing.Size(70, 25);
-            this.btnRemoveSubject1.TabIndex = 9;
-            this.btnRemoveSubject1.Text = "Retirar";
-            this.btnRemoveSubject1.UseVisualStyleBackColor = false;
-            this.btnRemoveSubject1.Visible = false;
-            this.btnRemoveSubject1.Click += new System.EventHandler(this.ButtonRemoveSubject1_Click);
+            this.buttonRemoveSubject.BackgroundImage = global::AttendanceControlAdminClient.Properties.Resources.icono_retirar;
+            this.buttonRemoveSubject.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.buttonRemoveSubject.FlatAppearance.BorderSize = 0;
+            this.buttonRemoveSubject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonRemoveSubject.Location = new System.Drawing.Point(710, 304);
+            this.buttonRemoveSubject.Name = "buttonRemoveSubject";
+            this.buttonRemoveSubject.Size = new System.Drawing.Size(50, 50);
+            this.buttonRemoveSubject.TabIndex = 18;
+            this.buttonRemoveSubject.UseVisualStyleBackColor = true;
+            this.buttonRemoveSubject.Visible = false;
+            this.buttonRemoveSubject.Click += new System.EventHandler(this.ButtonRemoveSubject1_Click);
             // 
-            // btnAddSubject1
+            // buttonAddSubject
             // 
-            this.btnAddSubject1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.btnAddSubject1.Enabled = false;
-            this.btnAddSubject1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddSubject1.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.btnAddSubject1.ForeColor = System.Drawing.Color.White;
-            this.btnAddSubject1.Location = new System.Drawing.Point(690, 246);
-            this.btnAddSubject1.Name = "btnAddSubject1";
-            this.btnAddSubject1.Size = new System.Drawing.Size(70, 25);
-            this.btnAddSubject1.TabIndex = 8;
-            this.btnAddSubject1.Text = "Añadir +";
-            this.btnAddSubject1.UseVisualStyleBackColor = false;
-            this.btnAddSubject1.Visible = false;
-            this.btnAddSubject1.Click += new System.EventHandler(this.ButtonAddSubject1_Click);
+            this.buttonAddSubject.BackgroundImage = global::AttendanceControlAdminClient.Properties.Resources.icono_agregar;
+            this.buttonAddSubject.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.buttonAddSubject.FlatAppearance.BorderSize = 0;
+            this.buttonAddSubject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAddSubject.Location = new System.Drawing.Point(710, 248);
+            this.buttonAddSubject.Name = "buttonAddSubject";
+            this.buttonAddSubject.Size = new System.Drawing.Size(50, 50);
+            this.buttonAddSubject.TabIndex = 14;
+            this.buttonAddSubject.UseVisualStyleBackColor = true;
+            this.buttonAddSubject.Visible = false;
+            this.buttonAddSubject.Click += new System.EventHandler(this.ButtonAddSubject1_Click);
+            // 
+            // buttonModify
+            // 
+            this.buttonModify.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonModify.BackgroundImage")));
+            this.buttonModify.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.buttonModify.FlatAppearance.BorderSize = 0;
+            this.buttonModify.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonModify.Location = new System.Drawing.Point(710, 80);
+            this.buttonModify.Name = "buttonModify";
+            this.buttonModify.Size = new System.Drawing.Size(50, 50);
+            this.buttonModify.TabIndex = 13;
+            this.buttonModify.UseVisualStyleBackColor = true;
+            this.buttonModify.Click += new System.EventHandler(this.ButtonModifyCycle_Click);
+            // 
+            // buttonAdd
+            // 
+            this.buttonAdd.BackgroundImage = global::AttendanceControlAdminClient.Properties.Resources.icono_agregar;
+            this.buttonAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.buttonAdd.FlatAppearance.BorderSize = 0;
+            this.buttonAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAdd.Location = new System.Drawing.Point(710, 24);
+            this.buttonAdd.Name = "buttonAdd";
+            this.buttonAdd.Size = new System.Drawing.Size(50, 50);
+            this.buttonAdd.TabIndex = 12;
+            this.buttonAdd.UseVisualStyleBackColor = true;
+            this.buttonAdd.Click += new System.EventHandler(this.ButtonAddCycle_Click);
             // 
             // dgvSubjects1
             // 
             this.dgvSubjects1.AllowUserToAddRows = false;
             this.dgvSubjects1.AllowUserToDeleteRows = false;
+            this.dgvSubjects1.AllowUserToResizeRows = false;
             dataGridViewAlternatingRowsStyle1.BackColor = System.Drawing.SystemColors.ControlLight;
             dataGridViewAlternatingRowsStyle1.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewAlternatingRowsStyle1.ForeColor = System.Drawing.Color.Black;
@@ -124,7 +149,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             dataGridViewDefaultCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvSubjects1.DefaultCellStyle = dataGridViewDefaultCellStyle1;
             this.dgvSubjects1.EnableHeadersVisualStyles = false;
-            this.dgvSubjects1.Location = new System.Drawing.Point(232, 236);
+            this.dgvSubjects1.Location = new System.Drawing.Point(171, 236);
             this.dgvSubjects1.MultiSelect = false;
             this.dgvSubjects1.Name = "dgvSubjects1";
             this.dgvSubjects1.ReadOnly = true;
@@ -134,7 +159,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             this.dgvSubjects1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.dgvSubjects1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvSubjects1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSubjects1.Size = new System.Drawing.Size(430, 199);
+            this.dgvSubjects1.Size = new System.Drawing.Size(502, 199);
             this.dgvSubjects1.TabIndex = 7;
             this.dgvSubjects1.Visible = false;
             // 
@@ -147,9 +172,35 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             // 
             // course1SubjectName
             // 
-            this.course1SubjectName.HeaderText = "ASIGNATURAS ";
+            this.course1SubjectName.HeaderText = "Asignaturas";
             this.course1SubjectName.Name = "course1SubjectName";
             this.course1SubjectName.ReadOnly = true;
+            // 
+            // CbCourses
+            // 
+            this.CbCourses.BackColor = System.Drawing.Color.White;
+            this.CbCourses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CbCourses.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.CbCourses.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            this.CbCourses.FormattingEnabled = true;
+            this.CbCourses.Location = new System.Drawing.Point(107, 248);
+            this.CbCourses.Name = "CbCourses";
+            this.CbCourses.Size = new System.Drawing.Size(41, 22);
+            this.CbCourses.TabIndex = 1;
+            this.CbCourses.Visible = false;
+            this.CbCourses.SelectedIndexChanged += new System.EventHandler(this.CbCourses_SelectedIndexChanged);
+            // 
+            // labelCourse
+            // 
+            this.labelCourse.AutoSize = true;
+            this.labelCourse.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.labelCourse.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            this.labelCourse.Location = new System.Drawing.Point(47, 249);
+            this.labelCourse.Name = "labelCourse";
+            this.labelCourse.Size = new System.Drawing.Size(54, 16);
+            this.labelCourse.TabIndex = 0;
+            this.labelCourse.Text = "Curso:";
+            this.labelCourse.Visible = false;
             // 
             // dgvCycles
             // 
@@ -177,7 +228,8 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             this.dgvCycles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvCycles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idCycle,
-            this.cycleName});
+            this.cycleName,
+            this.Shift});
             this.dgvCycles.Cursor = System.Windows.Forms.Cursors.Hand;
             dataGridViewDefaultCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewDefaultCellStyle2.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -188,7 +240,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             dataGridViewDefaultCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvCycles.DefaultCellStyle = dataGridViewDefaultCellStyle2;
             this.dgvCycles.EnableHeadersVisualStyles = false;
-            this.dgvCycles.Location = new System.Drawing.Point(50, 0);
+            this.dgvCycles.Location = new System.Drawing.Point(50, 14);
             this.dgvCycles.MultiSelect = false;
             this.dgvCycles.Name = "dgvCycles";
             this.dgvCycles.ReadOnly = true;
@@ -198,7 +250,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             this.dgvCycles.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.dgvCycles.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvCycles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCycles.Size = new System.Drawing.Size(612, 200);
+            this.dgvCycles.Size = new System.Drawing.Size(623, 200);
             this.dgvCycles.TabIndex = 5;
             // 
             // idCycle
@@ -210,76 +262,30 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             // 
             // cycleName
             // 
-            this.cycleName.HeaderText = "CICLOS FORMATIVOS";
+            this.cycleName.HeaderText = "Ciclos Formativos";
             this.cycleName.Name = "cycleName";
             this.cycleName.ReadOnly = true;
             // 
-            // btnModifyCycle
+            // Shift
             // 
-            this.btnModifyCycle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.btnModifyCycle.Enabled = false;
-            this.btnModifyCycle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnModifyCycle.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.btnModifyCycle.ForeColor = System.Drawing.Color.White;
-            this.btnModifyCycle.Location = new System.Drawing.Point(690, 41);
-            this.btnModifyCycle.Name = "btnModifyCycle";
-            this.btnModifyCycle.Size = new System.Drawing.Size(70, 25);
-            this.btnModifyCycle.TabIndex = 3;
-            this.btnModifyCycle.Text = "Modificar";
-            this.btnModifyCycle.UseVisualStyleBackColor = true;
-            this.btnModifyCycle.Click += new System.EventHandler(this.ButtonModifyCycle_Click);
-            // 
-            // btnAddCycle
-            // 
-            this.btnAddCycle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.btnAddCycle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddCycle.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.btnAddCycle.ForeColor = System.Drawing.Color.White;
-            this.btnAddCycle.Location = new System.Drawing.Point(690, 10);
-            this.btnAddCycle.Name = "btnAddCycle";
-            this.btnAddCycle.Size = new System.Drawing.Size(70, 25);
-            this.btnAddCycle.TabIndex = 2;
-            this.btnAddCycle.Text = "Añadir +";
-            this.btnAddCycle.UseVisualStyleBackColor = false;
-            this.btnAddCycle.Click += new System.EventHandler(this.ButtonAddCycle_Click);
-            // 
-            // labelCourse
-            // 
-            this.labelCourse.AutoSize = true;
-            this.labelCourse.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.labelCourse.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.labelCourse.Location = new System.Drawing.Point(47, 249);
-            this.labelCourse.Name = "labelCourse";
-            this.labelCourse.Size = new System.Drawing.Size(54, 16);
-            this.labelCourse.TabIndex = 0;
-            this.labelCourse.Text = "Curso:";
-            this.labelCourse.Visible = false;
-            // 
-            // CbCourses
-            // 
-            this.CbCourses.BackColor = System.Drawing.Color.White;
-            this.CbCourses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CbCourses.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.CbCourses.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.CbCourses.FormattingEnabled = true;
-            this.CbCourses.Location = new System.Drawing.Point(138, 248);
-            this.CbCourses.Name = "CbCourses";
-            this.CbCourses.Size = new System.Drawing.Size(51, 22);
-            this.CbCourses.TabIndex = 1;
-            this.CbCourses.Visible = false;
+            this.Shift.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Shift.HeaderText = "Turno";
+            this.Shift.Name = "Shift";
+            this.Shift.ReadOnly = true;
+            this.Shift.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // CyclesWindowControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonRemoveSubject);
+            this.Controls.Add(this.buttonAddSubject);
+            this.Controls.Add(this.buttonModify);
+            this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.dgvSubjects1);
             this.Controls.Add(this.CbCourses);
             this.Controls.Add(this.labelCourse);
-            this.Controls.Add(this.btnRemoveSubject1);
-            this.Controls.Add(this.btnAddSubject1);
             this.Controls.Add(this.dgvCycles);
-            this.Controls.Add(this.btnModifyCycle);
-            this.Controls.Add(this.btnAddCycle);
             this.Name = "CyclesWindowControl";
             this.Size = new System.Drawing.Size(800, 500);
             this.Load += new System.EventHandler(this.CyclesWindowControl_Load);
@@ -291,17 +297,18 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         }
 
         #endregion
-        private CustomButton btnAddCycle;
-        private CustomButton btnModifyCycle;
         private CustomDataGridView dgvCycles;
         private CustomDataGridView dgvSubjects1;
-        private CustomButton btnAddSubject1;
-        private CustomButton btnRemoveSubject1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idCycle;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cycleName;
         private CustomComboBox CbCourses;
         private CustomLabel labelCourse;
+        private CustomCircularButton buttonAdd;
+        private CustomCircularButton buttonModify;
+        private CustomCircularButton buttonAddSubject;
+        private CustomCircularButton buttonRemoveSubject;
         private System.Windows.Forms.DataGridViewTextBoxColumn idCourse1Subject;
         private System.Windows.Forms.DataGridViewTextBoxColumn course1SubjectName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idCycle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cycleName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Shift;
     }
 }

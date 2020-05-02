@@ -30,13 +30,12 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateSubjectForm));
             this.LabelMessage = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
             this.btnCreateSubject = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
             this.tbSubjectName = new AttendanceControlAdminClient.GUI.CustomControls.CustomTextBox();
             this.BtnCancel = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
-            this.customCloseButton1 = new AttendanceControlAdminClient.GUI.CustomControls.CustomCloseButton();
-            ((System.ComponentModel.ISupportInitialize)(this.customCloseButton1)).BeginInit();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // LabelMessage
@@ -44,11 +43,11 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
             this.LabelMessage.AutoSize = true;
             this.LabelMessage.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.LabelMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelMessage.Location = new System.Drawing.Point(57, 91);
+            this.LabelMessage.Location = new System.Drawing.Point(35, 49);
             this.LabelMessage.Name = "LabelMessage";
-            this.LabelMessage.Size = new System.Drawing.Size(373, 16);
+            this.LabelMessage.Size = new System.Drawing.Size(304, 16);
             this.LabelMessage.TabIndex = 1;
-            this.LabelMessage.Text = "¿Qué nombre le quiere pone a la nueva asignatura?";
+            this.LabelMessage.Text = "¿Qué nombre tendrá la nueva asignatura?";
             // 
             // btnCreateSubject
             // 
@@ -56,7 +55,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
             this.btnCreateSubject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCreateSubject.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.btnCreateSubject.ForeColor = System.Drawing.Color.White;
-            this.btnCreateSubject.Location = new System.Drawing.Point(487, 167);
+            this.btnCreateSubject.Location = new System.Drawing.Point(231, 146);
             this.btnCreateSubject.Name = "btnCreateSubject";
             this.btnCreateSubject.Size = new System.Drawing.Size(75, 25);
             this.btnCreateSubject.TabIndex = 0;
@@ -68,9 +67,9 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
             // 
             this.tbSubjectName.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.tbSubjectName.ForeColor = System.Drawing.Color.Black;
-            this.tbSubjectName.Location = new System.Drawing.Point(60, 127);
+            this.tbSubjectName.Location = new System.Drawing.Point(38, 91);
             this.tbSubjectName.Name = "tbSubjectName";
-            this.tbSubjectName.Size = new System.Drawing.Size(389, 20);
+            this.tbSubjectName.Size = new System.Drawing.Size(301, 20);
             this.tbSubjectName.TabIndex = 2;
             // 
             // BtnCancel
@@ -79,7 +78,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
             this.BtnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnCancel.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.BtnCancel.ForeColor = System.Drawing.Color.White;
-            this.BtnCancel.Location = new System.Drawing.Point(487, 198);
+            this.BtnCancel.Location = new System.Drawing.Point(77, 146);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(75, 25);
             this.BtnCancel.TabIndex = 3;
@@ -87,33 +86,33 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
             this.BtnCancel.UseVisualStyleBackColor = false;
             this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
-            // customCloseButton1
+            // groupBox1
             // 
-            this.customCloseButton1.Image = ((System.Drawing.Image)(resources.GetObject("customCloseButton1.Image")));
-            this.customCloseButton1.Location = new System.Drawing.Point(532, 21);
-            this.customCloseButton1.Name = "customCloseButton1";
-            this.customCloseButton1.Size = new System.Drawing.Size(30, 30);
-            this.customCloseButton1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.customCloseButton1.TabIndex = 4;
-            this.customCloseButton1.TabStop = false;
+            this.groupBox1.Controls.Add(this.LabelMessage);
+            this.groupBox1.Controls.Add(this.tbSubjectName);
+            this.groupBox1.Controls.Add(this.btnCreateSubject);
+            this.groupBox1.Controls.Add(this.BtnCancel);
+            this.groupBox1.Font = new System.Drawing.Font("Arial Black", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(22, 21);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(382, 202);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Nueva asignatura";
             // 
             // CreateSubjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(583, 256);
-            this.Controls.Add(this.customCloseButton1);
-            this.Controls.Add(this.BtnCancel);
-            this.Controls.Add(this.tbSubjectName);
-            this.Controls.Add(this.LabelMessage);
-            this.Controls.Add(this.btnCreateSubject);
+            this.ClientSize = new System.Drawing.Size(427, 256);
+            this.Controls.Add(this.groupBox1);
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "CreateSubjectForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CreateNewCycleForm";
-            ((System.ComponentModel.ISupportInitialize)(this.customCloseButton1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -123,6 +122,6 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         private CustomLabel LabelMessage;
         private CustomTextBox tbSubjectName;
         private CustomButton BtnCancel;
-        private CustomCloseButton customCloseButton1;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

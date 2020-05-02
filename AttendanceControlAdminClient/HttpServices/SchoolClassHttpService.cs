@@ -6,6 +6,7 @@ using Flurl.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,21 +21,30 @@ namespace AttendanceControlAdminClient.HttpServices
         {
             try
             {
-                var result = await _baseUrl.AppendPathSegment("/schoolclasses")
+                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/schoolclasses")
                    .PostJsonAsync(schoolClass).ReceiveJson<SchoolClass>();
 
                 return result;
             }
             catch (FlurlHttpException ex)
             {
-                try
-                {
-                    APIError error = await ex.GetResponseJsonAsync<APIError>();
+                var status = ex.Call.HttpStatus;
 
-                    throw new ServerErrorException(error.Message);
-                }
-                catch (Exception)
+                //El servidor devuelve un 409 si se intenta crear 
+                //un ciclo cuyo nombre ya existe o un 400 si no se valida el ciclo
+                // con un mensaje de error
+                if (status == HttpStatusCode.Conflict)
                 {
+                    //Recupero el mensaje de error
+                    string message = await ex.GetResponseStringAsync();
+                    throw new ServerErrorException(message);
+                }
+                //Cualquier otro codigo de estado
+                else
+                {
+                    await ServerErrorExceptionHandler.Handle(ex);
+
                     throw new ServerErrorException();
                 }
             }
@@ -45,7 +55,8 @@ namespace AttendanceControlAdminClient.HttpServices
         {
             try
             {
-                var result = await _baseUrl.AppendPathSegment("/schoolclasses/" +id )
+                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/schoolclasses/" +id )
                    .PutAsync(null).ReceiveJson<bool>();
 
                 return result;
@@ -70,7 +81,8 @@ namespace AttendanceControlAdminClient.HttpServices
         {
             try
             {
-                var result = await _baseUrl.AppendPathSegment("/schoolclasses/courses/" + courseId )
+                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/schoolclasses/courses/" + courseId )
                    .GetJsonAsync<List<SchoolClass>>();
 
                 return result;

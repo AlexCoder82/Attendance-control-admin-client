@@ -19,6 +19,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         private List<SchoolClass> _schoolClasses; //Lista de las clases del curso seleccionado
         private Cycle _cycle; //Ciclo seleccionado
         private Course _course; //Curso seleccionado
+        private Dictionary<int, int> RowBySchedule;
 
         public ClassesWindowControl()
         {
@@ -38,12 +39,16 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
                 this.dgvSchedules.Visible = true;
                 this.dgvSchedules.DefaultCellStyle.SelectionBackColor = Color.White;
                 this.dgvSchedules.Rows.Clear();
-                _cycle.Shift.Schedules.ForEach(s =>
-                {
-                    this.dgvSchedules.Rows.Add(
-                        s.Start + " - " + s.End, "", "", "", "", "");
+                this.RowBySchedule = new Dictionary<int, int>();
 
-                });
+                List<Schedule> schedules = _cycle.Shift.Schedules;
+                for (int i = 0; i < schedules.Count;i++)
+                {
+                    this.dgvSchedules.Rows.Add( schedules[i].Start + " - " + schedules[i].End, "", "", "", "", "");
+
+                    this.RowBySchedule.Add( schedules[i].Id,i);
+
+                }
 
 
                 //Establece el tamaño automatico de cada columna
@@ -111,8 +116,10 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             //Para cada clase de curso
             _schoolClasses.ForEach(sc =>
             {
+              
+                int row = this.RowBySchedule[sc.Schedule.Id];
                 //Rellana la casilla que correspone al horario de la clase con los datos de la clase
-                this.dgvSchedules.Rows[sc.Schedule.Id - 1].Cells[(int)sc.Day].Value = sc.Subject.Name;
+                this.dgvSchedules.Rows[row].Cells[(int)sc.Day].Value = sc.Subject.Name;
 
                 //Si la asignatura de la clase no esta aun asociada a un color en el map
                 if (!subjectsNameColor.ContainsKey(sc.Subject.Name))
@@ -134,7 +141,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
                 }
 
                 //Se establece como color de fondo de la celda , el color asociado a la asignatura 
-                this.dgvSchedules.Rows[sc.Schedule.Id - 1].Cells[(int)sc.Day].Style.BackColor =
+                this.dgvSchedules.Rows[row].Cells[(int)sc.Day].Style.BackColor =
                     subjectsNameColor[sc.Subject.Name];
 
 

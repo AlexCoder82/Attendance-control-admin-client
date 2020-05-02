@@ -21,7 +21,8 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 
-               var result = await _baseUrl.AppendPathSegment("/schedules/shifts/"+shiftId)
+               var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/schedules/shifts/"+shiftId)
                    .GetJsonAsync<List<Schedule>>();
 
                 return result;

@@ -30,7 +30,8 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 string url = _baseUrl + _controllerUrl;
-                List<Shift> result = await url.GetJsonAsync<List<Shift>>();
+                List<Shift> result = await url.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).GetJsonAsync<List<Shift>>();
                 return result;
             }
             catch (FlurlHttpException flurlHttpException)

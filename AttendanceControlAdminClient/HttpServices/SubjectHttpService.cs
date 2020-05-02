@@ -30,7 +30,8 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 List<Subject> result = new List<Subject>();
-                result = await _baseUrl.AppendPathSegment("/subjects")
+                result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/subjects")
                    .GetJsonAsync<List<Subject>>();
 
                 return result;
@@ -50,7 +51,8 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 List<Subject> result = new List<Subject>();
-                result = await _baseUrl.AppendPathSegment("/subjects/courses/" + courseId)
+                result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/subjects/courses/" + courseId)
                    .GetJsonAsync<List<Subject>>();
 
                 return result;
@@ -76,7 +78,8 @@ namespace AttendanceControlAdminClient.HttpServices
         {
             try
             {
-                var result = await _baseUrl.AppendPathSegment("/subjects")
+                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/subjects")
                    .PostJsonAsync(subject).ReceiveJson<Subject>();
 
                 return result;
@@ -115,7 +118,8 @@ namespace AttendanceControlAdminClient.HttpServices
         {
             try
             {
-                var result = await _baseUrl.AppendPathSegment("/subjects")
+                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/subjects")
                    .PutJsonAsync(subject).ReceiveJson<Subject>();
 
                 return result;
@@ -155,7 +159,8 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 string url = "/subjects/" + subjectId + "/teachers/" + teacherId;
-                var result = await _baseUrl.AppendPathSegment(url)
+                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment(url)
                     .PutAsync(null).ReceiveJson<Subject>();
 
                 return result;
@@ -168,13 +173,14 @@ namespace AttendanceControlAdminClient.HttpServices
             }
         }
 
-        public static async Task<Subject> RemoveTeacherAssignment(int subjectId)
+        public static async Task<bool> RemoveTeacherAssignment(int subjectId)
         {
             try
             {
                 string url = "/subjects/" + subjectId + "/teachers";
-                var result = await _baseUrl.AppendPathSegment(url)
-                    .PutAsync(null).ReceiveJson<Subject>();
+                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment(url)
+                    .PutAsync(null).ReceiveJson<bool>();
 
                 return result;
             }

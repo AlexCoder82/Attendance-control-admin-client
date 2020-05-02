@@ -32,7 +32,6 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModifyTeacherForm));
             this.btnUpdateTeacher = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
             this.ButtonCancel = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
             this.LabelDni = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
@@ -47,9 +46,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.LabelLastName2 = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
             this.LabelLastName1 = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
             this.LabelFirstName = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
-            this.customCloseButton1 = new AttendanceControlAdminClient.GUI.CustomControls.CustomCloseButton();
             this.groupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.customCloseButton1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnUpdateTeacher
@@ -58,7 +55,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.btnUpdateTeacher.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpdateTeacher.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.btnUpdateTeacher.ForeColor = System.Drawing.Color.White;
-            this.btnUpdateTeacher.Location = new System.Drawing.Point(408, 211);
+            this.btnUpdateTeacher.Location = new System.Drawing.Point(254, 235);
             this.btnUpdateTeacher.Name = "btnUpdateTeacher";
             this.btnUpdateTeacher.Size = new System.Drawing.Size(75, 25);
             this.btnUpdateTeacher.TabIndex = 0;
@@ -72,7 +69,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.ButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonCancel.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.ButtonCancel.ForeColor = System.Drawing.Color.White;
-            this.ButtonCancel.Location = new System.Drawing.Point(408, 242);
+            this.ButtonCancel.Location = new System.Drawing.Point(112, 235);
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(75, 25);
             this.ButtonCancel.TabIndex = 3;
@@ -85,7 +82,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.LabelDni.AutoSize = true;
             this.LabelDni.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.LabelDni.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelDni.Location = new System.Drawing.Point(25, 60);
+            this.LabelDni.Location = new System.Drawing.Point(26, 61);
             this.LabelDni.Name = "LabelDni";
             this.LabelDni.Size = new System.Drawing.Size(35, 16);
             this.LabelDni.TabIndex = 5;
@@ -95,25 +92,25 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             // 
             this.groupBox.Controls.Add(this.LabelLastNameAsterisk);
             this.groupBox.Controls.Add(this.LabelFirstNameAsterisk);
+            this.groupBox.Controls.Add(this.btnUpdateTeacher);
+            this.groupBox.Controls.Add(this.ButtonCancel);
+            this.groupBox.Controls.Add(this.LabelLastName1);
+            this.groupBox.Controls.Add(this.LabelFirstName);
+            this.groupBox.Controls.Add(this.LabelDni);
             this.groupBox.Controls.Add(this.LabelDniAsterisk);
+            this.groupBox.Controls.Add(this.LabelLastName2);
             this.groupBox.Controls.Add(this.tbLastName2);
             this.groupBox.Controls.Add(this.tbLastName1);
             this.groupBox.Controls.Add(this.tbFirstName);
             this.groupBox.Controls.Add(this.tbDni);
-            this.groupBox.Controls.Add(this.LabelLastName2);
-            this.groupBox.Controls.Add(this.LabelLastName1);
-            this.groupBox.Controls.Add(this.LabelFirstName);
-            this.groupBox.Controls.Add(this.LabelDni);
-            this.groupBox.Controls.Add(this.btnUpdateTeacher);
-            this.groupBox.Controls.Add(this.ButtonCancel);
-            this.groupBox.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.groupBox.Font = new System.Drawing.Font("Arial", 11F, System.Drawing.FontStyle.Bold);
             this.groupBox.ForeColor = global::AttendanceControlAdminClient.Properties.Settings.Default.OPTIMA_COLOR;
-            this.groupBox.Location = new System.Drawing.Point(38, 70);
+            this.groupBox.Location = new System.Drawing.Point(20, 21);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(506, 285);
+            this.groupBox.Size = new System.Drawing.Size(427, 296);
             this.groupBox.TabIndex = 6;
             this.groupBox.TabStop = false;
-            this.groupBox.Text = "Modificar datos del profesor";
+            this.groupBox.Text = "Modificación";
             // 
             // LabelLastNameAsterisk
             // 
@@ -189,7 +186,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.LabelLastName2.AutoSize = true;
             this.LabelLastName2.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.LabelLastName2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelLastName2.Location = new System.Drawing.Point(25, 180);
+            this.LabelLastName2.Location = new System.Drawing.Point(26, 180);
             this.LabelLastName2.Name = "LabelLastName2";
             this.LabelLastName2.Size = new System.Drawing.Size(135, 16);
             this.LabelLastName2.TabIndex = 8;
@@ -200,7 +197,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.LabelLastName1.AutoSize = true;
             this.LabelLastName1.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.LabelLastName1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelLastName1.Location = new System.Drawing.Point(25, 140);
+            this.LabelLastName1.Location = new System.Drawing.Point(26, 140);
             this.LabelLastName1.Name = "LabelLastName1";
             this.LabelLastName1.Size = new System.Drawing.Size(118, 16);
             this.LabelLastName1.TabIndex = 7;
@@ -211,28 +208,17 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.LabelFirstName.AutoSize = true;
             this.LabelFirstName.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.LabelFirstName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelFirstName.Location = new System.Drawing.Point(25, 100);
+            this.LabelFirstName.Location = new System.Drawing.Point(26, 100);
             this.LabelFirstName.Name = "LabelFirstName";
             this.LabelFirstName.Size = new System.Drawing.Size(67, 16);
             this.LabelFirstName.TabIndex = 6;
             this.LabelFirstName.Text = "Nombre:";
             // 
-            // customCloseButton1
-            // 
-            this.customCloseButton1.Image = ((System.Drawing.Image)(resources.GetObject("customCloseButton1.Image")));
-            this.customCloseButton1.Location = new System.Drawing.Point(532, 21);
-            this.customCloseButton1.Name = "customCloseButton1";
-            this.customCloseButton1.Size = new System.Drawing.Size(30, 30);
-            this.customCloseButton1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.customCloseButton1.TabIndex = 7;
-            this.customCloseButton1.TabStop = false;
-            // 
             // ModifyTeacherForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(583, 403);
-            this.Controls.Add(this.customCloseButton1);
+            this.ClientSize = new System.Drawing.Size(468, 344);
             this.Controls.Add(this.groupBox);
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "ModifyTeacherForm";
@@ -241,7 +227,6 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.Load += new System.EventHandler(this.ModifyTeacherForm_Load);
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.customCloseButton1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -262,6 +247,5 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         private System.Windows.Forms.Label LabelFirstNameAsterisk;
         private System.Windows.Forms.Label LabelDniAsterisk;
         private System.Windows.Forms.Label LabelLastNameAsterisk;
-        private CustomCloseButton customCloseButton1;
     }
 }

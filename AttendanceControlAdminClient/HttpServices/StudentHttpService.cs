@@ -13,36 +13,13 @@ namespace AttendanceControlAdminClient.HttpServices
     {
         private static readonly string _baseUrl = Settings.Default.API_URL;
 
-    /*    public static async Task<List<Student>> GetByPage(int page)
-        {
-            try
-            {
-                var result = await _baseUrl.AppendPathSegment("/students/"+page)
-                   .GetJsonAsync<List<Student>>();
-
-                return result;
-            }
-
-            catch (FlurlHttpException flurlHttpException)
-            {
-                try
-                {
-                    APIError error = await flurlHttpException.GetResponseJsonAsync<APIError>();
-
-                    throw new ServerErrorException(error.Message);
-                }
-                catch (Exception)
-                {
-                    throw new ServerErrorException();
-                }
-            }
-
-        }*/
+   
         public static async Task<List<Student>> GetByPageAndLasttName(string lastname, int page)
         {
             try
             {
-                var result = await _baseUrl.AppendPathSegment("/students/"+page)
+                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/students/"+page)
                    .SetQueryParam("lastname", lastname)
                    .GetJsonAsync<List<Student>>();
 
@@ -65,38 +42,12 @@ namespace AttendanceControlAdminClient.HttpServices
 
         }
 
-        public static async Task<List<Student>> GetByCourse(int courseId)
-        {
-            try
-            {
-                var result = await _baseUrl.AppendPathSegment("/students/courses/" + courseId)
-                   .GetJsonAsync<List<Student>>();
-
-                return result;
-            }
-
-            catch (FlurlHttpException flurlHttpException)
-            {
-                try
-                {
-                    APIError error = await flurlHttpException.GetResponseJsonAsync<APIError>();
-
-                    throw new ServerErrorException(error.Message);
-                }
-                catch (Exception)
-                {
-                    throw new ServerErrorException();
-                }
-            }
-
-        }
-
-
         public static async Task<Student> Save(Student student)
         {
             try
             {
-                var result = await _baseUrl.AppendPathSegment("/students")
+                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/students")
                    .PostJsonAsync(student)
                    .ReceiveJson<Student>();
 
@@ -123,7 +74,8 @@ namespace AttendanceControlAdminClient.HttpServices
         {
             try
             {
-                var result = await _baseUrl.AppendPathSegment("/students")
+                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/students")
                    .PutJsonAsync(student)
                    .ReceiveJson<Student>();
 
@@ -150,7 +102,8 @@ namespace AttendanceControlAdminClient.HttpServices
         {
             try
             {
-                var result = await _baseUrl
+                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token)
                     .AppendPathSegment("/students/" + studentId + "/courses/" + courseId)
                    .PutAsync(null)
                    .ReceiveJson<Student>();
@@ -178,7 +131,8 @@ namespace AttendanceControlAdminClient.HttpServices
         {
             try
             {
-                var result = await _baseUrl
+                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token)
                    .AppendPathSegment("/students/" + studentId + "/courses")
                    .PutAsync(null)
                    .ReceiveJson<bool>();
@@ -206,7 +160,8 @@ namespace AttendanceControlAdminClient.HttpServices
         {
             try
             {
-                var result = await _baseUrl
+                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token)
                     .AppendPathSegment("/students/" + studentId + "/subjects")
                     .SetQueryParam("subjectIds", subjectIds)
                     .PutAsync(null)

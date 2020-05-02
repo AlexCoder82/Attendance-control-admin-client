@@ -48,20 +48,32 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         {
             //Recupera la asignatura seleccionada
             int subjectId = (int)this.cbSubjects.SelectedValue;
-            Subject subject =  _course.Subjects.FirstOrDefault(s => s.Id == subjectId);
+            Subject subject = _course.Subjects.FirstOrDefault(s => s.Id == subjectId);
 
-            //Establece la asignatura de la clase
-            _schoolClass.Subject = subject;
+            
+            if (subject.Teacher is null)
+            {
+                string message = "No puedes crear esta clase porque la asignatura " 
+                    + subject.Name + " no tiene profesor asignado.";
+                CustomErrorMessageWindow dialog = new CustomErrorMessageWindow(message);
+                dialog.ShowDialog();
+            }
+            else
+            {
+                try
+                {
+                    //Establece la asignatura de la clase
+                    _schoolClass.Subject = subject;
 
-            try
-            {
-                CreatedSchoolClass = await SchoolClassHttpService.Save(_schoolClass);
-                this.Close();
+                    CreatedSchoolClass = await SchoolClassHttpService.Save(_schoolClass);
+                    this.Close();
+                }
+                catch (ServerErrorException ex)
+                {
+                    new CustomErrorMessageWindow(ex.Message).ShowDialog();
+                }
             }
-            catch (ServerErrorException ex)
-            {
-                new CustomErrorMessageWindow(ex.Message).ShowDialog();
-            }
+            
 
         }
 
@@ -79,8 +91,8 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         private async Task GetCourseSUbjects()
         {
             try
-            {          
-                _course.Subjects = await SubjectHttpService.GetByCourse(_course.Id);                
+            {
+                _course.Subjects = await SubjectHttpService.GetByCourse(_course.Id);
             }
             catch (ServerErrorException ex)
             {

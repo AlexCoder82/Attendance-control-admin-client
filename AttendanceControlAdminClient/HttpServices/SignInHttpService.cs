@@ -1,4 +1,5 @@
-﻿using AttendanceControlAdminClient.Models;
+﻿using AttendanceControlAdminClient.Exceptions;
+using AttendanceControlAdminClient.Models;
 using AttendanceControlAdminClient.Properties;
 using Flurl.Http;
 using System;
@@ -32,9 +33,11 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 string url = _baseUrl + _controllerUrl;
-                var result = await url.PostJsonAsync(admin)
-                    .ReceiveJson();
+                SignInResponse signInResponse = await url.PostJsonAsync(admin)
+                    .ReceiveJson<SignInResponse>();
 
+                SessionService.Role = signInResponse.Role;
+                SessionService.Token = signInResponse.Token;
                 return true;
                 
             }
@@ -42,12 +45,10 @@ namespace AttendanceControlAdminClient.HttpServices
             {
                 var status = flurlHttpException.Call.HttpStatus;
 
-                //El servidor devuelve un 409 si se intenta crear 
-                //un ciclo cuyo nombre ya existe o un 400 si no se valida el ciclo
-                // con un mensaje de error
-                if (status == HttpStatusCode.Conflict || status == HttpStatusCode.BadRequest)
+                //El servidor devuelve un 404 si los las credenciales son erróneas
+                if (status == HttpStatusCode.NotFound )
                 {
-                    //Recupero el mensaje de error
+                    //Recupero el mensaje de error y lanzo una excepcion con el mensaje
                     string message = await flurlHttpException.GetResponseStringAsync();
                     throw new ServerErrorException(message);
                 }

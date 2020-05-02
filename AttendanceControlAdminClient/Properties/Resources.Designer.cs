@@ -83,6 +83,26 @@ namespace AttendanceControlAdminClient.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icono_agregar {
+            get {
+                object obj = ResourceManager.GetObject("icono_agregar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icono_asignar {
+            get {
+                object obj = ResourceManager.GetObject("icono_asignar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icono_cerrar30 {
             get {
                 object obj = ResourceManager.GetObject("icono_cerrar30", resourceCulture);
@@ -123,9 +143,39 @@ namespace AttendanceControlAdminClient.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icono_modificar {
+            get {
+                object obj = ResourceManager.GetObject("icono_modificar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icono_ok {
             get {
                 object obj = ResourceManager.GetObject("icono_ok", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icono_retirar {
+            get {
+                object obj = ResourceManager.GetObject("icono_retirar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icono_retirar_asignacion {
+            get {
+                object obj = ResourceManager.GetObject("icono_retirar_asignacion", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

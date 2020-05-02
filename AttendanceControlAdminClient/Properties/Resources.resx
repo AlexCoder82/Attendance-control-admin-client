@@ -118,11 +118,29 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="admin_icon_png" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Assets\Icons\admin-icon-png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icono_ok" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\icono-ok.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icono_minimizar30" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\icono_minimizar30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icono_modificar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\icono-modificar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="error_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Assets\Icons\error-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="logo_optima" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\logo-optima.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icono_agregar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\icono-agregar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="admin_icon_png" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\admin-icon-png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icono_minimizar35" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\icono_minimizar35.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icono_cerrar30" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Assets\Icons\icono-cerrar30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -130,16 +148,13 @@
   <data name="icono_cerrar35" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Assets\Icons\icono-cerrar35.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icono_minimizar30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Assets\Icons\icono_minimizar30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icono_retirar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\icono-retirar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icono_minimizar35" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Assets\Icons\icono_minimizar35.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icono_asignar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\icono-asignar.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icono_ok" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Assets\Icons\icono-ok.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="logo_optima" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Assets\Icons\logo-optima.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icono_retirar_asignacion" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\icono-retirar-asignacion.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

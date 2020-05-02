@@ -13,11 +13,48 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
 {
     public partial class SubjectsWindowControl : UserControl
     {
-        private List<Subject> _subjects;//Lista de todas las asignaturas
-
+        private List<Subject> subjects;//Lista de todas las asignaturas
+        private Subject selectedSubject;
         public SubjectsWindowControl()
         {
             InitializeComponent();
+        }
+
+
+        /// <summary>
+        ///     Evento al cargar este formulario:  
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void SubjectsWindowControl_Load(object sender, EventArgs e)
+        {
+            this.SetSubjectsDataGridView();
+            this.SetIconsToolTips();
+            await this.GetAllSubjects();
+            this.PopulateSubjectsTable("");
+        }
+
+        /// <summary>
+        ///     Establece una anchura automática
+        ///     a la columna del nombre de las asignaturas
+        /// </summary>
+        private void SetSubjectsDataGridView()
+        {
+            this.dgvSubjects.Columns[1].Width = 300;
+            this.dgvSubjects.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            this.dgvSubjects.Columns[1].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.dgvSubjects.Columns[2].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+        }
+
+        private void SetIconsToolTips()
+        {
+
+            ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(this.buttonAdd, "Crear una nueva asignatura");
+            toolTip.SetToolTip(this.buttonModify, "Modificar asignatura");
+            toolTip.SetToolTip(this.buttonAsignTeacher, "Asignar un profesor");
+            toolTip.SetToolTip(this.buttonRemoveTeacher, "Retirar la asignación");
+
         }
 
         /// <summary>
@@ -28,7 +65,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         {
             try
             {
-                _subjects = await SubjectHttpService.GetAll();
+                subjects = await SubjectHttpService.GetAll();
             }
             catch (ServerErrorException ex)
             {
@@ -53,9 +90,9 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
             int length = subjectName.Length;
 
             //Si existen asignaturas 
-            if (!(_subjects is null) && _subjects.Count > 0)
+            if (!(subjects is null) && subjects.Count > 0)
             {
-                _subjects.ForEach(s =>
+                subjects.ForEach(s =>
                 {
                     //Si el nombre corresponde
                     if (s.Name.Length >= length
@@ -90,7 +127,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
 
             //Si no sa recibido asignaturas del cliente http, se rellena
             //la tabla con 5 registros vacíos
-            if ((_subjects is null) || _subjects.Count == 0)
+            if ((subjects is null) || subjects.Count == 0)
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -99,21 +136,11 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
             }
 
             this.dgvSubjects.ClearSelection();
-            this.btnAssign.Enabled = false;
-            this.btnModifySubject.Enabled = false;
+            this.buttonAsignTeacher.Visible = false;
+            this.buttonModify.Visible = false;
         }
 
-        /// <summary>
-        ///     Establece una anchura automática
-        ///     a la columna del nombre de las asignaturas
-        /// </summary>
-        private void SetSubjectsDataGridView()
-        {
-            this.dgvSubjects.Columns[1].Width = 300;
-            this.dgvSubjects.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            this.dgvSubjects.Columns[1].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.dgvSubjects.Columns[2].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-        }
+
 
         /// <summary>
         ///     Evento al escribir el nombre de la asignatura en el textbox:
@@ -156,26 +183,27 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         /// <param name="e"></param>
         private void DataGridViewSubjects_SelectionChanged(object sender, EventArgs e)
         {
-            if (!(_subjects is null) && _subjects.Count > 0
+            if (!(subjects is null) && subjects.Count > 0
                 && this.dgvSubjects.SelectedRows.Count > 0)
             {
-                this.btnAssign.Enabled = true;
-                this.btnModifySubject.Enabled = true;
+                int id = (int)this.dgvSubjects.SelectedRows[0].Cells[0].Value;
+                this.selectedSubject = subjects.Find(s => s.Id == id);
+                if (selectedSubject.Teacher is null)
+                {
+                    this.buttonAsignTeacher.Visible = true;
+                    this.buttonRemoveTeacher.Visible = false;
+                }
+                else
+                {
+                    this.buttonAsignTeacher.Visible = false;
+                    this.buttonRemoveTeacher.Visible = true;
+                }
+
+                this.buttonModify.Visible = true;
             }
 
         }
 
-        /// <summary>
-        ///     Evento al cargar este formulario:  
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void SubjectsWindowControl_Load(object sender, EventArgs e)
-        {
-            this.SetSubjectsDataGridView();
-            await this.GetAllSubjects();
-            this.PopulateSubjectsTable("");
-        }
 
         /// <summary>
         ///     Evento al pulsar Añadir asignatura:
@@ -197,9 +225,9 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
             if (!(createdSubject is null))
             {
                 //Se agrega a la lista
-                _subjects.Add(createdSubject);
+                subjects.Add(createdSubject);
                 //Ordeno la lista
-                _subjects = this._subjects.OrderBy(s => s.Name).ToList();
+                subjects = this.subjects.OrderBy(s => s.Name).ToList();
 
                 //Pongo el nombre de la nueva asignatura en el combobox para disparar el evento
                 //y asi mostrar la nueva asignatura
@@ -217,7 +245,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         /// <param name="e"></param>
         private void BtnModifySubject_Click(object sender, EventArgs e)
         {
-            if (!(_subjects is null) && _subjects.Count > 0
+            if (!(subjects is null) && subjects.Count > 0
                 && this.dgvSubjects.SelectedRows.Count > 0)
             {
                 //Recupera el Id de la asignatura seleccionada
@@ -226,7 +254,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
                 .ToString());
 
                 //Recupera la asignatura
-                Subject subject = _subjects
+                Subject subject = subjects
                     .FirstOrDefault(c => c.Id == selectedId);
 
                 //Se instancia el formulario para modificar la asignatura
@@ -256,39 +284,73 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         /// <param name="e"></param>
         private void BtnAssign_Click(object sender, EventArgs e)
         {
-            //Recupera el Id de la asignatura seleccionada
-            int selectedId = int
-                .Parse(this.dgvSubjects.SelectedRows[0].Cells[0].Value
-                .ToString());
-
-            //Recupera la asignatura
-            Subject subject = _subjects
-                .FirstOrDefault(c => c.Id == selectedId);
-
+            
             //Se instancia el formulario para asignar la asignatura a un profesor
             //y se le pasa la asignatura seleccionada como parametro
-            AssignTeacherForm assignTeacherForm = new AssignTeacherForm(subject);
+            AssignTeacherForm assignTeacherForm = new AssignTeacherForm(this.selectedSubject);
             assignTeacherForm.ShowDialog();
 
-            //Al cerrarse la ventana, se recupera la asignatura actualizada
-            //y si ha sido asignada o bien si ha dejado de ser asignada
-            Subject updatedSubject = assignTeacherForm.UpdatedSubject;
-            bool subjectIsAssigned = assignTeacherForm.SubjectIsAssigned;
-
-            //Si ha sido asignada a un nuevo profesor
-            if (!(updatedSubject is null) && subjectIsAssigned)
+            //Si ha sido asignado a un nuevo profesor se actualiza la tabla y las opciones
+            if (!(this.selectedSubject.Teacher is null))
             {
-                //El profesor de la asignatura original pasa a ser el de la asignatura actualizada
-                subject.Teacher = updatedSubject.Teacher;
-                this.dgvSubjects.SelectedRows[0].Cells[2].Value = subject.Teacher.FullName;
+                this.dgvSubjects.SelectedRows[0].Cells[2].Value = this.selectedSubject.Teacher.FullName;
+                this.buttonAsignTeacher.Visible = false;
+                this.buttonRemoveTeacher.Visible = true;
             }
-            //Si se ha retirado la asignación 
-            if (!(updatedSubject is null) && !subjectIsAssigned)
-            {
-                //La asignatura original pasa a ser la asignatura actualizada
-                subject.Teacher = null;
-                this.dgvSubjects.SelectedRows[0].Cells[2].Value = "Sin asignar";
-            }
+            
         }
+
+        /// <summary>
+        ///     Evento al pulsar Retirar asignación:
+        ///     Envia al cliente http el id de la asignatura seleccionada para que se le retire
+        ///     la asignación de profesor
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void buttonRemoveTeacher_Click(object sender, EventArgs e)
+        {
+
+            string message = string
+                .Format("Si retiras la asignación del profesor {0}, todas las " +
+                "clases de la asignatura {1} quedarán canceladas.¿Estas seguro " +
+                "de querer retirar la asignación?",
+                this.selectedSubject.Teacher.FullName,
+                this.selectedSubject.Name);
+
+            //Ventanita de confirmación
+            CustomConfirmDialogForm dialog = new CustomConfirmDialogForm(message);
+            dialog.ShowDialog();
+
+            if (dialog.Confirmed)
+            {
+                try
+                {
+                    await SubjectHttpService
+                               .RemoveTeacherAssignment(this.selectedSubject.Id);
+
+                    this.selectedSubject.Teacher = null;
+                    //Actualiza la tabla y las opciones
+                    this.dgvSubjects.SelectedRows[0].Cells[2].Value = "Sin asignar";
+                    this.buttonAsignTeacher.Visible = true;
+                    this.buttonRemoveTeacher.Visible = false;
+
+                    //Ventanita de mensaje de éxito
+                    message = string
+                       .Format("La asignatura {0} ya no tiene profesor asignado y las" +
+                       "clases han sido cancelada.",
+                       this.selectedSubject.Name);
+
+                    new CustomSuccesMessageWindow(message, 0).ShowDialog();
+
+                   
+                }
+                catch (ServerErrorException ex)
+                {
+                    new CustomErrorMessageWindow(ex.Message).ShowDialog();
+                }
+            }
+
+        }
+
     }
 }

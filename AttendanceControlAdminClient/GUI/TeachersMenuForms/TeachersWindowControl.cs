@@ -24,6 +24,29 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         }
 
         /// <summary>
+        ///     Evento al cargar este formulario
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void TeachersWindowControl_Load(object sender, EventArgs e)
+        {
+
+            this.SetDataGridViewTeachers();
+            this.SetToolTips();
+            await this.GetAllTeachers();
+            this.PopulateDataGridViewTeachers("");
+
+        }
+
+        private void SetToolTips()
+        {
+
+            ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(this.buttonAdd, "Alta de un profesor");
+            toolTip.SetToolTip(this.buttonModify, "Modificar datos del profesor");
+
+        }
+        /// <summary>
         ///     Establece medidas y opciones de la tabla de profesores
         /// </summary>
         private void SetDataGridViewTeachers()
@@ -102,7 +125,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             }
 
             this.dgvTeachers.ClearSelection();
-            this.btnModify.Enabled = false;
+            this.buttonModify.Visible = false;
 
         }
 
@@ -118,7 +141,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             if (!(_teachers is null) && _teachers.Count > 0
                 && this.dgvTeachers.SelectedRows.Count > 0)
             {
-                this.btnModify.Enabled = true;
+                this.buttonModify.Visible = true;
             }
         }
 
@@ -221,17 +244,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             }
         }
 
-        /// <summary>
-        ///     Evento al cargar este formulario
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void TeachersWindowControl_Load(object sender, EventArgs e)
-        {
-            this.SetDataGridViewTeachers();
-            await this.GetAllTeachers();
-            this.PopulateDataGridViewTeachers("");
-        }
+        
 
         /// <summary>
         ///     Evento al modificar el textbox:

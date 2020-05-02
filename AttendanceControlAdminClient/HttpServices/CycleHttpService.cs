@@ -1,12 +1,10 @@
 ﻿using AttendanceControlAdminClient.Exceptions;
 using AttendanceControlAdminClient.Models;
 using AttendanceControlAdminClient.Properties;
-using Flurl;
 using Flurl.Http;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace AttendanceControlAdminClient.HttpServices
@@ -37,11 +35,14 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 string url = _baseUrl + _controllerUrl;
-                List<Cycle> result = await url.GetJsonAsync<List<Cycle>>();
+                List<Cycle> result = await url.WithHeader("Role",SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token)
+                    .GetJsonAsync<List<Cycle>>();
                 return result;
             }
             catch (FlurlHttpException flurlHttpException)
             {
+                Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
                 await ServerErrorExceptionHandler.Handle(flurlHttpException);
 
                 throw new ServerErrorException();
@@ -61,7 +62,8 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 string url = _baseUrl + _controllerUrl;
-                Cycle result = await url.PostJsonAsync(cycle)
+                Cycle result = await url.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).PostJsonAsync(cycle)
                     .ReceiveJson<Cycle>();
                
                 return result;
@@ -102,12 +104,13 @@ namespace AttendanceControlAdminClient.HttpServices
         /// <returns>
         ///     Retorna true o lanza una excepcion ServerErrorException
         /// </returns>
-        public static async Task<bool> UpdateName(int cycleId, string name)
+        public static async Task<bool> Update(Cycle cycle)
         {
             try
             {
-                string url = _baseUrl + _controllerUrl + "/"+cycleId;
-                var result = await url.PutJsonAsync(name).ReceiveJson<bool>();
+                string url = _baseUrl + _controllerUrl;
+                var result = await url.WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token).PutJsonAsync(cycle).ReceiveJson<bool>();
 
                 return result;
             }

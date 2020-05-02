@@ -1,14 +1,9 @@
-﻿using AttendanceControlAdminClient.GUI.CustomControls;
+﻿using AttendanceControlAdminClient.Exceptions;
+using AttendanceControlAdminClient.GUI.CustomControls;
 using AttendanceControlAdminClient.GUI.MainForm;
+using AttendanceControlAdminClient.HttpServices;
+using AttendanceControlAdminClient.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace AttendanceControlAdminClient.GUI.SignInForm
 {
@@ -19,10 +14,26 @@ namespace AttendanceControlAdminClient.GUI.SignInForm
             InitializeComponent();
         }
 
-        private void buttonSignIn_Click(object sender, EventArgs e)
+        private async void buttonSignIn_Click(object sender, EventArgs e)
         {
-           this.Visible = false;
-           new MainAppForm().ShowDialog();
+            Admin admin = new Admin
+            {
+               AdminName = this.textBoxAdmin.Text,
+               Password = this.textBoxPassword.Text
+            };
+            try
+            {
+                bool signedIn = await SignInHttpService.SignIn(admin);
+                this.Visible = false;
+                new MainAppForm().ShowDialog();
+            }
+            catch(ServerErrorException ex)
+            {
+                string message = ex.Message;
+                CustomErrorMessageWindow dialog = new CustomErrorMessageWindow(message);
+                dialog.ShowDialog();
+            }
+          
         }
     }
 }
