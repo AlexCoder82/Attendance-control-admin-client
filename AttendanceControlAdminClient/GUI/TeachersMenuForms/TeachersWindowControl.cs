@@ -42,8 +42,8 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         {
 
             ToolTip toolTip = new ToolTip();
-            toolTip.SetToolTip(this.buttonAdd, "Alta de un profesor");
-            toolTip.SetToolTip(this.buttonModify, "Modificar datos del profesor");
+            toolTip.SetToolTip(this.buttonAdd, "Nuevo profesor");
+            toolTip.SetToolTip(this.buttonModify, "Modificar datos personales");
 
         }
         /// <summary>
@@ -86,11 +86,8 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         private void PopulateDataGridViewTeachers(string lastName)
         {
             this.dgvTeachers.Rows.Clear();
-
-            //Retira el evento de seleccion por defecto
-            this.dgvTeachers.SelectionChanged -=
-                new System.EventHandler(this.DataGridViewTeachers_SelectionChanged);
-
+            int totalTableTeachers = 0;
+            
             lastName = lastName.TrimStart();
             int length = lastName.Length;
 
@@ -105,45 +102,34 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
                         this.dgvTeachers.Rows.Add(t.Id, t.Dni, t.FirstName,
                             t.LastName1 + " " + t.LastName2);
 
+                        //Se suma un profesor en la tabla
+                        totalTableTeachers++;
                     }
+
                 });
             }
 
-            //Si hay al menos un profesor en la tabla, habilita el evento de seleccion
-            if (this.dgvTeachers.Rows.Count > 0)
-            {
-                this.dgvTeachers.SelectionChanged += new System.EventHandler(this.DataGridViewTeachers_SelectionChanged);
-            }
 
-            //Si no hay profesores, se crear 5 registros vacios
-            if ((_teachers is null) || _teachers.Count == 0)
+            //Si no hay profesores, se crea 5 registros vacios
+            if ((_teachers is null) )
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 7; i++)
+                {
+                    this.dgvTeachers.Rows.Add();
+                }
+            }
+            //Se rellena el resto de la tabla
+            if ((_teachers != null) || totalTableTeachers < 7)
+            {
+                for (int i = totalTableTeachers; i < 7; i++)
                 {
                     this.dgvTeachers.Rows.Add();
                 }
             }
 
-            this.dgvTeachers.ClearSelection();
-            this.buttonModify.Visible = false;
 
         }
 
-        /// <summary>
-        ///     Evento al seleccionar un profesor en la tabla:
-        ///     Habilita el botón para modificar los datos
-        ///     del profesor
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DataGridViewTeachers_SelectionChanged(object sender, EventArgs e)
-        {
-            if (!(_teachers is null) && _teachers.Count > 0
-                && this.dgvTeachers.SelectedRows.Count > 0)
-            {
-                this.buttonModify.Visible = true;
-            }
-        }
 
         /// <summary>
         ///     Evento al pulsar el botón Dar alta:
@@ -210,7 +196,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         /// <param name="e"></param>
         private void ButtonModify_Click(object sender, EventArgs e)
         {
-            if (this.dgvTeachers.SelectedRows.Count > 0)
+            if (this.dgvTeachers.SelectedRows[0].Cells[0].Value != null)
             {
 
                 // Recupera el Id del profesor seleccionado
@@ -241,6 +227,12 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
                         + " " + teacher.LastName2;
 
                 }
+            }
+
+            else
+            {
+                new CustomErrorMessageWindow("Debes seleccionar un profesor antes.")
+                    .ShowDialog();
             }
         }
 

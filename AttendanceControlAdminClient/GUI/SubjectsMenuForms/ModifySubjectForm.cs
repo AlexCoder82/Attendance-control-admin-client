@@ -53,7 +53,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
 
                     //Ventanita de mensaje de éxito
                     string message = "Has actualizado el nombre de la asignatura.";
-                    new CustomSuccesMessageWindow(message,0).ShowDialog();
+                    new CustomSuccesMessageWindow(message).ShowDialog();
                     this.Close();
                 }
                 catch (ServerErrorException ex)

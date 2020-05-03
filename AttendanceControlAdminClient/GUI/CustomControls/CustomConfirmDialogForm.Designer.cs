@@ -39,7 +39,7 @@
             this.lblMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
             this.lblMessage.Location = new System.Drawing.Point(50, 45);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(300, 50);
+            this.lblMessage.Size = new System.Drawing.Size(375, 50);
             this.lblMessage.TabIndex = 0;
             this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -49,11 +49,11 @@
             this.ButtonAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonAccept.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.ButtonAccept.ForeColor = System.Drawing.Color.White;
-            this.ButtonAccept.Location = new System.Drawing.Point(379, 90);
+            this.ButtonAccept.Location = new System.Drawing.Point(273, 122);
             this.ButtonAccept.Name = "ButtonAccept";
             this.ButtonAccept.Size = new System.Drawing.Size(75, 25);
             this.ButtonAccept.TabIndex = 1;
-            this.ButtonAccept.Text = "Aceptar";
+            this.ButtonAccept.Text = "Confirmar";
             this.ButtonAccept.UseVisualStyleBackColor = false;
             this.ButtonAccept.Click += new System.EventHandler(this.ButtonAccept_Click);
             // 
@@ -63,7 +63,7 @@
             this.ButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonCancel.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.ButtonCancel.ForeColor = System.Drawing.Color.White;
-            this.ButtonCancel.Location = new System.Drawing.Point(379, 121);
+            this.ButtonCancel.Location = new System.Drawing.Point(144, 122);
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(75, 25);
             this.ButtonCancel.TabIndex = 2;

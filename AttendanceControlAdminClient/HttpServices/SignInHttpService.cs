@@ -38,6 +38,7 @@ namespace AttendanceControlAdminClient.HttpServices
 
                 SessionService.Role = signInResponse.Role;
                 SessionService.Token = signInResponse.Token;
+                Console.WriteLine(signInResponse.Token);
                 return true;
                 
             }

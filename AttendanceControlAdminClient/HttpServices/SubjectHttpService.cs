@@ -1,14 +1,10 @@
 ﻿using AttendanceControlAdminClient.Exceptions;
-using AttendanceControlAdminClient.GUI.CustomControls;
 using AttendanceControlAdminClient.Models;
 using AttendanceControlAdminClient.Properties;
 using Flurl;
 using Flurl.Http;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AttendanceControlAdminClient.HttpServices
@@ -17,8 +13,8 @@ namespace AttendanceControlAdminClient.HttpServices
     {
         private static readonly string _baseUrl = Settings.Default.API_URL;
 
+        /// GET /api/subjects
         /// <summary>
-        ///     GET /api/subjects
         ///     Envia al servidor una petición de listado de todas las asignaturas,
         ///     y los profesores asociados
         /// </summary>
@@ -27,33 +23,44 @@ namespace AttendanceControlAdminClient.HttpServices
         /// </returns>
         public static async Task<List<Subject>> GetAll()
         {
+
             try
             {
-                List<Subject> result = new List<Subject>();
-                result = await _baseUrl.WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/subjects")
-                   .GetJsonAsync<List<Subject>>();
+                List<Subject> result = await _baseUrl
+                    .WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token)
+                    .AppendPathSegment("/subjects")
+                    .GetJsonAsync<List<Subject>>();
 
                 return result;
             }
-
             catch (FlurlHttpException flurlHttpException)
             {
                 await ServerErrorExceptionHandler.Handle(flurlHttpException);
 
                 throw new ServerErrorException();
-
             }
+
         }
 
+        // GET /api/subjects/courses/{courseId}
+        /// <summary>
+        ///     Recibe del servidor la lista de asignturas de un curso
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <returns>
+        ///     Retorna la lista de asignatura
+        /// </returns>
         public static async Task<List<Subject>> GetByCourse(int courseId)
         {
+
             try
             {
-                List<Subject> result = new List<Subject>();
-                result = await _baseUrl.WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/subjects/courses/" + courseId)
-                   .GetJsonAsync<List<Subject>>();
+                List<Subject> result = await _baseUrl
+                    .WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token)
+                    .AppendPathSegment("/subjects/courses/" + courseId)
+                    .GetJsonAsync<List<Subject>>();
 
                 return result;
             }
@@ -64,11 +71,12 @@ namespace AttendanceControlAdminClient.HttpServices
 
                 throw new ServerErrorException();
             }
+
         }
 
+        //  POST /api/subjects
         /// <summary>
-        ///     POST /api/subjects
-        ///     Envia al servidor una nueva asignatura
+        ///     Envia al servidor una nueva asignatura para guardarla
         /// </summary>
         /// <param name="subject"></param>
         /// <returns>
@@ -76,11 +84,15 @@ namespace AttendanceControlAdminClient.HttpServices
         /// </returns>
         public static async Task<Subject> Save(Subject subject)
         {
+
             try
             {
-                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/subjects")
-                   .PostJsonAsync(subject).ReceiveJson<Subject>();
+                Subject result = await _baseUrl
+                    .WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token)
+                    .AppendPathSegment("/subjects")
+                    .PostJsonAsync(subject)
+                    .ReceiveJson<Subject>();
 
                 return result;
             }
@@ -88,9 +100,10 @@ namespace AttendanceControlAdminClient.HttpServices
             {
                 var status = flurlHttpException.Call.HttpStatus;
 
-                //El servidor devuelve un 409 y un mensaje si se intenta crear 
-                //una asignatura cuyo nombre ya existe
-                if (status == HttpStatusCode.Conflict)
+                //El servidor devuelve un 409 si se intenta crear 
+                //una asignatura cuyo nombre ya existe o un 400 si no se valida la asignatura
+                // con un mensaje de error
+                if (status == HttpStatusCode.Conflict || status == HttpStatusCode.BadRequest)
                 {
                     //Recupero el mensaje de error
                     string message = await flurlHttpException.GetResponseStringAsync();
@@ -103,11 +116,13 @@ namespace AttendanceControlAdminClient.HttpServices
 
                     throw new ServerErrorException();
                 }
+
             }
+
         }
 
+        //  PUT /api/subjects
         /// <summary>
-        ///     PUT /api/subjects
         ///     Envia al servidor una asignatura modificada
         /// </summary>
         /// <param name="subject"></param>
@@ -116,9 +131,10 @@ namespace AttendanceControlAdminClient.HttpServices
         /// </returns>
         public static async Task<Subject> Update(Subject subject)
         {
+
             try
             {
-                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                Subject result = await _baseUrl.WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/subjects")
                    .PutJsonAsync(subject).ReceiveJson<Subject>();
 
@@ -128,9 +144,9 @@ namespace AttendanceControlAdminClient.HttpServices
             {
                 var status = flurlHttpException.Call.HttpStatus;
 
-                //El servidor devuelve un 409 y un mensaje si se intenta poner 
-                //a una asignatura un nombre que ya existe
-                if (status == HttpStatusCode.Conflict)
+                //El servidor devuelve un 409 con un mensaje de error si se intenta modificar 
+                //una asignatura cuyo nuevo nombre ya existe o un 400 si no se valida la asignatura
+                if (status == HttpStatusCode.Conflict || status == HttpStatusCode.BadRequest)
                 {
                     //Recupero el mensaje de error
                     string message = await flurlHttpException.GetResponseStringAsync();
@@ -144,43 +160,28 @@ namespace AttendanceControlAdminClient.HttpServices
                     throw new ServerErrorException();
                 }
             }
+
         }
 
-        /// <summary>
-        ///     PUT /api/subjects
+        // PUT /api/subjects/{subjectId}/teachers/{teacherId}
+        /// <summary>    
         ///     Envia al servidor el id de la asignatura y el id del nuevo profesor asignado
         /// </summary>
-        /// 
         /// <returns>
         ///     Retorna la asignatura actualizada 
         /// </returns>
         public static async Task<Subject> UpdateAssignedTeacher(int subjectId, int teacherId)
         {
+
             try
             {
                 string url = "/subjects/" + subjectId + "/teachers/" + teacherId;
-                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment(url)
-                    .PutAsync(null).ReceiveJson<Subject>();
-
-                return result;
-            }
-            catch (FlurlHttpException flurlHttpException)
-            {
-                await ServerErrorExceptionHandler.Handle(flurlHttpException);
-
-                throw new ServerErrorException();              
-            }
-        }
-
-        public static async Task<bool> RemoveTeacherAssignment(int subjectId)
-        {
-            try
-            {
-                string url = "/subjects/" + subjectId + "/teachers";
-                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment(url)
-                    .PutAsync(null).ReceiveJson<bool>();
+                Subject result = await _baseUrl
+                    .WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token)
+                    .AppendPathSegment(url)
+                    .PutAsync(null)
+                    .ReceiveJson<Subject>();
 
                 return result;
             }
@@ -189,8 +190,39 @@ namespace AttendanceControlAdminClient.HttpServices
                 await ServerErrorExceptionHandler.Handle(flurlHttpException);
 
                 throw new ServerErrorException();
-                
             }
+
+        }
+
+        // PUT /api/subjects/{subjectId}/teachers
+        /// <summary>
+        ///     
+        /// </summary>
+        /// <param name="subjectId"></param>
+        /// <returns></returns>
+        public static async Task<bool> RemoveTeacherAssignment(int subjectId)
+        {
+
+            try
+            {
+                string url = "/subjects/" + subjectId + "/teachers";
+                var result = await _baseUrl
+                    .WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token)
+                    .AppendPathSegment(url)
+                    .PutAsync(null)
+                    .ReceiveJson<bool>();
+
+                return result;
+            }
+            catch (FlurlHttpException flurlHttpException)
+            {
+                await ServerErrorExceptionHandler.Handle(flurlHttpException);
+
+                throw new ServerErrorException();
+
+            }
+
         }
 
     }

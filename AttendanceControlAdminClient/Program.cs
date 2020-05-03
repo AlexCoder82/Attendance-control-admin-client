@@ -1,4 +1,5 @@
 ﻿
+using AttendanceControlAdminClient.GUI.CustomControls;
 using AttendanceControlAdminClient.GUI.MainForm;
 using AttendanceControlAdminClient.GUI.SignInForm;
 using System;
@@ -20,7 +21,7 @@ namespace AttendanceControlAdminClient
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;          
             new SignInForm().ShowDialog();
         }
     }

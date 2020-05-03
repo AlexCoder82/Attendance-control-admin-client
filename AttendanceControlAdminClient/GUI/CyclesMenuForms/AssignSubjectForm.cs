@@ -187,7 +187,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
 
                 string message = string.Format("Se ha añadidio la asignatura {0} a {1}º de {2}.",
                     name, _course.Year, _cycleName);
-                CustomSuccesMessageWindow dialog = new CustomSuccesMessageWindow(message,0);
+                CustomSuccesMessageWindow dialog = new CustomSuccesMessageWindow(message);
                 dialog.ShowDialog();
                 this.Close();
             }

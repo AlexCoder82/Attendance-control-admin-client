@@ -75,7 +75,16 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         private void FillData()
         {
             this.labelStudent.Text = _student.FullName;
-            this.labelCourse.Text = _student.Course.Year + "º de " + _student.Course.Cycle.Name;
+            if(_student.Course is null)
+            {
+                this.labelCourse.Text = "Sin asignar";
+
+            }
+            else
+            {
+                this.labelCourse.Text = _student.Course.Year + "º de " + _student.Course.Cycle.Name;
+
+            }
             this.labelTotalClasses.Text = _student.TotalAbsences.ToString();
             this.labelTotalDelays.Text = _student.TotalDelays.ToString();
             this.labelTotal.Text = (_student.TotalAbsences + _student.TotalDelays).ToString();

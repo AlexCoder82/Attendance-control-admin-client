@@ -124,7 +124,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
 
                         //Ventanita con mensaje de éxito
                         string message = "Se han guardado los cambios del ciclo formativo.";
-                        new CustomSuccesMessageWindow(message, 0).ShowDialog();
+                        new CustomSuccesMessageWindow(message).ShowDialog();
                         this.Close();
                     }
                    

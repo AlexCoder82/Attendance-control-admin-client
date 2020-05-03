@@ -42,7 +42,6 @@ namespace AttendanceControlAdminClient.HttpServices
             }
             catch (FlurlHttpException flurlHttpException)
             {
-                Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
                 await ServerErrorExceptionHandler.Handle(flurlHttpException);
 
                 throw new ServerErrorException();
@@ -62,8 +61,10 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 string url = _baseUrl + _controllerUrl;
-                Cycle result = await url.WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token).PostJsonAsync(cycle)
+                Cycle result = await url
+                    .WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token)
+                    .PostJsonAsync(cycle)
                     .ReceiveJson<Cycle>();
                
                 return result;
@@ -118,9 +119,10 @@ namespace AttendanceControlAdminClient.HttpServices
             {
                 var status = flurlHttpException.Call.HttpStatus;
 
-                //El servidor devuelve un 409 y un mensaje si se intenta dar a  
-                //un ciclo un nombre que ya existe
-                if (status == HttpStatusCode.Conflict)
+                //El servidor devuelve un 409 si se intenta crear 
+                //un ciclo cuyo nombre ya existe o un 400 si no se valida el ciclo
+                // con un mensaje de error
+                if (status == HttpStatusCode.Conflict || status == HttpStatusCode.BadRequest)
                 {
                     //Recupero el mensaje de error
                     string message = await flurlHttpException.GetResponseStringAsync();

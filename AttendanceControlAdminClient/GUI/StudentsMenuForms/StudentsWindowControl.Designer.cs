@@ -34,31 +34,96 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewAlternatingRowsStyle dataGridViewAlternatingRowsStyle1 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewAlternatingRowsStyle();
             AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewHeaderStyle dataGridViewHeaderStyle1 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewHeaderStyle();
             AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewDefaultCellStyle dataGridViewDefaultCellStyle1 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewDefaultCellStyle();
+            this.buttonAbsences = new AttendanceControlAdminClient.GUI.CustomControls.CustomCircularButton();
+            this.buttonAssignSubjects = new AttendanceControlAdminClient.GUI.CustomControls.CustomCircularButton();
+            this.buttonAssignCycle = new AttendanceControlAdminClient.GUI.CustomControls.CustomCircularButton();
+            this.buttonModifyStudent = new AttendanceControlAdminClient.GUI.CustomControls.CustomCircularButton();
+            this.buttonAddStudent = new AttendanceControlAdminClient.GUI.CustomControls.CustomCircularButton();
             this.labelPage = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
             this.buttonNext = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
             this.buttonPrevious = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
-            this.brnAssignSubjects = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
             this.tbLastName = new AttendanceControlAdminClient.GUI.CustomControls.CustomTextBox();
             this.LabelFilter = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
-            this.btnAssignCycle = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
-            this.btnModify = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
-            this.btnAdd = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
             this.dgvStudents = new AttendanceControlAdminClient.GUI.CustomControls.CustomDataGridView();
             this.columnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnDni = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnCycle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnCourse = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.buttonAbsences = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).BeginInit();
             this.SuspendLayout();
+            // 
+            // buttonAbsences
+            // 
+            this.buttonAbsences.BackgroundImage = global::AttendanceControlAdminClient.Properties.Resources.icono_ausencias;
+            this.buttonAbsences.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.buttonAbsences.FlatAppearance.BorderSize = 0;
+            this.buttonAbsences.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAbsences.Location = new System.Drawing.Point(725, 337);
+            this.buttonAbsences.Name = "buttonAbsences";
+            this.buttonAbsences.Size = new System.Drawing.Size(50, 50);
+            this.buttonAbsences.TabIndex = 15;
+            this.buttonAbsences.UseVisualStyleBackColor = true;
+            this.buttonAbsences.Click += new System.EventHandler(this.buttonAbsences_Click);
+            // 
+            // buttonAssignSubjects
+            // 
+            this.buttonAssignSubjects.BackgroundImage = global::AttendanceControlAdminClient.Properties.Resources.icono_asignar_asignaturas;
+            this.buttonAssignSubjects.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.buttonAssignSubjects.FlatAppearance.BorderSize = 0;
+            this.buttonAssignSubjects.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAssignSubjects.Location = new System.Drawing.Point(725, 281);
+            this.buttonAssignSubjects.Name = "buttonAssignSubjects";
+            this.buttonAssignSubjects.Size = new System.Drawing.Size(50, 50);
+            this.buttonAssignSubjects.TabIndex = 14;
+            this.buttonAssignSubjects.UseVisualStyleBackColor = true;
+            this.buttonAssignSubjects.Click += new System.EventHandler(this.ButtonAssignSubjects_Click);
+            // 
+            // buttonAssignCycle
+            // 
+            this.buttonAssignCycle.BackgroundImage = global::AttendanceControlAdminClient.Properties.Resources.icono_asignar_formacion;
+            this.buttonAssignCycle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.buttonAssignCycle.FlatAppearance.BorderSize = 0;
+            this.buttonAssignCycle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAssignCycle.Location = new System.Drawing.Point(725, 225);
+            this.buttonAssignCycle.Name = "buttonAssignCycle";
+            this.buttonAssignCycle.Size = new System.Drawing.Size(50, 50);
+            this.buttonAssignCycle.TabIndex = 13;
+            this.buttonAssignCycle.UseVisualStyleBackColor = true;
+            this.buttonAssignCycle.Click += new System.EventHandler(this.ButtonAssignCycle_Click);
+            // 
+            // buttonModifyStudent
+            // 
+            this.buttonModifyStudent.BackgroundImage = global::AttendanceControlAdminClient.Properties.Resources.icono_modificar;
+            this.buttonModifyStudent.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.buttonModifyStudent.FlatAppearance.BorderSize = 0;
+            this.buttonModifyStudent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonModifyStudent.Location = new System.Drawing.Point(725, 169);
+            this.buttonModifyStudent.Name = "buttonModifyStudent";
+            this.buttonModifyStudent.Size = new System.Drawing.Size(50, 50);
+            this.buttonModifyStudent.TabIndex = 12;
+            this.buttonModifyStudent.UseVisualStyleBackColor = true;
+            this.buttonModifyStudent.Click += new System.EventHandler(this.ButtonModify_Click);
+            // 
+            // buttonAddStudent
+            // 
+            this.buttonAddStudent.BackgroundImage = global::AttendanceControlAdminClient.Properties.Resources.icono_agregar;
+            this.buttonAddStudent.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.buttonAddStudent.FlatAppearance.BorderSize = 0;
+            this.buttonAddStudent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAddStudent.Location = new System.Drawing.Point(725, 113);
+            this.buttonAddStudent.Name = "buttonAddStudent";
+            this.buttonAddStudent.Size = new System.Drawing.Size(50, 50);
+            this.buttonAddStudent.TabIndex = 11;
+            this.buttonAddStudent.UseVisualStyleBackColor = true;
+            this.buttonAddStudent.Click += new System.EventHandler(this.ButtonCreate_Click);
             // 
             // labelPage
             // 
             this.labelPage.AutoSize = true;
             this.labelPage.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.labelPage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.labelPage.Location = new System.Drawing.Point(328, 403);
+            this.labelPage.Location = new System.Drawing.Point(346, 403);
             this.labelPage.Name = "labelPage";
             this.labelPage.Size = new System.Drawing.Size(67, 16);
             this.labelPage.TabIndex = 9;
@@ -70,7 +135,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             this.buttonNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonNext.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.buttonNext.ForeColor = System.Drawing.Color.White;
-            this.buttonNext.Location = new System.Drawing.Point(603, 401);
+            this.buttonNext.Location = new System.Drawing.Point(642, 401);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(60, 23);
             this.buttonNext.TabIndex = 8;
@@ -92,27 +157,13 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             this.buttonPrevious.UseVisualStyleBackColor = false;
             this.buttonPrevious.Click += new System.EventHandler(this.buttonPrevious_Click);
             // 
-            // brnAssignSubjects
-            // 
-            this.brnAssignSubjects.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.brnAssignSubjects.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.brnAssignSubjects.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.brnAssignSubjects.ForeColor = System.Drawing.Color.White;
-            this.brnAssignSubjects.Location = new System.Drawing.Point(697, 193);
-            this.brnAssignSubjects.Name = "brnAssignSubjects";
-            this.brnAssignSubjects.Size = new System.Drawing.Size(89, 25);
-            this.brnAssignSubjects.TabIndex = 6;
-            this.brnAssignSubjects.Text = "Asignaturas";
-            this.brnAssignSubjects.UseVisualStyleBackColor = false;
-            this.brnAssignSubjects.Click += new System.EventHandler(this.ButtonAssignSubjects_Click);
-            // 
             // tbLastName
             // 
             this.tbLastName.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.tbLastName.ForeColor = System.Drawing.Color.Black;
-            this.tbLastName.Location = new System.Drawing.Point(225, 49);
+            this.tbLastName.Location = new System.Drawing.Point(220, 61);
             this.tbLastName.Name = "tbLastName";
-            this.tbLastName.Size = new System.Drawing.Size(138, 20);
+            this.tbLastName.Size = new System.Drawing.Size(175, 20);
             this.tbLastName.TabIndex = 5;
             this.tbLastName.TextChanged += new System.EventHandler(this.TextBoxDni_TextChanged);
             // 
@@ -121,53 +172,11 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             this.LabelFilter.AutoSize = true;
             this.LabelFilter.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.LabelFilter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelFilter.Location = new System.Drawing.Point(50, 50);
+            this.LabelFilter.Location = new System.Drawing.Point(50, 62);
             this.LabelFilter.Name = "LabelFilter";
             this.LabelFilter.Size = new System.Drawing.Size(149, 16);
             this.LabelFilter.TabIndex = 4;
             this.LabelFilter.Text = "Buscar por Apellido:";
-            // 
-            // btnAssignCycle
-            // 
-            this.btnAssignCycle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.btnAssignCycle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAssignCycle.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.btnAssignCycle.ForeColor = System.Drawing.Color.White;
-            this.btnAssignCycle.Location = new System.Drawing.Point(697, 162);
-            this.btnAssignCycle.Name = "btnAssignCycle";
-            this.btnAssignCycle.Size = new System.Drawing.Size(89, 25);
-            this.btnAssignCycle.TabIndex = 3;
-            this.btnAssignCycle.Text = "Asignar ciclo";
-            this.btnAssignCycle.UseVisualStyleBackColor = false;
-            this.btnAssignCycle.Click += new System.EventHandler(this.ButtonAssignCycle_Click);
-            // 
-            // btnModify
-            // 
-            this.btnModify.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.btnModify.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnModify.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.btnModify.ForeColor = System.Drawing.Color.White;
-            this.btnModify.Location = new System.Drawing.Point(697, 131);
-            this.btnModify.Name = "btnModify";
-            this.btnModify.Size = new System.Drawing.Size(89, 25);
-            this.btnModify.TabIndex = 2;
-            this.btnModify.Text = "Modificar";
-            this.btnModify.UseVisualStyleBackColor = false;
-            this.btnModify.Click += new System.EventHandler(this.ButtonModify_Click);
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAdd.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(697, 100);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(89, 25);
-            this.btnAdd.TabIndex = 1;
-            this.btnAdd.Text = "Dar alta";
-            this.btnAdd.UseVisualStyleBackColor = false;
-            this.btnAdd.Click += new System.EventHandler(this.ButtonCreate_Click);
             // 
             // dgvStudents
             // 
@@ -221,7 +230,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             this.dgvStudents.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvStudents.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvStudents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvStudents.Size = new System.Drawing.Size(647, 280);
+            this.dgvStudents.Size = new System.Drawing.Size(661, 287);
             this.dgvStudents.TabIndex = 0;
             // 
             // columnId
@@ -233,57 +242,42 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             // 
             // columnDni
             // 
-            this.columnDni.HeaderText = "DNI";
+            this.columnDni.HeaderText = "Dni";
             this.columnDni.Name = "columnDni";
             this.columnDni.ReadOnly = true;
             // 
             // columnFirstName
             // 
-            this.columnFirstName.HeaderText = "NOMBRE";
+            this.columnFirstName.HeaderText = "Nombre";
             this.columnFirstName.Name = "columnFirstName";
             this.columnFirstName.ReadOnly = true;
             // 
             // columnCycle
             // 
-            this.columnCycle.HeaderText = "CICLO";
+            this.columnCycle.HeaderText = "Ciclo Formativo";
             this.columnCycle.Name = "columnCycle";
             this.columnCycle.ReadOnly = true;
             // 
             // columnCourse
             // 
-            this.columnCourse.HeaderText = "CURSO";
+            this.columnCourse.HeaderText = "Curso";
             this.columnCourse.Name = "columnCourse";
             this.columnCourse.ReadOnly = true;
-            // 
-            // buttonAbsences
-            // 
-            this.buttonAbsences.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.buttonAbsences.Enabled = false;
-            this.buttonAbsences.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonAbsences.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.buttonAbsences.ForeColor = System.Drawing.Color.White;
-            this.buttonAbsences.Location = new System.Drawing.Point(697, 224);
-            this.buttonAbsences.Name = "buttonAbsences";
-            this.buttonAbsences.Size = new System.Drawing.Size(89, 23);
-            this.buttonAbsences.TabIndex = 10;
-            this.buttonAbsences.Text = "Ausencias";
-            this.buttonAbsences.UseVisualStyleBackColor = false;
-            this.buttonAbsences.Click += new System.EventHandler(this.buttonAbsences_Click);
             // 
             // StudentsWindowControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.buttonAbsences);
+            this.Controls.Add(this.buttonAssignSubjects);
+            this.Controls.Add(this.buttonAssignCycle);
+            this.Controls.Add(this.buttonModifyStudent);
+            this.Controls.Add(this.buttonAddStudent);
             this.Controls.Add(this.labelPage);
             this.Controls.Add(this.buttonNext);
             this.Controls.Add(this.buttonPrevious);
-            this.Controls.Add(this.brnAssignSubjects);
             this.Controls.Add(this.tbLastName);
             this.Controls.Add(this.LabelFilter);
-            this.Controls.Add(this.btnAssignCycle);
-            this.Controls.Add(this.btnModify);
-            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.dgvStudents);
             this.Name = "StudentsWindowControl";
             this.Size = new System.Drawing.Size(800, 500);
@@ -297,20 +291,20 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         #endregion
 
         private CustomDataGridView dgvStudents;
-        private CustomButton btnAdd;
-        private CustomButton btnModify;
-        private CustomButton btnAssignCycle;
         private CustomLabel LabelFilter;
         private CustomTextBox tbLastName;
+        private CustomButton buttonNext;
+        private CustomLabel labelPage;
+        public CustomButton buttonPrevious;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnId;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnDni;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnFirstName;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnCycle;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnCourse;
-        private CustomButton brnAssignSubjects;
-        private CustomButton buttonNext;
-        private CustomLabel labelPage;
-        public CustomButton buttonPrevious;
-        private CustomButton buttonAbsences;
+        private CustomCircularButton buttonAddStudent;
+        private CustomCircularButton buttonModifyStudent;
+        private CustomCircularButton buttonAssignCycle;
+        private CustomCircularButton buttonAssignSubjects;
+        private CustomCircularButton buttonAbsences;
     }
 }

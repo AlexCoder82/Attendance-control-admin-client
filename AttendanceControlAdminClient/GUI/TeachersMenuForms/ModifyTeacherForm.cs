@@ -63,7 +63,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
 
                     //Ventanita con mensaje de éxito
                     string message = "Has actualizado los datos del profesor";
-                    new CustomSuccesMessageWindow(message,0).ShowDialog();
+                    new CustomSuccesMessageWindow(message).ShowDialog();
                     this.Close();
                 }
                 catch (ServerErrorException ex)

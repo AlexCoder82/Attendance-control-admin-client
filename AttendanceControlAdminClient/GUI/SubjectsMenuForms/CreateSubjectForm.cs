@@ -38,7 +38,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
 
                     string message = string
                         .Format("Has registrado la asignatura {0}.",CreatedSubject.Name);
-                    new CustomSuccesMessageWindow(message,0).ShowDialog();
+                    new CustomSuccesMessageWindow(message).ShowDialog();
                     this.Close();
                 }
                 catch (ServerErrorException ex)

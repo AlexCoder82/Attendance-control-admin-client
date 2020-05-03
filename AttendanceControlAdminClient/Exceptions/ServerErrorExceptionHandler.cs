@@ -15,7 +15,8 @@ namespace AttendanceControlAdminClient.Exceptions
             try
             {
                 APIError error = await flurlHttpException.GetResponseJsonAsync<APIError>();
-                ///TODO LOGS
+                
+                
             }
             catch (Exception ex)
             {

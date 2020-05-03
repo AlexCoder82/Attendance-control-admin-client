@@ -143,7 +143,6 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
             this.buttonAssign.Size = new System.Drawing.Size(50, 50);
             this.buttonAssign.TabIndex = 10;
             this.buttonAssign.UseVisualStyleBackColor = true;
-            this.buttonAssign.Visible = false;
             this.buttonAssign.Click += new System.EventHandler(this.BtnAssign_Click);
             // 
             // customCloseButton1

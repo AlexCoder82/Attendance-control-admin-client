@@ -103,6 +103,36 @@ namespace AttendanceControlAdminClient.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icono_asignar_asignaturas {
+            get {
+                object obj = ResourceManager.GetObject("icono_asignar_asignaturas", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icono_asignar_formacion {
+            get {
+                object obj = ResourceManager.GetObject("icono_asignar_formacion", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icono_ausencias {
+            get {
+                object obj = ResourceManager.GetObject("icono_ausencias", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icono_cerrar30 {
             get {
                 object obj = ResourceManager.GetObject("icono_cerrar30", resourceCulture);

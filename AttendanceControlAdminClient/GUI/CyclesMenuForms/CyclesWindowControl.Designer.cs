@@ -68,7 +68,6 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             this.buttonRemoveSubject.Size = new System.Drawing.Size(50, 50);
             this.buttonRemoveSubject.TabIndex = 18;
             this.buttonRemoveSubject.UseVisualStyleBackColor = true;
-            this.buttonRemoveSubject.Visible = false;
             this.buttonRemoveSubject.Click += new System.EventHandler(this.ButtonRemoveSubject1_Click);
             // 
             // buttonAddSubject
@@ -82,7 +81,6 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             this.buttonAddSubject.Size = new System.Drawing.Size(50, 50);
             this.buttonAddSubject.TabIndex = 14;
             this.buttonAddSubject.UseVisualStyleBackColor = true;
-            this.buttonAddSubject.Visible = false;
             this.buttonAddSubject.Click += new System.EventHandler(this.ButtonAddSubject1_Click);
             // 
             // buttonModify
@@ -149,7 +147,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             dataGridViewDefaultCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvSubjects1.DefaultCellStyle = dataGridViewDefaultCellStyle1;
             this.dgvSubjects1.EnableHeadersVisualStyles = false;
-            this.dgvSubjects1.Location = new System.Drawing.Point(171, 236);
+            this.dgvSubjects1.Location = new System.Drawing.Point(186, 236);
             this.dgvSubjects1.MultiSelect = false;
             this.dgvSubjects1.Name = "dgvSubjects1";
             this.dgvSubjects1.ReadOnly = true;
@@ -159,9 +157,8 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             this.dgvSubjects1.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.dgvSubjects1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvSubjects1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSubjects1.Size = new System.Drawing.Size(502, 199);
+            this.dgvSubjects1.Size = new System.Drawing.Size(487, 199);
             this.dgvSubjects1.TabIndex = 7;
-            this.dgvSubjects1.Visible = false;
             // 
             // idCourse1Subject
             // 
@@ -183,24 +180,22 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             this.CbCourses.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.CbCourses.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
             this.CbCourses.FormattingEnabled = true;
-            this.CbCourses.Location = new System.Drawing.Point(107, 248);
+            this.CbCourses.Location = new System.Drawing.Point(127, 281);
             this.CbCourses.Name = "CbCourses";
-            this.CbCourses.Size = new System.Drawing.Size(41, 22);
+            this.CbCourses.Size = new System.Drawing.Size(47, 22);
             this.CbCourses.TabIndex = 1;
-            this.CbCourses.Visible = false;
             this.CbCourses.SelectedIndexChanged += new System.EventHandler(this.CbCourses_SelectedIndexChanged);
             // 
             // labelCourse
             // 
             this.labelCourse.AutoSize = true;
-            this.labelCourse.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.labelCourse.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
             this.labelCourse.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.labelCourse.Location = new System.Drawing.Point(47, 249);
+            this.labelCourse.Location = new System.Drawing.Point(47, 277);
             this.labelCourse.Name = "labelCourse";
-            this.labelCourse.Size = new System.Drawing.Size(54, 16);
+            this.labelCourse.Size = new System.Drawing.Size(74, 22);
             this.labelCourse.TabIndex = 0;
             this.labelCourse.Text = "Curso:";
-            this.labelCourse.Visible = false;
             // 
             // dgvCycles
             // 

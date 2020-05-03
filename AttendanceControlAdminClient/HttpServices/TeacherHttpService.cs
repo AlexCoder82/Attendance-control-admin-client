@@ -6,6 +6,7 @@ using Flurl.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,8 +16,8 @@ namespace AttendanceControlAdminClient.HttpServices
     {
         private static readonly string _baseUrl = Settings.Default.API_URL;
 
+        //  GET /api/teachers
         /// <summary>
-        ///     GET /api/teachers
         ///     Envia al servidor una petición de listado de todos los profesores
         /// </summary>
         /// <returns>
@@ -26,9 +27,11 @@ namespace AttendanceControlAdminClient.HttpServices
         {
             try
             {
-                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/teachers")
-                   .GetJsonAsync<List<Teacher>>();
+                var result = await _baseUrl
+                    .WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token)
+                    .AppendPathSegment("/teachers")
+                    .GetJsonAsync<List<Teacher>>();
 
                 return result;
             }
@@ -62,14 +65,22 @@ namespace AttendanceControlAdminClient.HttpServices
 
             catch (FlurlHttpException flurlHttpException)
             {
-                try
-                {
-                    APIError error = await flurlHttpException.GetResponseJsonAsync<APIError>();
+                var status = flurlHttpException.Call.HttpStatus;
 
-                    throw new ServerErrorException(error.Message);
-                }
-                catch (Exception)
+                //El servidor devuelve un 409 con un mensaje de error si se intenta crear 
+                //un profesor cuyo dni ya existe o un 400 si no se validan los datos
+                // 
+                if (status == HttpStatusCode.Conflict || status == HttpStatusCode.BadRequest)
                 {
+                    //Recupero el mensaje de error
+                    string message = await flurlHttpException.GetResponseStringAsync();
+                    throw new ServerErrorException(message);
+                }
+                //Cualquier otro codigo de estado
+                else
+                {
+                    await ServerErrorExceptionHandler.Handle(flurlHttpException);
+
                     throw new ServerErrorException();
                 }
             }

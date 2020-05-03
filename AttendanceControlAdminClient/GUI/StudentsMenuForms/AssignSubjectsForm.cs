@@ -131,7 +131,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                     string message = string
                         .Format("Has actualizado las asignaturas cursadas por el alumno {0}",
                         _student.FullName);
-                    new CustomSuccesMessageWindow(message,0).ShowDialog();
+                    new CustomSuccesMessageWindow(message).ShowDialog();
                     this.Close();
                 }
                 catch (ServerErrorException ex)

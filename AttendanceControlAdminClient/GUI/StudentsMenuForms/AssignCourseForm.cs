@@ -13,14 +13,11 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
     public partial class AssignCourseForm : CustomDialogForm
     {
         private Student _student;
-        private List<Course> _courses;
-        private int _selectedCourseId;
-
-        public Student UpdatedStudent { get; set; }
-
+        private List<Course> courses;
+        public Student UpdatedStudent{ get; set; }
         public AssignCourseForm(Student student)
         {
-            _student = student;        
+            _student = student;
             InitializeComponent();
             this.CenterToScreen();
         }
@@ -34,8 +31,49 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         {
             this.SetLabels();
             this.SetDataGridViewCourses();
+            this.SetButtonsToolTips();
             await this.GetAllCourses();
             this.PopulateDataGridViewCourses();
+        }
+
+        /// <summary>
+        ///     Rellena los labels con los datos del alumno 
+        /// </summary>
+        private void SetLabels()
+        {
+
+            this.groupBox1.Text = this._student.FullName;
+            if (_student.Course is null)
+            {
+                this.LabelCurrentCourse.Text = "Sin asignar";
+            }
+            else
+            {
+                this.LabelCurrentCourse.Text = string
+                    .Format("{0}º de {1}", _student.Course.Year, _student.Course.Cycle.Name);
+            }
+
+        }
+
+        /// <summary>
+        ///     Establece las medidas de las columnas de la tabla
+        /// </summary>
+        private void SetDataGridViewCourses()
+        {
+
+            this.dgvCourses.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            this.dgvCourses.Columns[2].Width = 70;
+            this.dgvCourses.Columns[2].HeaderCell.Style.Alignment =
+               DataGridViewContentAlignment.MiddleCenter;
+            this.dgvCourses.Columns[2].DefaultCellStyle.Alignment =
+              DataGridViewContentAlignment.MiddleCenter;
+        }
+
+        private void SetButtonsToolTips()
+        {
+            ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(this.buttonAssignCourse, "Asignar el curso.");
+            toolTip.SetToolTip(this.buttonRemoveAssignedCourse, "Retirar asignación");
         }
 
         /// <summary>
@@ -46,41 +84,14 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         {
             try
             {
-                _courses = await CourseHttpService.GetAll();            
+                courses = await CourseHttpService.GetAll();
             }
             catch (ServerErrorException ex)
             {
                 new CustomErrorMessageWindow(ex.Message).ShowDialog();
             }
         }
-
-        /// <summary>
-        ///     Establece las medidas de las columnas de la tabla
-        /// </summary>
-        private void SetDataGridViewCourses()
-        {
-            this.dgvCourses.Columns[1].Width = 70;
-            this.dgvCourses.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-        }
-
-        /// <summary>
-        ///     Rellena los labels con los datos del alumno 
-        /// </summary>
-        private void SetLabels()
-        {
-            this.LabelDni.Text = _student.Dni;
-            this.LabelFullName.Text = _student.FullName;
-
-            if (_student.Course is null)
-            {
-                this.LabelCurrentCourse.Text = "Sin asignar";  
-            }
-            else
-            {
-                this.LabelCurrentCourse.Text = string
-                    .Format("{0}º de {1}", _student.Course.Year, _student.Course.Cycle.Name);         
-            }
-        }
+  
 
         /// <summary>
         ///     Rellena la tabla de cursos
@@ -88,71 +99,31 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         private void PopulateDataGridViewCourses()
         {
             this.dgvCourses.Rows.Clear();
-            this.dgvCourses.SelectionChanged -= 
-                this.DataGridViewCourses_SelectionChanged;
 
-            if (!(_courses is null) && _courses.Count > 0)
+            if (!(courses is null) && courses.Count > 0)
             {
-                _courses.ForEach(c =>
+                courses.ForEach(c =>
                 {
-                    
-                    this.dgvCourses.Rows.Add(c.Id, c.Year,c.Cycle.Name);
+
+                    this.dgvCourses.Rows.Add(c.Id, c.Cycle.Name, c.Year);
                 });
 
-                this.dgvCourses.SelectionChanged += 
-                    new System.EventHandler(this.DataGridViewCourses_SelectionChanged);
-
             }
-            if ((_courses is null) || _courses.Count == 0)
+            if ((courses is null) )
             {
                 for (int i = 0; i < 5; i++)
                 {
                     this.dgvCourses.Rows.Add();
                 }
             }
-
-            this.dgvCourses.ClearSelection();
-            this.btnAssign.Enabled = false;
-            this.LabelNewCourse.Text = "";
-        }
-
-        /// <summary>
-        ///     Evento al seleccionar un curso en la tabla:
-        ///     Se guarda el id del curso seleccionado en la variable
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DataGridViewCourses_SelectionChanged(object sender, EventArgs e)
-        {
-
-            if (!(_courses is null) && _courses.Count > 0
-                && this.dgvCourses.SelectedRows.Count>0)
+            if (courses != null && courses.Count < 5)
             {
-                try
+                for (int i = courses.Count; i < 5; i++)
                 {
-                    ///Se habilita el botón para asignar un curso
-                    this.btnAssign.Enabled = true;
-
-                    //Recupera el Id del curso seleccionado
-                    _selectedCourseId = int
-                        .Parse(this.dgvCourses.SelectedRows[0].Cells[0].Value.ToString());
-
-                    Course course = _courses.FirstOrDefault(c => c.Id == _selectedCourseId);
-
-                    string courseYear = course.Year.ToString();
-                    string cycleName = course.Cycle.Name;
-
-                    string courseName = string
-                        .Format("{0}º de {1}",courseYear,cycleName);
-
-                    //Se rellena el label con el nombre del curso seleccionado
-                    this.LabelNewCourse.Text = courseName;
-                }
-                catch (Exception ex)
-                {
-
+                    this.dgvCourses.Rows.Add();
                 }
             }
+
         }
 
         /// <summary>
@@ -164,25 +135,33 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         /// <param name="e"></param>
         private async void ButtonAssign_Click(object sender, EventArgs e)
         {
-            try
+            if (this.dgvCourses.SelectedRows[0].Cells[0].Value != null)
             {
-                this.UpdatedStudent = await StudentHttpService
-                    .UpdateCourse(_student.Id, _selectedCourseId);
+                try
+                {
+                    int id = (int)this.dgvCourses.SelectedRows[0].Cells[0].Value;
+                    this.UpdatedStudent = await StudentHttpService
+                        .UpdateCourse(_student.Id, id);
 
-                Course course = _courses.First(c => c.Id == _selectedCourseId);
-
-                this.UpdatedStudent.Course = course;
-                //Ventanita con mensaje de exito
-                string message = string
-                    .Format("El alumno {0} cursará {1}º de {2} y todas las asignaturas del curso por defecto.", 
-                    UpdatedStudent.FullName,
-                    course.Year, course.Cycle.Name);
-                new CustomSuccesMessageWindow(message,0).ShowDialog();
-                this.Close();
+                    
+                    //Ventanita con mensaje de exito
+                    string message = string
+                        .Format("El alumno {0} cursará {1}º de {2} y " +
+                        "todas las asignaturas del curso por defecto.",
+                        UpdatedStudent.FullName,
+                        UpdatedStudent.Course.Year, UpdatedStudent.Course.Cycle.Name);
+                    new CustomSuccesMessageWindow(message).ShowDialog();
+                    this.Close();
+                }
+                catch (ServerErrorException ex)
+                {
+                    new CustomErrorMessageWindow(ex.Message).ShowDialog();
+                }
             }
-            catch(ServerErrorException ex)
+            else
             {
-                new CustomErrorMessageWindow(ex.Message).ShowDialog();
+                new CustomErrorMessageWindow("Debes seleccionar un curso antes.")
+                    .ShowDialog();
             }
         }
 
@@ -195,22 +174,46 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         /// <param name="e"></param>
         private async void ButtonRemoveAssignedCourse_Click(object sender, EventArgs e)
         {
-            try
+            if (this.dgvCourses.SelectedRows[0].Cells[0].Value != null)
             {
-                await StudentHttpService.RemoveCourse(_student.Id);
+                //Si el alumno ya tiene un curso asignado
+                if (this._student.Course != null)
+                {
+                    try
+                    {
+                        await StudentHttpService.RemoveCourse(_student.Id);
 
-                this.UpdatedStudent = _student;
-                this.UpdatedStudent.Course = null;
-                //Ventanita con mensaje de exito
-                string message = string
-                    .Format("El alumno {0} ya no tiene curso asignado", UpdatedStudent.FullName);
-                new CustomSuccesMessageWindow(message,0).ShowDialog();
-                this.Close();
+                        //Ventanita con mensaje de exito
+                        string message = string
+                            .Format("El alumno {0} ya no cursará {1}ª de {2}.", 
+                            this._student.FullName,
+                            this._student.Course.Year,
+                            this._student.Course.Cycle.Name);
+                        new CustomSuccesMessageWindow(message).ShowDialog();
+
+                        this.UpdatedStudent = _student;
+                        this.UpdatedStudent.Course = null;
+                        this.UpdatedStudent.Subjects = null;
+                        this.Close();
+                    }
+                    catch (ServerErrorException ex)
+                    {
+                        new CustomErrorMessageWindow(ex.Message).ShowDialog();
+                    }
+                }
+                else
+                {
+                    string message = string.Format("El alumno {0} no tiene curso asignado.",
+                        this._student.FullName);
+                    new CustomErrorMessageWindow(message).ShowDialog();
+                }
             }
-            catch (ServerErrorException ex)
+            else
             {
-                new CustomErrorMessageWindow(ex.Message).ShowDialog();
+                new CustomErrorMessageWindow("Debes seleccionar un curso antes.")
+                    .ShowDialog();
             }
-        }
+        
     }
+}
 }

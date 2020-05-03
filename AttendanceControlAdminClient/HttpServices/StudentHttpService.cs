@@ -47,9 +47,10 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 var result = await _baseUrl.WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/students")
-                   .PostJsonAsync(student)
-                   .ReceiveJson<Student>();
+                    .WithOAuthBearerToken(SessionService.Token)
+                    .AppendPathSegment("/students")
+                    .PostJsonAsync(student)
+                    .ReceiveJson<Student>();
 
                 return result;
             }

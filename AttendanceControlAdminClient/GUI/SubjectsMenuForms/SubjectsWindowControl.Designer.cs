@@ -152,7 +152,6 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
             this.buttonRemoveTeacher.Size = new System.Drawing.Size(50, 50);
             this.buttonRemoveTeacher.TabIndex = 11;
             this.buttonRemoveTeacher.UseVisualStyleBackColor = true;
-            this.buttonRemoveTeacher.Visible = false;
             this.buttonRemoveTeacher.Click += new System.EventHandler(this.buttonRemoveTeacher_Click);
             // 
             // buttonAsignTeacher
@@ -166,7 +165,6 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
             this.buttonAsignTeacher.Size = new System.Drawing.Size(50, 50);
             this.buttonAsignTeacher.TabIndex = 10;
             this.buttonAsignTeacher.UseVisualStyleBackColor = true;
-            this.buttonAsignTeacher.Visible = false;
             this.buttonAsignTeacher.Click += new System.EventHandler(this.BtnAssign_Click);
             // 
             // buttonModify
@@ -180,7 +178,6 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
             this.buttonModify.Size = new System.Drawing.Size(50, 50);
             this.buttonModify.TabIndex = 9;
             this.buttonModify.UseVisualStyleBackColor = true;
-            this.buttonModify.Visible = false;
             this.buttonModify.Click += new System.EventHandler(this.BtnModifySubject_Click);
             // 
             // buttonAdd

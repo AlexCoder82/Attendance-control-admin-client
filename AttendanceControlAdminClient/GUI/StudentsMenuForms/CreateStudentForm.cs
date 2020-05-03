@@ -24,7 +24,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ButtonCreateTeacher_Click(object sender, EventArgs e)
+        private async void ButtonSaveStudent_Click(object sender, EventArgs e)
         {
             this.ResetAsterisks();
 
@@ -50,7 +50,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                     //Ventanita con mensaje de éxito
                     string message = string.Format("Has registrado al alumno {0}.",
                         this.CreatedStudent.FullName);
-                    new CustomSuccesMessageWindow(message,0).ShowDialog();
+                    new CustomSuccesMessageWindow(message).ShowDialog();
 
                     this.Close();
                     this.Close();

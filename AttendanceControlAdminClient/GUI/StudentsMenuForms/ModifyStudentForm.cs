@@ -65,7 +65,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                     string message = string
                         .Format("Has actualizado los datos personales del alumno {0}.",
                         this.UpdatedStudent.FullName);
-                    new CustomSuccesMessageWindow(message,0).ShowDialog();
+                    new CustomSuccesMessageWindow(message).ShowDialog();
 
                     this.Close();
 

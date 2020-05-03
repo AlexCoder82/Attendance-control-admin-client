@@ -12,14 +12,16 @@ using AttendanceControlAdminClient.GUI.CustomControls;
 
 namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
 {
+    /// <summary>
+    ///     Menú de clases y horarios
+    /// </summary>
     public partial class ClassesWindowControl : UserControl
     {
-        private List<Schedule> _schedules; //Horarios generales 
-        private List<Cycle> _cycles; //Lista de todos los ciclos
-        private List<SchoolClass> _schoolClasses; //Lista de las clases del curso seleccionado
-        private Cycle _cycle; //Ciclo seleccionado
-        private Course _course; //Curso seleccionado
-        private Dictionary<int, int> RowBySchedule;
+        private List<Cycle> cycles; //Lista de todos los ciclos
+        private List<SchoolClass> schoolClasses; //Lista de las clases del curso seleccionado
+        private Cycle selectedCycle; //Ciclo seleccionado
+        private Course selectedCourse; //Curso seleccionado
+        private Dictionary<int, int> RowBySchedule;// Map que asocia una fila de la tabla a un horario
 
         public ClassesWindowControl()
         {
@@ -27,59 +29,56 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         }
 
         /// <summary>
-        ///       Establece la tabla de horarios por defecto 
-        ///       Se rellena solamente la columna de horarios 
+        ///     Evento al cargar este formulario
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void SchedulesWindowControl_Load(object sender, EventArgs e)
+        {
+            this.SetSchedulesTable();
+            await this.GetAllCycles();
+            this.PopulateDefaultComboBoxes();
+
+        }
+
+        /// <summary>
+        ///       Establece el diseño de la tabla de horarios 
         /// </summary>
         private void SetSchedulesTable()
         {
 
-            if (!(_cycle.Shift.Schedules is null) && _cycle.Shift.Schedules.Count > 0)
+            //Establece el tamaño automatico de cada columna
+            for (int i = 0; i < this.dgvSchedules.Columns.Count; i++)
             {
-
-                this.dgvSchedules.Visible = true;
-                this.dgvSchedules.DefaultCellStyle.SelectionBackColor = Color.White;
-                this.dgvSchedules.Rows.Clear();
-                this.RowBySchedule = new Dictionary<int, int>();
-
-                List<Schedule> schedules = _cycle.Shift.Schedules;
-                for (int i = 0; i < schedules.Count;i++)
-                {
-                    this.dgvSchedules.Rows.Add( schedules[i].Start + " - " + schedules[i].End, "", "", "", "", "");
-
-                    this.RowBySchedule.Add( schedules[i].Id,i);
-
-                }
-
-
-                //Establece el tamaño automatico de cada columna
-                for (int i = 0; i < this.dgvSchedules.Columns.Count; i++)
-                {
-                    this.dgvSchedules.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
-
-                //Establece el color de los horarios de la primera columna
-                for (int i = 0; i < this.dgvSchedules.Rows.Count; i++)
-                {
-                    this.dgvSchedules.Rows[i].Cells[0].Style.ForeColor = Settings.Default.OPTIMA_COLOR;
-                }
-
-                this.dgvSchedules.ClearSelection();
+                this.dgvSchedules.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
-        }
 
-        /// <summary>
-        ///     Borra las clases de la tabla
-        /// </summary>
-        private void DeleteSchoolClassCells()
-        {
+            //Establece el color de los horarios de la primera columna
             for (int i = 0; i < this.dgvSchedules.Rows.Count; i++)
             {
-                for (int j = 1; j < this.dgvSchedules.Columns.Count; j++)
-                {
-                    this.dgvSchedules.Rows[i].Cells[j].Value = "";
-                    this.dgvSchedules.Rows[i].Cells[j].Style.BackColor = Color.White;
-                }
+                this.dgvSchedules.Rows[i].Cells[0].Style.ForeColor = Settings.Default.OPTIMA_COLOR;
             }
+            this.dgvSchedules.Visible = true;
+
+        }
+
+
+        /// <summary>
+        ///     Recupera la lista de todos los ciclos del cliente http
+        /// </summary>
+        /// <returns></returns>
+        private async Task GetAllCycles()
+        {
+
+            try
+            {
+                cycles = await CycleHttpService.GetAll();
+            }
+            catch (ServerErrorException ex)
+            {
+                new CustomErrorMessageWindow(ex.Message).ShowDialog();
+            }
+
         }
 
         /// <summary>
@@ -88,14 +87,16 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         /// </summary>
         private void PopulateSchedulesTable()
         {
+
+            //Primero se borra todas las celdas
             this.DeleteSchoolClassCells();
+
             //Se retira el evento de seleccion de casillas de la tabla
             this.dgvSchedules.CellClick -= this.CellButtons_Click;
 
-
+            //Lista con los distintos colores disponibles
             var colors = new List<Color>()
             {
-
                 Color.Coral,
                 Color.GreenYellow,
                 Color.DarkCyan,
@@ -113,11 +114,12 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             //Indice del color de la lista de colores
             int colorIndex = 0;
 
-            //Para cada clase de curso
-            _schoolClasses.ForEach(sc =>
+            //Para cada clase del curso
+            schoolClasses.ForEach(sc =>
             {
-              
+                //Fila asociada al horario de la clase
                 int row = this.RowBySchedule[sc.Schedule.Id];
+
                 //Rellana la casilla que correspone al horario de la clase con los datos de la clase
                 this.dgvSchedules.Rows[row].Cells[(int)sc.Day].Value = sc.Subject.Name;
 
@@ -143,81 +145,160 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
                 //Se establece como color de fondo de la celda , el color asociado a la asignatura 
                 this.dgvSchedules.Rows[row].Cells[(int)sc.Day].Style.BackColor =
                     subjectsNameColor[sc.Subject.Name];
-
-
             });
 
+            //Crea el evento de selección de casilla
+            this.dgvSchedules.CellClick +=
+                new DataGridViewCellEventHandler(this.CellButtons_Click);
 
-            this.dgvSchedules.CellClick += new DataGridViewCellEventHandler(this.CellButtons_Click);
+        }
+
+        /// <summary>
+        ///     Rellena la columna de horarios segun el turno del ciclo formativo seleccionado
+        /// </summary>
+        private void SetSchedulesColumn()
+        {
+
+            if (!(selectedCycle.Shift.Schedules is null)
+                        && selectedCycle.Shift.Schedules.Count > 0)
+            {
+                this.dgvSchedules.DefaultCellStyle.SelectionBackColor = Color.White;
+                this.dgvSchedules.Rows.Clear();
+                this.RowBySchedule = new Dictionary<int, int>();
+
+                List<Schedule> schedules = selectedCycle.Shift.Schedules;
+                for (int i = 0; i < schedules.Count; i++)
+                {
+                    this.dgvSchedules.Rows.Add(schedules[i].Start + " - " 
+                        + schedules[i].End, "", "", "", "", "");
+
+                    this.RowBySchedule.Add(schedules[i].Id, i);
+
+                }
+                this.dgvSchedules.ClearSelection();
+            }
+
+        }
+
+        
+        /// <summary>
+        ///     Borra las celdas de la tabla
+        /// </summary>
+        private void DeleteSchoolClassCells()
+        {
+
+            for (int i = 0; i < this.dgvSchedules.Rows.Count; i++)
+            {
+                for (int j = 1; j < this.dgvSchedules.Columns.Count; j++)
+                {
+                    this.dgvSchedules.Rows[i].Cells[j].Value = "";
+                    this.dgvSchedules.Rows[i].Cells[j].Style.BackColor = Color.White;
+                }
+            }
+
         }
 
 
         /// <summary>
-        ///     Recupera la lista de ciclos del cliente http
+        ///     Rellena los comboBox de ciclos y cursos 
+        ///     y carga por defecto las clases del primer curso 
+        ///     del primer ciclo seleccionado
         /// </summary>
-        /// <returns></returns>
-        private async Task GetAllCycles()
+        private async void PopulateDefaultComboBoxes()
         {
-            try
+
+            if (this.cycles != null && this.cycles.Count > 0)
             {
-                _cycles = await CycleHttpService.GetAll();
+                this.cbCycles.DataSource = cycles;
+                this.cbCycles.DisplayMember = "Name";
+                this.cbCycles.ValueMember = "Id";
+
+                this.cbCourses.DataSource = cycles[0].Courses;
+                this.cbCourses.DisplayMember = "Year";
+                this.cbCourses.ValueMember = "Id";
+
+                this.selectedCycle = this.cycles[0];
+                this.selectedCourse = this.selectedCycle.Courses[0];
+
+                this.cbCycles.SelectedIndexChanged += ComboBoxCycles_SelectedIndexChanged;
+                this.cbCourses.SelectedIndexChanged += cbCourses_SelectedIndexChanged;
+
+                await this.GetClasses();
+                this.SetSchedulesColumn();
+                this.PopulateSchedulesTable();
+
             }
-            catch (ServerErrorException ex)
-            {
-                new CustomErrorMessageWindow(ex.Message).ShowDialog();
-            }
+
         }
 
         /// <summary>
-        ///     Rellena los comboBox de ciclos y cursos
+        ///     Rellena el combobox de cursos
+        ///     Método llamado cada vez que que se cambia la selección
+        ///     del ciclo formativo
         /// </summary>
-        private void PopulateComboBoxes()
+        private void PopulateCoursesComboBox()
         {
 
-            this.cbCycles.DataSource = _cycles;
-            this.cbCycles.DisplayMember = "Name";
-            this.cbCycles.ValueMember = "Id";
-
-
-            this.cbCycles.SelectedIndex = 0;
-
-            this.cbCourses.DataSource = _cycles[0].Courses;
+            this.cbCourses.SelectedIndexChanged -= cbCourses_SelectedIndexChanged;
+            this.cbCourses.DataSource = selectedCycle.Courses;
             this.cbCourses.DisplayMember = "Year";
             this.cbCourses.ValueMember = "Id";
-
-            this.cbCycles.SelectedIndex = 1;
-            //Asocio el mismo evento de cambio de seleccion a los dos comboBox
-            this.cbCycles.SelectedIndexChanged += new EventHandler(ComboBoxCycles_SelectedIndexChanged);
-            this.cbCourses.SelectedIndexChanged += new EventHandler(ComboBoxCycles_SelectedIndexChanged);
-
-            //Provoca el evento
-            this.cbCycles.SelectedIndex = 0;
+            this.cbCourses.SelectedIndex = 0;
+            this.cbCourses.SelectedIndexChanged += cbCourses_SelectedIndexChanged;
 
         }
 
         /// <summary>
-        ///     Evento al cambiar cualquiera de los dos combobox:
-        ///     Se recupera la lista de clases del curso seleccionado 
+        ///     Evento al cambiar la selección de ciclo formativo,
+        ///     se carga la lista de clases del primer curso del ciclo seleccionado
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void ComboBoxCycles_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //Recupera el ciclo seleccionado
+            int cycleId = (int)this.cbCycles.SelectedValue;
+            selectedCycle = cycles.Find(c => c.Id == cycleId);
+            this.selectedCourse = this.selectedCycle.Courses[0];
+
+            //Refresca el combobox de cursos
+            this.PopulateCoursesComboBox();
+
+            await this.GetClasses();
+
+            this.SetSchedulesColumn();
+            this.PopulateSchedulesTable();
+        }
+
+        /// <summary>
+        ///     Evento al cambiar la seleccion de curso,
+        ///     se carga la lista de clases del curso seleccionado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void cbCourses_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            //Recupera el curso seleccionado
+            int courseId = (int)this.cbCourses.SelectedValue;
+            this.selectedCourse = selectedCycle.Courses.Find(c => c.Id == courseId);
+
+            await this.GetClasses();
+
+            this.SetSchedulesColumn();
+            this.PopulateSchedulesTable();
+        }
+
+        /// <summary>
+        ///     Obtiene la lista de clases de un curso del cliente http
+        /// </summary>
+        /// <returns></returns>
+        private async Task GetClasses()
+        {
 
             try
             {
-                //EL id del ciclo seleccionado
-                int cycleId = (int)this.cbCycles.SelectedValue;
-                _cycle = _cycles.Find(c => c.Id == cycleId);
-                //El curso seleccionado ( Primero o segundo)
-                int courseYear = this.cbCourses.SelectedIndex + 1;
-
-                _course = _cycle.Courses.FirstOrDefault(c => c.Year == courseYear);
-                _schoolClasses = await SchoolClassHttpService.GetByCourse(_course.Id);
-
-                this.SetSchedulesTable();
-
-                this.PopulateSchedulesTable();
+                this.schoolClasses = await SchoolClassHttpService.GetByCourse(this.selectedCourse.Id);
             }
             catch (ServerErrorException ex)
             {
@@ -228,16 +309,19 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
 
         }
 
+
         /// <summary>
-        ///     Evento al hacer click en cualquer celda
+        ///     Evento al hacer click en cualquer celda, si la celda esta libre
+        ///     se abre el formulario para crear una nueva clase, sino
+        ///     se propone cancelar la clase de la celda
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void CellButtons_Click(object sender, DataGridViewCellEventArgs e)
         {
+
             // se recupera la celda clickeada
             int col = this.dgvSchedules.CurrentCell.ColumnIndex;
-
             int row = this.dgvSchedules.CurrentCell.RowIndex;
 
             //Siempre que no sea la columna de horarios
@@ -247,26 +331,24 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
                 int day = col;
 
                 //La hora en la que empieza la clase corresponse al horario de la primera columna
-                string start = this.dgvSchedules.Rows[row].Cells[0].Value.ToString().Substring(0,5);
+                string start = this.dgvSchedules.Rows[row].Cells[0].Value.ToString().Substring(0, 5);
 
-                //Recupero la `posible clase ya establecida ese dia a esa hora
-                SchoolClass schoolClass = _schoolClasses
+                //Recupero la posible clase ya establecida ese dia a esa hora dentro de la lista de clases
+                SchoolClass schoolClass = schoolClasses
                        .FirstOrDefault(sc => sc.Day == (DayOfWeek)day && sc.Schedule.Start == start);
 
-               
                 //Sino hay clase, se crea una nueva 
                 if (schoolClass is null)
                 {
-    
                     schoolClass = new SchoolClass()
                     {
-                        Course = _course,
+                        Course = selectedCourse,
                         Day = (DayOfWeek)day,
-                        Schedule = _cycle.Shift.Schedules
+                        Schedule = selectedCycle.Shift.Schedules
                             .FirstOrDefault(sc => sc.Start == start),
                     };
 
-                    //Se intancia el formulario para elegir la asignatura de la clasey crear la clase
+                    //Se intancia el formulario para elegir la asignatura de la clase y guardar la clase
                     CreateSchoolClassForm sscsForm = new CreateSchoolClassForm(schoolClass);
                     sscsForm.ShowDialog();
 
@@ -277,13 +359,11 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
                     if (!(createdSchoolClass is null))
                     {
                         //Se agrega a la lista
-                        _schoolClasses.Add(createdSchoolClass);
+                        schoolClasses.Add(createdSchoolClass);
 
-                        //Se rellena de nuevo la tabla para refrescar
-                        PopulateSchedulesTable();
                     }
                 }
-                //Si ya existe una clase, se propone que la clase deje de ser vigente 
+                //Si ya existe una clase en la celda, se propone que la clase deje de ser vigente 
                 else
                 {
                     //Ventanita de confirmación
@@ -292,26 +372,34 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
                         schoolClass.Subject.Name,
                         this.dgvSchedules.Columns[col].HeaderText.ToLower(),
                         schoolClass.Schedule.Start);
+
                     CustomConfirmDialogForm customConfirmDialogForm = new CustomConfirmDialogForm(message);
                     customConfirmDialogForm.ShowDialog();
 
                     //Si se confirma se envia al cliente http la petición
                     if (customConfirmDialogForm.Confirmed)
                     {
-                        message = "La clase ha sido cancelada, recuerda que si " +
-                            "esta clase se impartía en varios cursos a la vez y deseas cancelarla " +
-                            "en los demás cursos también, tendrás que hacerlo en cada uno de ellos.";
-
-                        CustomSuccesMessageWindow ccdf = new CustomSuccesMessageWindow(message,400);
-                        ccdf.ShowDialog();
+                        
                         try
                         {
                             int id = schoolClass.Id;
-                            var res = await SchoolClassHttpService.SetNotCurrent(id);
 
-                            //Se borra la clase de la lista y se vuelve a rellenar
-                            _schoolClasses.Remove(schoolClass);
-                            this.PopulateSchedulesTable();
+                            //Envia al cliente http el id de la clase para cancelarla
+                            var res = await SchoolClassHttpService.Cancel(id);
+
+                            
+
+                            //Ventanita de exito con aviso
+                            message = "La clase ha sido cancelada, recuerda que si " +
+                                "esta clase se impartía en varios cursos a la vez y deseas cancelarla " +
+                                "también en los demás cursos, tendrás que hacerlo en cada uno de ellos.";
+
+                            CustomSuccesMessageWindow ccdf = new CustomSuccesMessageWindow(message);
+                            ccdf.ShowDialog();
+
+                            //Se borra la clase de la lista 
+                            schoolClasses.Remove(schoolClass);
+                         
                         }
                         catch (ServerErrorException ex)
                         {
@@ -320,22 +408,13 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
                     }
                 }
 
-
+                this.PopulateSchedulesTable();
             }
 
             this.dgvSchedules.ClearSelection();
+
         }
 
-        /// <summary>
-        ///     Evento al cargar este formulario
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void SchedulesWindowControl_Load(object sender, EventArgs e)
-        {
-            await this.GetAllCycles();
-            this.PopulateComboBoxes();
-        }
     }
 }
 

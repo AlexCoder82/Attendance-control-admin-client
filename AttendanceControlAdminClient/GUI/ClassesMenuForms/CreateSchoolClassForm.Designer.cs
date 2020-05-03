@@ -30,13 +30,12 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateSchoolClassForm));
             this.LabelMessage = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
             this.cbSubjects = new AttendanceControlAdminClient.GUI.CustomControls.CustomComboBox();
             this.btnSave = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
             this.btnCancel = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
-            this.customCloseButton1 = new AttendanceControlAdminClient.GUI.CustomControls.CustomCloseButton();
-            ((System.ComponentModel.ISupportInitialize)(this.customCloseButton1)).BeginInit();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // LabelMessage
@@ -44,7 +43,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             this.LabelMessage.AutoSize = true;
             this.LabelMessage.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.LabelMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelMessage.Location = new System.Drawing.Point(45, 64);
+            this.LabelMessage.Location = new System.Drawing.Point(24, 47);
             this.LabelMessage.Name = "LabelMessage";
             this.LabelMessage.Size = new System.Drawing.Size(246, 16);
             this.LabelMessage.TabIndex = 0;
@@ -57,9 +56,9 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             this.cbSubjects.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.cbSubjects.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
             this.cbSubjects.FormattingEnabled = true;
-            this.cbSubjects.Location = new System.Drawing.Point(48, 98);
+            this.cbSubjects.Location = new System.Drawing.Point(27, 86);
             this.cbSubjects.Name = "cbSubjects";
-            this.cbSubjects.Size = new System.Drawing.Size(271, 22);
+            this.cbSubjects.Size = new System.Drawing.Size(243, 22);
             this.cbSubjects.TabIndex = 1;
             // 
             // btnSave
@@ -68,7 +67,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(342, 123);
+            this.btnSave.Location = new System.Drawing.Point(170, 147);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 2;
@@ -82,7 +81,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.btnCancel.ForeColor = System.Drawing.Color.White;
-            this.btnCancel.Location = new System.Drawing.Point(342, 152);
+            this.btnCancel.Location = new System.Drawing.Point(50, 147);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
@@ -90,33 +89,33 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
-            // customCloseButton1
+            // groupBox1
             // 
-            this.customCloseButton1.Image = ((System.Drawing.Image)(resources.GetObject("customCloseButton1.Image")));
-            this.customCloseButton1.Location = new System.Drawing.Point(387, 23);
-            this.customCloseButton1.Name = "customCloseButton1";
-            this.customCloseButton1.Size = new System.Drawing.Size(30, 30);
-            this.customCloseButton1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.customCloseButton1.TabIndex = 4;
-            this.customCloseButton1.TabStop = false;
+            this.groupBox1.Controls.Add(this.LabelMessage);
+            this.groupBox1.Controls.Add(this.btnSave);
+            this.groupBox1.Controls.Add(this.btnCancel);
+            this.groupBox1.Controls.Add(this.cbSubjects);
+            this.groupBox1.Font = new System.Drawing.Font("Arial Black", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(21, 23);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(297, 196);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Nueva clase";
             // 
             // CreateSchoolClassForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(440, 199);
-            this.Controls.Add(this.customCloseButton1);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.cbSubjects);
-            this.Controls.Add(this.LabelMessage);
+            this.ClientSize = new System.Drawing.Size(341, 253);
+            this.Controls.Add(this.groupBox1);
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "CreateSchoolClassForm";
             this.Text = "ChooseClassSubject";
             this.Load += new System.EventHandler(this.CreateSchoolClassForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.customCloseButton1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -126,6 +125,6 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         private CustomComboBox cbSubjects;
         private CustomButton btnSave;
         private CustomButton btnCancel;
-        private CustomCloseButton customCloseButton1;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

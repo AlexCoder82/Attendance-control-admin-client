@@ -20,7 +20,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
 
         public AssignTeacherForm(Subject subject)
         {
-            _subject = subject;
+            this._subject = subject;
             InitializeComponent();
             this.CenterToScreen();
         }
@@ -48,7 +48,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         private void SetTitle()
         {
 
-            this.groupBox.Text = "Nuevo profesor de "+ _subject.Name;
+            this.groupBox.Text = "Nuevo profesor de "+ this._subject.Name;
            
         }
 
@@ -80,33 +80,32 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         {
             this.dgvTeachers.ClearSelection();
 
-            //Por defecto se retira el evento de selección
-            this.dgvTeachers.SelectionChanged -=
-                new System.EventHandler(this.DataGridViewTeachers_SelectionChanged);
-
             //Si hay al menos un profesor, se rellena la tabla
             if (!(this.teachers is null) && this.teachers.Count > 0)
             {
                 this.teachers.ForEach(t =>
                 {
                     this.dgvTeachers.Rows.Add(t.Id, t.Dni, t.FullName);
-                });
-
-                //Se activa el evento de selección
-                this.dgvTeachers.SelectionChanged +=
-                    new EventHandler(this.DataGridViewTeachers_SelectionChanged);
-
+                });             
             }
-            //Si no hay profesores, se rellena la tabla con 5 registros vacíos
-            if ((this.teachers is null) || this.teachers.Count == 0)
+            //Si no hay profesores se rellena la tabla con 5 registros vacíos
+            if ((this.teachers is null) )
             {
                 for (int i = 0; i < 5; i++)
                 {
                     this.dgvTeachers.Rows.Add();
                 }
             }
+            //sy hay menos de 7 profesores se rellena los huecos hasta 7 registros
+            if ((this.teachers != null) || this.teachers.Count < 7)
+            {
+                for (int i = this.teachers.Count; i < 7; i++)
+                {
+                    this.dgvTeachers.Rows.Add();
+                }
+            }
 
-            this.dgvTeachers.ClearSelection();
+            
     
         }
 
@@ -126,33 +125,6 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
             }
         }
 
-        /// <summary>
-        ///     Evento al seleccionar un profesor en la tabla
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DataGridViewTeachers_SelectionChanged(object sender, EventArgs e)
-        {
-
-            if (!(teachers is null) && teachers.Count > 0
-                && this.dgvTeachers.SelectedRows.Count > 0)
-            {
-
-                ///Se habilita el botón para asignar profesor
-                this.buttonAssign.Visible = true;
-
-                //Recupera el Id del profesor seleccionado
-                int selectedId = int
-                    .Parse(this.dgvTeachers.SelectedRows[0].Cells[0].Value
-                    .ToString());
-
-                //Recupera el profesor seleccionado y lo guarda en la proprieda de clase
-                this.selectedTeacher = this.teachers
-                        .FirstOrDefault(c => c.Id == selectedId);
-
-            }
-
-        }
 
         /// <summary>
         ///     Evento al pulsar Asignar:
@@ -163,25 +135,41 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         /// <param name="e"></param>
         private async void BtnAssign_Click(object sender, EventArgs e)
         {
-            
+            if (this.dgvTeachers.SelectedRows[0].Cells[0].Value != null)
+            {
                 try
                 {
+                    //Recupera el Id del profesor seleccionado
+                    int selectedId = int
+                        .Parse(this.dgvTeachers.SelectedRows[0].Cells[0].Value
+                        .ToString());
+
+                    //Recupera el profesor seleccionado y lo guarda en la proprieda de clase
+                    this.selectedTeacher = this.teachers
+                            .FirstOrDefault(c => c.Id == selectedId);
+
                     //El cliente http retorna la asignatura actualizada
                     Subject subject = await SubjectHttpService
-                        .UpdateAssignedTeacher(_subject.Id, this.selectedTeacher.Id);
+                        .UpdateAssignedTeacher(this._subject.Id, this.selectedTeacher.Id);
 
                     this._subject.Teacher = subject.Teacher;
 
                     //Ventanita de mensaje de éxito
                     string message = string.Format("{0} es ahora el profesor de {1}.",
-                        selectedTeacher.FullName, _subject.Name);
-                    new CustomSuccesMessageWindow(message, 0).ShowDialog();
+                        selectedTeacher.FullName, this._subject.Name);
+                    new CustomSuccesMessageWindow(message).ShowDialog();
                     this.Close();
                 }
                 catch (ServerErrorException ex)
                 {
                     new CustomErrorMessageWindow(ex.Message).ShowDialog();
                 }
+            }
+            else
+            {
+                new CustomErrorMessageWindow("Debes seleccionar un profesor antes.")
+                    .ShowDialog();
+            }
             
         }
        

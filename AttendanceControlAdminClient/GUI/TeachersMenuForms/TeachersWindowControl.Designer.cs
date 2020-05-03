@@ -57,7 +57,6 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.buttonModify.Size = new System.Drawing.Size(50, 50);
             this.buttonModify.TabIndex = 7;
             this.buttonModify.UseVisualStyleBackColor = true;
-            this.buttonModify.Visible = false;
             this.buttonModify.Click += new System.EventHandler(this.ButtonModify_Click);
             // 
             // buttonAdd

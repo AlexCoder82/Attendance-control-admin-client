@@ -157,4 +157,13 @@
   <data name="icono_retirar_asignacion" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Assets\Icons\icono-retirar-asignacion.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="icono_asignar_asignaturas" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\icono-asignar-asignaturas.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icono_asignar_formacion" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\icono-asignar-formacion.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icono_ausencias" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Icons\icono-ausencias.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

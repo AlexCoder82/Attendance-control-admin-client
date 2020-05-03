@@ -103,7 +103,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             // columnMonday
             // 
             this.columnMonday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.columnMonday.HeaderText = "LUNES";
+            this.columnMonday.HeaderText = "Lunes";
             this.columnMonday.Name = "columnMonday";
             this.columnMonday.ReadOnly = true;
             this.columnMonday.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -111,7 +111,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             // 
             // columnTuesday
             // 
-            this.columnTuesday.HeaderText = "MARTES";
+            this.columnTuesday.HeaderText = "Martes";
             this.columnTuesday.Name = "columnTuesday";
             this.columnTuesday.ReadOnly = true;
             this.columnTuesday.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -119,7 +119,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             // 
             // columnWednesday
             // 
-            this.columnWednesday.HeaderText = "MIÉRCOLES";
+            this.columnWednesday.HeaderText = "Miércoles";
             this.columnWednesday.Name = "columnWednesday";
             this.columnWednesday.ReadOnly = true;
             this.columnWednesday.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -127,7 +127,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             // 
             // columnThursday
             // 
-            this.columnThursday.HeaderText = "JUEVES";
+            this.columnThursday.HeaderText = "Jueves";
             this.columnThursday.Name = "columnThursday";
             this.columnThursday.ReadOnly = true;
             this.columnThursday.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -135,7 +135,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             // 
             // columnFriday
             // 
-            this.columnFriday.HeaderText = "VIERNES";
+            this.columnFriday.HeaderText = "Viernes";
             this.columnFriday.Name = "columnFriday";
             this.columnFriday.ReadOnly = true;
             this.columnFriday.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -148,7 +148,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             this.cbCourses.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.cbCourses.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
             this.cbCourses.FormattingEnabled = true;
-            this.cbCourses.Location = new System.Drawing.Point(541, 26);
+            this.cbCourses.Location = new System.Drawing.Point(640, 46);
             this.cbCourses.Name = "cbCourses";
             this.cbCourses.Size = new System.Drawing.Size(67, 22);
             this.cbCourses.TabIndex = 3;
@@ -158,7 +158,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             this.LabelCourse.AutoSize = true;
             this.LabelCourse.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.LabelCourse.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelCourse.Location = new System.Drawing.Point(481, 27);
+            this.LabelCourse.Location = new System.Drawing.Point(564, 47);
             this.LabelCourse.Name = "LabelCourse";
             this.LabelCourse.Size = new System.Drawing.Size(54, 16);
             this.LabelCourse.TabIndex = 2;
@@ -171,9 +171,9 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             this.cbCycles.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.cbCycles.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
             this.cbCycles.FormattingEnabled = true;
-            this.cbCycles.Location = new System.Drawing.Point(89, 25);
+            this.cbCycles.Location = new System.Drawing.Point(89, 46);
             this.cbCycles.Name = "cbCycles";
-            this.cbCycles.Size = new System.Drawing.Size(376, 22);
+            this.cbCycles.Size = new System.Drawing.Size(413, 22);
             this.cbCycles.TabIndex = 1;
             // 
             // LabelCycle
@@ -181,7 +181,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
             this.LabelCycle.AutoSize = true;
             this.LabelCycle.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.LabelCycle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelCycle.Location = new System.Drawing.Point(25, 26);
+            this.LabelCycle.Location = new System.Drawing.Point(25, 47);
             this.LabelCycle.Name = "LabelCycle";
             this.LabelCycle.Size = new System.Drawing.Size(47, 16);
             this.LabelCycle.TabIndex = 0;

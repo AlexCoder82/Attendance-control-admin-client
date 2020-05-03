@@ -51,7 +51,7 @@ namespace AttendanceControlAdminClient.HttpServices
 
         }
 
-        public static async Task<bool> SetNotCurrent(int id)
+        public static async Task<bool> Cancel(int id)
         {
             try
             {
