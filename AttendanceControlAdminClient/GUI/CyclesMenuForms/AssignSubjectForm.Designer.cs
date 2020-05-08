@@ -31,9 +31,9 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         /// </summary>
         private void InitializeComponent()
         {
-            AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewAlternatingRowsStyle dataGridViewAlternatingRowsStyle2 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewAlternatingRowsStyle();
-            AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewHeaderStyle dataGridViewHeaderStyle2 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewHeaderStyle();
-            AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewDefaultCellStyle dataGridViewDefaultCellStyle2 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewDefaultCellStyle();
+            AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewAlternatingRowsStyle dataGridViewAlternatingRowsStyle1 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewAlternatingRowsStyle();
+            AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewHeaderStyle dataGridViewHeaderStyle1 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewHeaderStyle();
+            AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewDefaultCellStyle dataGridViewDefaultCellStyle1 = new AttendanceControlAdminClient.GUI.Design.DataGridViewStyle.DataGridViewDefaultCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AssignSubjectForm));
             this.LabelFilter = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
             this.tbSubject = new AttendanceControlAdminClient.GUI.CustomControls.CustomTextBox();
@@ -73,38 +73,38 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             // 
             this.dgvSubjects.AllowUserToAddRows = false;
             this.dgvSubjects.AllowUserToDeleteRows = false;
-            dataGridViewAlternatingRowsStyle2.BackColor = System.Drawing.SystemColors.ControlLight;
-            dataGridViewAlternatingRowsStyle2.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewAlternatingRowsStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewAlternatingRowsStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            dataGridViewAlternatingRowsStyle2.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvSubjects.AlternatingRowsDefaultCellStyle = dataGridViewAlternatingRowsStyle2;
+            dataGridViewAlternatingRowsStyle1.BackColor = System.Drawing.SystemColors.ControlLight;
+            dataGridViewAlternatingRowsStyle1.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewAlternatingRowsStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewAlternatingRowsStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            dataGridViewAlternatingRowsStyle1.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvSubjects.AlternatingRowsDefaultCellStyle = dataGridViewAlternatingRowsStyle1;
             this.dgvSubjects.BackgroundColor = System.Drawing.Color.White;
             this.dgvSubjects.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvSubjects.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dgvSubjects.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewHeaderStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewHeaderStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewHeaderStyle2.Font = new System.Drawing.Font("Arial Black", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewHeaderStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            dataGridViewHeaderStyle2.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewHeaderStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            dataGridViewHeaderStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSubjects.ColumnHeadersDefaultCellStyle = dataGridViewHeaderStyle2;
+            dataGridViewHeaderStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewHeaderStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewHeaderStyle1.Font = new System.Drawing.Font("Arial Black", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewHeaderStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            dataGridViewHeaderStyle1.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewHeaderStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            dataGridViewHeaderStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSubjects.ColumnHeadersDefaultCellStyle = dataGridViewHeaderStyle1;
             this.dgvSubjects.ColumnHeadersHeight = 40;
             this.dgvSubjects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvSubjects.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.columnId,
             this.columnName});
             this.dgvSubjects.Cursor = System.Windows.Forms.Cursors.Hand;
-            dataGridViewDefaultCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewDefaultCellStyle2.BackColor = System.Drawing.SystemColors.ControlDark;
-            dataGridViewDefaultCellStyle2.Font = new System.Drawing.Font("Arial Black", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewDefaultCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewDefaultCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            dataGridViewDefaultCellStyle2.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewDefaultCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSubjects.DefaultCellStyle = dataGridViewDefaultCellStyle2;
+            dataGridViewDefaultCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewDefaultCellStyle1.BackColor = System.Drawing.SystemColors.ControlDark;
+            dataGridViewDefaultCellStyle1.Font = new System.Drawing.Font("Arial Black", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewDefaultCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewDefaultCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            dataGridViewDefaultCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewDefaultCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSubjects.DefaultCellStyle = dataGridViewDefaultCellStyle1;
             this.dgvSubjects.EnableHeadersVisualStyles = false;
             this.dgvSubjects.Location = new System.Drawing.Point(21, 111);
             this.dgvSubjects.MultiSelect = false;
@@ -154,7 +154,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             this.buttonAsign.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonAsign.FlatAppearance.BorderSize = 0;
             this.buttonAsign.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonAsign.Location = new System.Drawing.Point(397, 59);
+            this.buttonAsign.Location = new System.Drawing.Point(405, 129);
             this.buttonAsign.Name = "buttonAsign";
             this.buttonAsign.Size = new System.Drawing.Size(50, 50);
             this.buttonAsign.TabIndex = 3;

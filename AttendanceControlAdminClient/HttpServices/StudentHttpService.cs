@@ -5,6 +5,7 @@ using Flurl;
 using Flurl.Http;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace AttendanceControlAdminClient.HttpServices
@@ -57,14 +58,22 @@ namespace AttendanceControlAdminClient.HttpServices
 
             catch (FlurlHttpException flurlHttpException)
             {
-                try
-                {
-                    APIError error = await flurlHttpException.GetResponseJsonAsync<APIError>();
+                var status = flurlHttpException.Call.HttpStatus;
 
-                    throw new ServerErrorException(error.Message);
-                }
-                catch (Exception)
+                //El servidor devuelve un 409 con un mensaje de error si se intenta crear 
+                //un profesor cuyo dni ya existe o un 400 si no se validan los datos
+                // 
+                if (status == HttpStatusCode.Conflict || status == HttpStatusCode.BadRequest)
                 {
+                    //Recupero el mensaje de error
+                    string message = await flurlHttpException.GetResponseStringAsync();
+                    throw new ServerErrorException(message);
+                }
+                //Cualquier otro codigo de estado
+                else
+                {
+                    await ServerErrorExceptionHandler.Handle(flurlHttpException);
+
                     throw new ServerErrorException();
                 }
             }

@@ -427,5 +427,8 @@
   <ItemGroup>
     <None Include="Assets\Icons\icono-ausencias.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Icons\icono-confirmacion.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

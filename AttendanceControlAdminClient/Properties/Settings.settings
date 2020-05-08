@@ -9,7 +9,7 @@
       <Value Profile="(Default)">White</Value>
     </Setting>
     <Setting Name="API_URL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://localhost:5001/api/</Value>
+      <Value Profile="(Default)">http://192.168.0.102:5000/api/</Value>
     </Setting>
   </Settings>
 </SettingsFile>

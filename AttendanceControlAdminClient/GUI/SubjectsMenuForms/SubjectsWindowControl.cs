@@ -323,7 +323,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
                             //Ventanita de mensaje de éxito
                             message = string
                                .Format("La asignatura {0} ya no tiene profesor asignado y las" +
-                               "clases han sido cancelada.",
+                               " clases han sido cancelada.",
                                this.selectedSubject.Name);
 
                             new CustomSuccesMessageWindow(message).ShowDialog();

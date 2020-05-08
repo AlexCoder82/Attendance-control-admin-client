@@ -44,6 +44,7 @@ namespace AttendanceControlAdminClient.HttpServices
             }
             catch (FlurlHttpException flurlHttpException)
             {
+                Console.WriteLine("AAAAAAAAAAA" + flurlHttpException.Message);
                 var status = flurlHttpException.Call.HttpStatus;
 
                 //El servidor devuelve un 404 si los las credenciales son erróneas

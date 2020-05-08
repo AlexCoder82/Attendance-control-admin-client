@@ -44,7 +44,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         private void SetTitle()
         {
             string courseName = string.Format("{0}º de {1}", _course.Year, _cycleName);
-            this.groupBoxSubjects.Text = "Añade una asignaturas a " + courseName;
+            this.groupBoxSubjects.Text = "Nueva asignatura de " + courseName;
         }
 
 

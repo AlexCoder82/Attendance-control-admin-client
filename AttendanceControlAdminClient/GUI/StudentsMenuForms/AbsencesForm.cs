@@ -37,20 +37,14 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         /// <param name="e"></param>
         private async void AbsencesForm_Load(object sender, EventArgs e)
         {
+            this.FillData();
             this.SetDataGridViewAbsences();
             this.SetDataGridViewDelays();
             await this.GetStudentAbsences();
-            this.FillData();
-           
+
+            this.PopulateTables();
         }
 
-        /// <summary>
-        ///     Rellena los labels con los datos del alumno y sus ausencias
-        /// </summary>
-        private void SetLabels()
-        {
-           
-        }
 
 
         /// <summary>
@@ -62,6 +56,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             try
             {
                 _absences = await AbsenceHttpService.GetByStudent(_student.Id);
+               
             }
             catch (ServerErrorException ex)
             {
@@ -92,114 +87,19 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             this.dgvAbsences.Rows.Clear();
             // this.dgvDelays.Rows.Clear();      
 
-            _absences.Add(new Absence
-            {
-                Id = 1,
-                Date = DateTime.Now,
-                Type = Enums.AbsenceType.DELAY,
-                Schedule = new Schedule
-                {
-                    Id = 1,
-                    Start = "08h30",
-                    End = "09h25"
-                },
-                Subject = new Subject
-                {
-                    Name = "AAAAAAAA"
-                }
+            
+           
 
-            });
-            _absences.Add(
-            new Absence
-            {
-                Id = 2,
-                Date = DateTime.Now,
-                Type = Enums.AbsenceType.TOTAL,
-                Schedule = new Schedule
-                {
-                    Id = 2,
-                    Start = "09h25",
-                    End = "10h20"
-                },
-                Subject = new Subject
-                {
-                    Name = "DDDDDDDDDDDDDD"
-                }
 
-            });
-            _absences.Add(new Absence
-            {
-                Id = 3,
-                Date = DateTime.Now,
-                Type = Enums.AbsenceType.TOTAL,
-                Schedule = new Schedule
-                {
-                    Id = 1,
-                    Start = "10h20",
-                    End = "11h15"
-                },
-                Subject = new Subject
-                {
-                    Name = "CCCCCCCCCCCCC"
-                }
 
-            });
-            _absences.Add(new Absence
-            {
-                Id = 4,
-                Date = DateTime.Now,
-                Type = Enums.AbsenceType.TOTAL,
-                Schedule = new Schedule
-                {
-                    Id = 1,
-                    Start = "10h20",
-                    End = "11h15"
-                },
-                Subject = new Subject
-                {
-                    Name = "CCCCCCCCCCCCC"
-                },
-                IsExcused = true
+        }
 
-            });
-            _absences.Add(new Absence
-            {
-                Id = 5,
-                Date = DateTime.Now,
-                Type = Enums.AbsenceType.TOTAL,
-                Schedule = new Schedule
-                {
-                    Id = 1,
-                    Start = "10h20",
-                    End = "11h15"
-                },
-                Subject = new Subject
-                {
-                    Name = "CCCCCCCCCCCCC"
-                },
-                IsExcused = true
-
-            });
-            _absences.Add(new Absence
-            {
-                Id = 6,
-                Date = DateTime.Now,
-                Type = Enums.AbsenceType.TOTAL,
-                Schedule = new Schedule
-                {
-                    Id = 1,
-                    Start = "10h20",
-                    End = "11h15"
-                },
-                Subject = new Subject
-                {
-                    Name = "CCCCCCCCCCCCC"
-                }
-
-            });
-
+        private void PopulateTables()
+        {
             if (!(_absences is null) && _absences.Count > 0)
             {
+
+                
                 //ORDENA POR FECHA
                 _absences = _absences.OrderBy(a => a.Date).ThenBy(a => a.Schedule.Start).ToList();
 
@@ -215,8 +115,8 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                         if (_absences[i - 1].Type == Enums.AbsenceType.TOTAL)
                         {
                             absenceCounter++;
-                            
-                            
+
+
                         }
                         else
                         {
@@ -235,7 +135,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                             string date = _absences[i - 1].Date.ToString(cultureInfo.DateTimeFormat.LongDatePattern);
                             date = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(date.ToLower());
                             this.dgvAbsences.Rows.Add(date, absenceCounter, delaysCounter);
-                            if (_absences[i ].IsExcused)
+                            if (_absences[i].IsExcused)
                             {
                                 totalExcused++;
                             }
@@ -253,22 +153,43 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                     {
                         totalExcused++;
                     }
-                    
+
 
 
 
 
                 }
+
+               
                 this.dgvAbsences.Rows[0].Selected = true;
+                this.dgvDetails.Visible = true;
                 _totalExcused = totalExcused;
                 this.labelTotalExcused.Text = _totalExcused.ToString();
-  
+
             }
 
+            if(_absences is null)
+            {
+                for(int i =0; i < 5; i++)
+                {
+                    this.dgvAbsences.Rows.Add();
 
+                    this.dgvDetails.Visible = false;
+                }
+                
+            }
 
+            if(_absences != null && _absences.Count < 3)
+            {
+                for (int i = _absences.Count; i < 3; i++)
+                {
+                    this.dgvAbsences.Rows.Add();
+                    
+                }
+            }
+
+           
         }
-
         /// <summary>
         ///     Establece las medidas de las columnas de la tabla de retrasos
         /// </summary>
@@ -378,7 +299,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                     }
 
                     //Refresco el contado de ausencias justificadas
-                    this.labelExcusedDelays.Text = _totalExcused.ToString();
+                    this.labelTotalExcused.Text = _totalExcused.ToString();
 
                 }
                 catch (ServerErrorException ex)

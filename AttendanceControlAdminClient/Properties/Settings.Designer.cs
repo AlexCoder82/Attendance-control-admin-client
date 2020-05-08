@@ -49,7 +49,7 @@ namespace AttendanceControlAdminClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://localhost:5001/api/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.0.102:5000/api/")]
         public string API_URL {
             get {
                 return ((string)(this["API_URL"]));

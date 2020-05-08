@@ -225,24 +225,33 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                 AssignCourseForm assignCourseForm = new AssignCourseForm(selectedStudent);
                 assignCourseForm.ShowDialog();
 
-                selectedStudent.Course = assignCourseForm.UpdatedStudent.Course;
-                selectedStudent.Subjects = assignCourseForm.UpdatedStudent.Subjects;
-
                 //Si se ha cambiado el curso asignado o simplemente no se ha tocado,
                 //se actualiza la tabla
-                if (selectedStudent.Course != null)
+                if (assignCourseForm.UpdatedStudent != null)
                 {
-                    this.dgvStudents.SelectedRows[0].Cells[3].Value = selectedStudent.Course.Cycle.Name;
-                    this.dgvStudents.SelectedRows[0].Cells[4].Value = selectedStudent.Course.Year;
+                   
 
-                }
-                //Si se ha retirado la asignacion del rcuso
-                else
+                    //Si se ha cambiado el curso asignado 
+                    //se actualiza la tabla
+                    if (assignCourseForm.UpdatedStudent.Course != null)
+                    {
+                        selectedStudent.Course = assignCourseForm.UpdatedStudent.Course;
+                        selectedStudent.Subjects = assignCourseForm.UpdatedStudent.Subjects;
+                        this.dgvStudents.SelectedRows[0].Cells[3].Value = selectedStudent.Course.Cycle.Name;
+                        this.dgvStudents.SelectedRows[0].Cells[4].Value = selectedStudent.Course.Year;
+
+                    }
+                    //Si se ha retirado la asignacion del rcuso
+                    else
                     {
                         this.dgvStudents.SelectedRows[0].Cells[3].Value = "Sin asignar";
                         this.dgvStudents.SelectedRows[0].Cells[4].Value = "-";
-                      
+
                     }
+                }
+                
+
+                
                     
                 
             }

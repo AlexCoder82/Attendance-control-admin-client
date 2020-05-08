@@ -117,7 +117,6 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
             this.labelMessage.Name = "labelMessage";
             this.labelMessage.Size = new System.Drawing.Size(384, 20);
             this.labelMessage.TabIndex = 2;
-            this.labelMessage.Text = "12345 1234567890 1234567890 1234567890 1234567890";
             this.labelMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // CustomSuccesMessageWindow
