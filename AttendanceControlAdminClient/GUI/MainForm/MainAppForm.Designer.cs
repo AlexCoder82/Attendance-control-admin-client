@@ -129,8 +129,8 @@ namespace AttendanceControlAdminClient.GUI.MainForm
             this.panelUp.Controls.Add(this.pictureBox1);
             resources.ApplyResources(this.panelUp, "panelUp");
             this.panelUp.Name = "panelUp";
-            this.panelUp.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelUp_MouseDown);
-            this.panelUp.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelUp_MouseMove);
+            this.panelUp.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelUp_MouseDown);
+            this.panelUp.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PanelUp_MouseMove);
             this.panelUp.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelUp_MouseUp);
             // 
             // customMinimizeButton1

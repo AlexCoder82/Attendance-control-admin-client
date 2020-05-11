@@ -1,6 +1,7 @@
 ﻿using AttendanceControlAdminClient.Exceptions;
 using AttendanceControlAdminClient.Models;
 using AttendanceControlAdminClient.Properties;
+using AttendanceControlAdminClient.Session;
 using Flurl.Http;
 using System;
 using System.Collections.Generic;
@@ -23,50 +24,50 @@ namespace AttendanceControlAdminClient.HttpServices
 
 
         /// <summary>
-        ///     GET /api/cycles
-        ///     Envia al servidor una petición de listado de todos los ciclos,
+        ///     Envia al servidor una petición de listado de todos los ciclos con
         ///     los cursos y asignaturas asociados
         /// </summary>
         /// <returns>
-        ///     Retorna la lista de los ciclos o lanza una excepcion ServerErrorException
         /// </returns>
         public static async Task<List<Cycle>> GetAll()
         {
+
             try
             {
                 string url = _baseUrl + _controllerUrl;
-                List<Cycle> result = await url.WithHeader("Role",SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token)
+                List<Cycle> result = await url
+                    .WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .GetJsonAsync<List<Cycle>>();
+
                 return result;
             }
-            catch (FlurlHttpException flurlHttpException)
+            catch (FlurlHttpException)
             {
-                await ServerErrorExceptionHandler.Handle(flurlHttpException);
-
                 throw new ServerErrorException();
-            }        
+            }
+
         }
 
         /// <summary>
-        ///     POST /api/cycles
-        ///     Envia al servidor un nuevo ciclo formativo 
+        ///     Peticion para crear un nuevo ciclo
         /// </summary>
         /// <param name="cycle"></param>
         /// <returns>
-        ///     Retorna el ciclo creado o lanza una excepcion ServerErrorException
+        ///     Retorna el ciclo creado 
         /// </returns>
         public static async Task<Cycle> Save(Cycle cycle)
         {
+
             try
             {
                 string url = _baseUrl + _controllerUrl;
                 Cycle result = await url
                     .WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token)
+                    .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .PostJsonAsync(cycle)
                     .ReceiveJson<Cycle>();
-               
+
                 return result;
             }
             catch (FlurlHttpException flurlHttpException)
@@ -75,67 +76,56 @@ namespace AttendanceControlAdminClient.HttpServices
 
                 //El servidor devuelve un 409 si se intenta crear 
                 //un ciclo cuyo nombre ya existe o un 400 si no se valida el ciclo
-                // con un mensaje de error
                 if (status == HttpStatusCode.Conflict || status == HttpStatusCode.BadRequest)
                 {
-                    //Recupero el mensaje de error
+                    //Mensaje de error retornado por el servidor
                     string message = await flurlHttpException.GetResponseStringAsync();
                     throw new ServerErrorException(message);
                 }
                 //Cualquier otro codigo de estado
                 else
                 {
-                    await ServerErrorExceptionHandler.Handle(flurlHttpException);
-
                     throw new ServerErrorException();
                 }
             }
+
         }
 
         /// <summary>
-        ///     PUT /api/cycles/{cycleId}
-        ///     Envia al servidor el nuevo nombre de un ciclo 
+        ///     Peticion para modificar un ciclo formativo
         /// </summary>
-        /// <param name="cycleId">
-        ///     El id del ciclo a modificar
-        /// </param>
-        /// <param name="name">
-        ///     El nuevo nombre del ciclo
-        /// </param>
-        /// <returns>
-        ///     Retorna true o lanza una excepcion ServerErrorException
-        /// </returns>
-        public static async Task<bool> Update(Cycle cycle)
+        /// <param name="cycle"></param>
+        /// <returns></returns>
+        public static async Task Update(Cycle cycle)
         {
             try
             {
                 string url = _baseUrl + _controllerUrl;
-                var result = await url.WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token).PutJsonAsync(cycle).ReceiveJson<bool>();
-
-                return result;
+                var result = await url
+                    .WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
+                    .PutJsonAsync(cycle)
+                    .ReceiveJson<bool>();
             }
             catch (FlurlHttpException flurlHttpException)
             {
                 var status = flurlHttpException.Call.HttpStatus;
 
-                //El servidor devuelve un 409 si se intenta crear 
-                //un ciclo cuyo nombre ya existe o un 400 si no se valida el ciclo
-                // con un mensaje de error
+                //EL servidor retorna un 409 si el ciclo tiene un nombre que existe 
+                //o un 400 si no se validan los datos del ciclo
                 if (status == HttpStatusCode.Conflict || status == HttpStatusCode.BadRequest)
                 {
-                    //Recupero el mensaje de error
+                    //Recupera el mensaje de error retornado
                     string message = await flurlHttpException.GetResponseStringAsync();
                     throw new ServerErrorException(message);
                 }
                 //Cualquier otro codigo de estado
                 else
                 {
-                    await ServerErrorExceptionHandler.Handle(flurlHttpException);
-
                     throw new ServerErrorException();
                 }
             }
+
         }
 
     }

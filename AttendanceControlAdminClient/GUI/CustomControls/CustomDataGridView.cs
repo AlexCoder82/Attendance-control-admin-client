@@ -1,22 +1,19 @@
 ﻿using AttendanceControlAdminClient.GUI.Design.DataGridViewStyle;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AttendanceControlAdminClient.GUI.CustomControls
 {
+    /// <summary>
+    ///     DataGridView personalizado
+    /// </summary>
     public class CustomDataGridView : DataGridView
     {
         public CustomDataGridView()
         {
             
-
             this.AllowUserToAddRows = false;
-            this.BackgroundColor = System.Drawing.Color.White;
+            this.BackgroundColor = Color.White;
             this.BorderStyle = BorderStyle.None;
             this.CellBorderStyle = DataGridViewCellBorderStyle.None;
             this.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
@@ -30,7 +27,8 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
             this.ReadOnly = true;
             this.RowHeadersVisible = false;
             this.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.RowTemplate.DefaultCellStyle.Font = new Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RowTemplate.DefaultCellStyle.Font = new Font("Arial", 8.25F, 
+                FontStyle.Bold, GraphicsUnit.Point, ((byte)(0)));
             this.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
             this.RowTemplate.Height = 30;
             this.RowTemplate.Resizable = DataGridViewTriState.False;
@@ -38,6 +36,7 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
             this.ColumnHeadersDefaultCellStyle = new DataGridViewHeaderStyle();
             this.DefaultCellStyle = new DataGridViewDefaultCellStyle();
             this.AlternatingRowsDefaultCellStyle = new DataGridViewAlternatingRowsStyle();
+
         }
     }
 }

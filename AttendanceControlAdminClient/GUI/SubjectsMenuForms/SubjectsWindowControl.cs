@@ -315,7 +315,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
                         try
                         {
                             await SubjectHttpService
-                                       .RemoveTeacherAssignment(this.selectedSubject.Id);
+                                       .RemoveAssignedTeacher(this.selectedSubject.Id);
 
                             this.selectedSubject.Teacher = null;
                             //Actualiza la tabla 

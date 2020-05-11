@@ -1,22 +1,24 @@
 ﻿using AttendanceControlAdminClient.Properties;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace AttendanceControlAdminClient.GUI.CustomControls
 {
+    /// <summary>
+    ///     Boton icono para cerrar las ventanas
+    /// </summary>
     public class CustomCloseButton: PictureBox
     {
        
         public CustomCloseButton()
         {
+
             this.Image = Resources.icono_cerrar30; ;
             this.TabStop = false;
             this.Size = new Size(30, 30);
             this.SizeMode = PictureBoxSizeMode.CenterImage;
+
         }
 
         protected override void OnMouseHover(EventArgs e)
@@ -30,6 +32,10 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
             
         }
 
+        /// <summary>
+        ///     Al pulsar el boton, se cierra la ventana que contiene el boton
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnClick(EventArgs e)
         {
             Form form = (Form)FindFormParent(this.Parent);
@@ -38,11 +44,14 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
 
         /// <summary>
         ///     Método recursivo que busca el primer control padre que sea de tipo Form:
+        ///     Cabe la posibilidad que el padre del boton no sea un forumulario sino
+        ///     otro componente.
         /// </summary>
         /// <param name="parent"></param>
         /// <returns></returns>
         private Control FindFormParent(Control parent)
         {
+
             if (parent is Form)
             {
                 return parent;
@@ -51,6 +60,7 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
             {
                 return FindFormParent(parent.Parent);
             }
+
         }
 
     }

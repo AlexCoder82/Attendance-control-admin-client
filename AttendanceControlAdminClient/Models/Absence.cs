@@ -3,6 +3,9 @@ using System;
 
 namespace AttendanceControlAdminClient.Models
 {
+    /// <summary>
+    ///     Objeto ausencia
+    /// </summary>
     public class Absence
     {
         public int Id { get; set; }

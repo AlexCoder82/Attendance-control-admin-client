@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+
 
 namespace AttendanceControlAdminClient.GUI.CustomControls
 {
+    /// <summary>
+    ///     Ventanita de confirmacion 
+    /// </summary>
     public partial class CustomConfirmDialogForm : CustomDialogForm
     {
         public bool Confirmed { get; set; }
@@ -21,6 +18,11 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
             this.labelMessage.Text = message;
             
         }
+        /// <summary>
+        ///     Establece la posicion del mensajes segun lo largo que es para
+        ///     centrarlo en la ventana, si es necesario se agranda la ventana.
+        /// </summary>
+        /// <param name="message"></param>
         private void SetMessageLocation(string message)
         {
 
@@ -87,17 +89,30 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
                  this.btnCancel.Location.X, 180);
                 this.Height = this.Height + 40;
             }
+
         }
+
+        /// <summary>
+        ///     Evento al pulsar confirmar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonAccept_Click(object sender, EventArgs e)
         {
             Confirmed = true;
             this.Close();
         }
 
+        /// <summary>
+        ///     Evento al pulsar cancelar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonCancel_Click(object sender, EventArgs e)
         {
             Confirmed = false;
             this.Close();
         }
+
     }
 }

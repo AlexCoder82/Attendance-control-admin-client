@@ -14,13 +14,6 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
         private CustomButton btnAccept;
         private CustomLabel lblErrorIcon;
 
-
-        /// <summary>
-        ///     Constructor 
-        /// </summary>
-        /// <param name="message">
-        ///     El mensaje de error a mostrar
-        /// </param>
         public CustomErrorMessageWindow(string message)
         { 
             this.InitializeComponent();
@@ -29,7 +22,11 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
             this.labelMessage.Text = message;
         }
 
-
+        /// <summary>
+        ///     Establece la posicion del mensaje segun lo largo que es para
+        ///     centrarlo en la ventana, si es necesario se agranda la ventana.
+        /// </summary>
+        /// <param name="message"></param>
         private void SetMessageLocation(string message)
         {
 
@@ -85,15 +82,18 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
                     this.btnAccept.Location.X, 180);
                 this.Height = this.Height + 40;
             }
+
         }
 
 
-
+        /// <summary>
+        ///     Crea los componentes
+        /// </summary>
         private void InitializeComponent()
         {
-            this.lblErrorIcon = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
-            this.labelMessage = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
-            this.btnAccept = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
+            this.lblErrorIcon = new CustomLabel();
+            this.labelMessage = new CustomLabel();
+            this.btnAccept = new CustomButton();
             this.SuspendLayout();
             // 
             // lblErrorIcon
@@ -142,11 +142,17 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
             this.ResumeLayout(false);
 
         }
-
-        
+    
+        /// <summary>
+        ///     Evento al pulsar Aceptar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAccept_Click_1(object sender, EventArgs e)
         {
+
             this.Close();
+
         }
     }
 }

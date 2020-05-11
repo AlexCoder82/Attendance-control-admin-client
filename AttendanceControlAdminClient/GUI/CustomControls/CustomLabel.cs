@@ -4,6 +4,9 @@ using System.Windows.Forms;
 
 namespace AttendanceControlAdminClient.GUI.CustomControls
 {
+    /// <summary>
+    ///     Label personalizado
+    /// </summary>
     public class CustomLabel : Label
     {
         public CustomLabel()

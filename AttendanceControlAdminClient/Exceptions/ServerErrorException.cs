@@ -12,7 +12,7 @@ namespace AttendanceControlAdminClient.Exceptions
     public class ServerErrorException : Exception
     {
 
-        private static string Message = "Ocurrió un error: el servidor no responde.";
+        private static readonly string Message = "Ocurrió un error: el servidor no responde.";
 
         /// <summary>
         ///     Constructor usado cuando ocurre un error esperado y se quiere 

@@ -5,6 +5,9 @@ using System.Windows.Forms;
 
 namespace AttendanceControlAdminClient.GUI.CustomControls
 {
+    /// <summary>
+    ///     Ventanita personalizada con mensaje de exito
+    /// </summary>
     public class CustomSuccesMessageWindow : CustomDialogForm
     {
         private CustomLabel lblOkIcon;

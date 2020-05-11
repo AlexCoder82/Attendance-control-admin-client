@@ -1,15 +1,13 @@
 ﻿using AttendanceControlAdminClient.Properties;
-using Microsoft.JScript;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AttendanceControlAdminClient.GUI.CustomControls
 {
+    /// <summary>
+    ///     Boton personalizado para minimizar la ventana
+    /// </summary>
     class CustomMinimizeButton : PictureBox
     {
         public CustomMinimizeButton()
@@ -38,7 +36,8 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
         }
 
         /// <summary>
-        ///     Método recursivo que busca el primer control padre que sea de tipo Form:
+        ///     Método recursivo que busca el primer control 
+        ///     padre que sea de tipo Form
         /// </summary>
         /// <param name="parent"></param>
         /// <returns></returns>

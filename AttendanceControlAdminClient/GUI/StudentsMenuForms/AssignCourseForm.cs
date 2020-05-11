@@ -163,7 +163,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                     int id = (int)this.dgvCourses.SelectedRows[0].Cells[0].Value;
                     //El cliente http retornado un objeto alumno con el curso actualizado
                     Student student = await StudentHttpService
-                        .UpdateCourse(_student.Id, id);
+                        .AssignCourse(_student.Id, id);
 
                     //Ventanita con mensaje de exito
                     string message = string

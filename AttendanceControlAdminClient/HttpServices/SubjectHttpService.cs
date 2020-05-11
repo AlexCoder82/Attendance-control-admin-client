@@ -1,6 +1,7 @@
 ﻿using AttendanceControlAdminClient.Exceptions;
 using AttendanceControlAdminClient.Models;
 using AttendanceControlAdminClient.Properties;
+using AttendanceControlAdminClient.Session;
 using Flurl;
 using Flurl.Http;
 using System.Collections.Generic;
@@ -9,14 +10,18 @@ using System.Threading.Tasks;
 
 namespace AttendanceControlAdminClient.HttpServices
 {
+    /// <summary>
+    ///     Peticiones relacionadas con las asignaturas
+    /// </summary>
     public class SubjectHttpService
     {
+
         private static readonly string _baseUrl = Settings.Default.API_URL;
 
-        /// GET /api/subjects
-        /// <summary>
-        ///     Envia al servidor una petición de listado de todas las asignaturas,
-        ///     y los profesores asociados
+
+        ///<summary>
+        ///     Petición de listado de todas las asignaturas con
+        ///     el profesor asociado
         /// </summary>
         /// <returns>
         ///     Retorna la lista de las asignaturas
@@ -28,28 +33,25 @@ namespace AttendanceControlAdminClient.HttpServices
             {
                 List<Subject> result = await _baseUrl
                     .WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token)
+                    .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/subjects")
                     .GetJsonAsync<List<Subject>>();
 
                 return result;
             }
-            catch (FlurlHttpException flurlHttpException)
+            catch (FlurlHttpException)
             {
-                await ServerErrorExceptionHandler.Handle(flurlHttpException);
-
                 throw new ServerErrorException();
             }
 
         }
 
-        // GET /api/subjects/courses/{courseId}
         /// <summary>
-        ///     Recibe del servidor la lista de asignturas de un curso
+        ///     Peticion de la lista de asignaturas de un curso
         /// </summary>
         /// <param name="courseId"></param>
         /// <returns>
-        ///     Retorna la lista de asignatura
+        ///     Retorna la lista de asignaturas
         /// </returns>
         public static async Task<List<Subject>> GetByCourse(int courseId)
         {
@@ -58,25 +60,22 @@ namespace AttendanceControlAdminClient.HttpServices
             {
                 List<Subject> result = await _baseUrl
                     .WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token)
+                    .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/subjects/courses/" + courseId)
                     .GetJsonAsync<List<Subject>>();
 
                 return result;
             }
 
-            catch (FlurlHttpException flurlHttpException)
+            catch (FlurlHttpException)
             {
-                await ServerErrorExceptionHandler.Handle(flurlHttpException);
-
                 throw new ServerErrorException();
             }
 
         }
 
-        //  POST /api/subjects
         /// <summary>
-        ///     Envia al servidor una nueva asignatura para guardarla
+        ///     Peticion para crear una nueva asignatura 
         /// </summary>
         /// <param name="subject"></param>
         /// <returns>
@@ -89,7 +88,7 @@ namespace AttendanceControlAdminClient.HttpServices
             {
                 Subject result = await _baseUrl
                     .WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token)
+                    .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/subjects")
                     .PostJsonAsync(subject)
                     .ReceiveJson<Subject>();
@@ -102,7 +101,6 @@ namespace AttendanceControlAdminClient.HttpServices
 
                 //El servidor devuelve un 409 si se intenta crear 
                 //una asignatura cuyo nombre ya existe o un 400 si no se valida la asignatura
-                // con un mensaje de error
                 if (status == HttpStatusCode.Conflict || status == HttpStatusCode.BadRequest)
                 {
                     //Recupero el mensaje de error
@@ -112,8 +110,6 @@ namespace AttendanceControlAdminClient.HttpServices
                 //Cualquier otro codigo de estado
                 else
                 {
-                    await ServerErrorExceptionHandler.Handle(flurlHttpException);
-
                     throw new ServerErrorException();
                 }
 
@@ -121,9 +117,8 @@ namespace AttendanceControlAdminClient.HttpServices
 
         }
 
-        //  PUT /api/subjects
         /// <summary>
-        ///     Envia al servidor una asignatura modificada
+        ///     Peticion para modificar una asignatura
         /// </summary>
         /// <param name="subject"></param>
         /// <returns>
@@ -134,9 +129,12 @@ namespace AttendanceControlAdminClient.HttpServices
 
             try
             {
-                Subject result = await _baseUrl.WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token).AppendPathSegment("/subjects")
-                   .PutJsonAsync(subject).ReceiveJson<Subject>();
+                Subject result = await _baseUrl
+                    .WithHeader("Role", SessionService.Role)
+                    .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
+                    .AppendPathSegment("/subjects")
+                    .PutJsonAsync(subject)
+                    .ReceiveJson<Subject>();
 
                 return result;
             }
@@ -145,7 +143,8 @@ namespace AttendanceControlAdminClient.HttpServices
                 var status = flurlHttpException.Call.HttpStatus;
 
                 //El servidor devuelve un 409 con un mensaje de error si se intenta modificar 
-                //una asignatura cuyo nuevo nombre ya existe o un 400 si no se valida la asignatura
+                //una asignatura dandole un nombre aue ya existe 
+                //o un 400 si no se valida la asignatura
                 if (status == HttpStatusCode.Conflict || status == HttpStatusCode.BadRequest)
                 {
                     //Recupero el mensaje de error
@@ -155,17 +154,14 @@ namespace AttendanceControlAdminClient.HttpServices
                 //Cualquier otro codigo de estado
                 else
                 {
-                    await ServerErrorExceptionHandler.Handle(flurlHttpException);
-
                     throw new ServerErrorException();
                 }
             }
 
         }
 
-        // PUT /api/subjects/{subjectId}/teachers/{teacherId}
         /// <summary>    
-        ///     Envia al servidor el id de la asignatura y el id del nuevo profesor asignado
+        ///     Peticion para asignar un profesor a una asignatura
         /// </summary>
         /// <returns>
         ///     Retorna la asignatura actualizada 
@@ -185,22 +181,20 @@ namespace AttendanceControlAdminClient.HttpServices
 
                 return result;
             }
-            catch (FlurlHttpException flurlHttpException)
+            catch (FlurlHttpException)
             {
-                await ServerErrorExceptionHandler.Handle(flurlHttpException);
-
                 throw new ServerErrorException();
             }
 
         }
 
-        // PUT /api/subjects/{subjectId}/teachers
+
         /// <summary>
-        ///     
+        ///     Peticion para retirar la asignacion de profesor a una asignatura
         /// </summary>
         /// <param name="subjectId"></param>
         /// <returns></returns>
-        public static async Task<bool> RemoveTeacherAssignment(int subjectId)
+        public static async Task<bool> RemoveAssignedTeacher(int subjectId)
         {
 
             try
@@ -208,19 +202,16 @@ namespace AttendanceControlAdminClient.HttpServices
                 string url = "/subjects/" + subjectId + "/teachers";
                 var result = await _baseUrl
                     .WithHeader("Role", SessionService.Role)
-                    .WithOAuthBearerToken(SessionService.Token)
+                    .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment(url)
                     .PutAsync(null)
                     .ReceiveJson<bool>();
 
                 return result;
             }
-            catch (FlurlHttpException flurlHttpException)
+            catch (FlurlHttpException)
             {
-                await ServerErrorExceptionHandler.Handle(flurlHttpException);
-
                 throw new ServerErrorException();
-
             }
 
         }

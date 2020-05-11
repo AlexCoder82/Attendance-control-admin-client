@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace AttendanceControlAdminClient.Models
 {
+    /// <summary>
+    ///     Objeto ciclo formativo
+    /// </summary>
     public class Cycle
     {
         public int Id { get; set; }

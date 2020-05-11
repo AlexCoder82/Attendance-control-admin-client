@@ -137,7 +137,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                 {
                     //El cliente http retorna un alumno actualizado
                     Student student = await StudentHttpService
-                        .UpdateSubjects(_student.Id, subjectIds.ToArray());
+                        .AssignSubjects(_student.Id, subjectIds.ToArray());
 
                     string message = string
                         .Format("Has actualizado las asignaturas cursadas por el alumno {0}",

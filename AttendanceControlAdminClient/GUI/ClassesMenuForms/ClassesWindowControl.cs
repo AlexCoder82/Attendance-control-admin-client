@@ -382,7 +382,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
                             int id = schoolClass.Id;
 
                             //Envia al cliente http el id de la clase para cancelarla
-                            var res = await SchoolClassHttpService.Cancel(id);
+                            await SchoolClassHttpService.Cancel(id);
 
                             //Ventanita de exito con aviso
                             message = "La clase ha sido cancelada, recuerda que si " +

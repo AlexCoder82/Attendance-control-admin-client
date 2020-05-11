@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace AttendanceControlAdminClient.Models
 {
+    /// <summary>
+    ///     Objeto que contiene los datos retornados por el servidor cuando
+    ///     el administrador se conecta al sistema
+    /// </summary>
     public class SignInResponse
     {
         public  string Token { get; set; }
-        public  string Role { get; set; }
-
-        public  string Auth
-        {
-            get => "Bearer " + Token;
-        }
+        public  string Role { get; set; }      
     }
 }

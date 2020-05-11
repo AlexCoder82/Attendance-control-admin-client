@@ -5,6 +5,9 @@ using System.Windows.Forms;
 
 namespace AttendanceControlAdminClient.GUI.CustomControls
 {
+    /// <summary>
+    ///     Combobox personalizado
+    /// </summary>
     public class CustomComboBox : ComboBox
     {
         private const int WM_PAINT = 0xF;
@@ -12,32 +15,18 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
 
         public CustomComboBox()
         {
+
             this.ForeColor = Settings.Default.OPTIMA_COLOR;
             this.Font = new Font("Arial", 8, FontStyle.Bold);
             this.Height = 20;
             this.DropDownStyle = ComboBoxStyle.DropDownList;
-          //  this.DrawItem += new DrawItemEventHandler(AdvancedComboBox_DrawItem);
-
+     
         }
-        //void AdvancedComboBox_DrawItem(object sender, DrawItemEventArgs e)
-        //{
-        //    if (e.Index < 0)
-        //        return;
-
-        //    ComboBox combo = sender as ComboBox;
-        //    if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
-        //        e.Graphics.FillRectangle(new SolidBrush(Settings.Default.OPTIMA_COLOR),
-        //                                 e.Bounds);
-        //    else
-        //        e.Graphics.FillRectangle(new SolidBrush(Settings.Default.OPTIMA_COLOR),
-        //                                 e.Bounds);
-
-        //    e.Graphics.DrawString(combo.Items[e.Index].ToString(), e.Font,
-        //                          new SolidBrush(Settings.Default.OPTIMA_COLOR),
-        //                          new Point(e.Bounds.X, e.Bounds.Y));
-
-        //    e.DrawFocusRectangle();
-        //}
+       
+        /// <summary>
+        ///     Establece el estilo del combobox
+        /// </summary>
+        /// <param name="m"></param>
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);
@@ -53,9 +42,13 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
             }
         }
 
-
+        /// <summary>
+        ///   Color del fondo al desplegar la lista
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnDropDownClosed(EventArgs e)
         {
+
             this.BackColor = Settings.Default.OPTIMA_COLOR;
 
         }

@@ -1,15 +1,13 @@
-﻿using AttendanceControlAdminClient.Properties;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AttendanceControlAdminClient.GUI.CustomControls
 {
+    /// <summary>
+    ///     Estilo de icono circular personalizado
+    /// </summary>
     class CustomCircularButton : Button
     {
         private Point defaultLocation;
@@ -21,13 +19,16 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
             this.FlatAppearance.BorderSize = 0;
         }
 
+        /// <summary>
+        ///     Dibuja un icono circular con la imagen de fondo
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            
 
             GraphicsPath graphicsPath = new GraphicsPath();
             graphicsPath.AddEllipse(0, 0, ClientSize.Width, ClientSize.Height);
-            this.Region = new System.Drawing.Region(graphicsPath);
+            this.Region = new Region(graphicsPath);
             this.Text = string.Empty;
 
 
@@ -35,23 +36,36 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
                 this.defaultLocation = this.Location;
 
             this.BackgroundImageLayout = ImageLayout.Stretch;
+
             if (BackgroundImage != null)
                 e.Graphics.DrawImage(BackgroundImage, 0, 0, Width, Height);
+
             base.OnPaint(e);
+
         }
 
+        /// <summary>
+        ///     Efecto que hace crecer el icono cuando se pone el raton
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseHover(EventArgs e)
         {
+
             this.Size = new Size(54, 54);
             this.Location = new Point(this.defaultLocation.X - 2, this.defaultLocation.Y - 2);
-            // this.BackgroundImage = (Image)(new Bitmap(this.defaultImage, new Size(34, 34)));
+          
         }
 
+        /// <summary>
+        ///     El icono vuelve a su tamaño normal cuando se quita el raton
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseLeave(EventArgs e)
         {
+
             this.Size = new Size(50, 50);
-            // this.BackgroundImage = defaultImage;
             this.Location = this.defaultLocation;
+
         }
 
     }
