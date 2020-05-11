@@ -8,15 +8,34 @@ using System.Drawing;
 
 namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
 {
+    /// <summary>
+    ///     Formulario de modificacion de los datos personales de un alumno
+    /// </summary>
     public partial class ModifyStudentForm : CustomDialogForm
     {
+
+        public delegate void OnStudentUpdateCallBack(Student student);
+        public OnStudentUpdateCallBack OnStudentUpdatedDelegate;
+
         public Student _student; //estudiante a modificar
-        public Student UpdatedStudent { get; set; }//Alumno creado
+ 
 
         public ModifyStudentForm(Student student)
         {
             _student = student;
             InitializeComponent();
+        }
+
+        /// <summary>
+        ///     Evento Load del formulario
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ModifyStudentForm_Load(object sender, EventArgs e)
+        {
+
+            this.SetTextBoxes();
+
         }
 
         /// <summary>
@@ -60,14 +79,15 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
 
                 try
                 {
-                    this.UpdatedStudent = await StudentHttpService.Update(student);
+                    student = await StudentHttpService.Update(student);
                     //Ventanita con mensaje de éxito
                     string message = string
                         .Format("Has actualizado los datos personales del alumno {0}.",
-                        this.UpdatedStudent.FullName);
+                        student.FullName);
                     new CustomSuccesMessageWindow(message).ShowDialog();
-
                     this.Close();
+
+                    this.OnStudentUpdatedDelegate(student);
 
                 }
                 catch (ServerErrorException ex)
@@ -99,9 +119,11 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         /// </summary>
         private void ResetAsterisks()
         {
+
             this.lblDniAsterisk.ForeColor = Color.Black;
             this.lblFirstNameAsterisk.ForeColor = Color.Black;
             this.lblLastNameAsterisk.ForeColor = Color.Black;
+
         }
 
 
@@ -112,19 +134,10 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         /// <param name="e"></param>
         private void ButtonCancel_Click(object sender, EventArgs e)
         {
-            this.UpdatedStudent = null;
-            this.Close();
-        }
 
-        /// <summary>
-        ///     Evento al cargar este formulario
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ModifyStudentForm_Load(object sender, EventArgs e)
-        {
-            this.SetTextBoxes();
-        }
+            this.Close();
+
+        }    
 
     }
 }

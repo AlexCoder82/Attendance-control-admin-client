@@ -37,15 +37,15 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.LabelDni = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.LabelLastNameAsterisk = new System.Windows.Forms.Label();
+            this.LabelLastName2 = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
+            this.LabelLastName1 = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
+            this.LabelFirstName = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
             this.LabelFirstNameAsterisk = new System.Windows.Forms.Label();
             this.LabelDniAsterisk = new System.Windows.Forms.Label();
             this.tbLastName2 = new AttendanceControlAdminClient.GUI.CustomControls.CustomTextBox();
             this.tbLastName1 = new AttendanceControlAdminClient.GUI.CustomControls.CustomTextBox();
             this.tbFirstName = new AttendanceControlAdminClient.GUI.CustomControls.CustomTextBox();
             this.tbDni = new AttendanceControlAdminClient.GUI.CustomControls.CustomTextBox();
-            this.LabelLastName2 = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
-            this.LabelLastName1 = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
-            this.LabelFirstName = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -103,8 +103,8 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.groupBox.Controls.Add(this.tbLastName1);
             this.groupBox.Controls.Add(this.tbFirstName);
             this.groupBox.Controls.Add(this.tbDni);
-            this.groupBox.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox.ForeColor = global::AttendanceControlAdminClient.Properties.Settings.Default.OPTIMA_COLOR;
+            this.groupBox.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox.ForeColor = System.Drawing.Color.Black;
             this.groupBox.Location = new System.Drawing.Point(21, 22);
             this.groupBox.Name = "groupBox";
             this.groupBox.Size = new System.Drawing.Size(428, 315);
@@ -122,6 +122,39 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.LabelLastNameAsterisk.Size = new System.Drawing.Size(17, 22);
             this.LabelLastNameAsterisk.TabIndex = 15;
             this.LabelLastNameAsterisk.Text = "*";
+            // 
+            // LabelLastName2
+            // 
+            this.LabelLastName2.AutoSize = true;
+            this.LabelLastName2.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.LabelLastName2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            this.LabelLastName2.Location = new System.Drawing.Point(28, 180);
+            this.LabelLastName2.Name = "LabelLastName2";
+            this.LabelLastName2.Size = new System.Drawing.Size(135, 16);
+            this.LabelLastName2.TabIndex = 8;
+            this.LabelLastName2.Text = "Segundo apellido:";
+            // 
+            // LabelLastName1
+            // 
+            this.LabelLastName1.AutoSize = true;
+            this.LabelLastName1.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.LabelLastName1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            this.LabelLastName1.Location = new System.Drawing.Point(28, 140);
+            this.LabelLastName1.Name = "LabelLastName1";
+            this.LabelLastName1.Size = new System.Drawing.Size(118, 16);
+            this.LabelLastName1.TabIndex = 7;
+            this.LabelLastName1.Text = "Primer apellido:";
+            // 
+            // LabelFirstName
+            // 
+            this.LabelFirstName.AutoSize = true;
+            this.LabelFirstName.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.LabelFirstName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            this.LabelFirstName.Location = new System.Drawing.Point(28, 100);
+            this.LabelFirstName.Name = "LabelFirstName";
+            this.LabelFirstName.Size = new System.Drawing.Size(67, 16);
+            this.LabelFirstName.TabIndex = 6;
+            this.LabelFirstName.Text = "Nombre:";
             // 
             // LabelFirstNameAsterisk
             // 
@@ -180,39 +213,6 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.tbDni.Name = "tbDni";
             this.tbDni.Size = new System.Drawing.Size(97, 20);
             this.tbDni.TabIndex = 9;
-            // 
-            // LabelLastName2
-            // 
-            this.LabelLastName2.AutoSize = true;
-            this.LabelLastName2.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.LabelLastName2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelLastName2.Location = new System.Drawing.Point(28, 180);
-            this.LabelLastName2.Name = "LabelLastName2";
-            this.LabelLastName2.Size = new System.Drawing.Size(135, 16);
-            this.LabelLastName2.TabIndex = 8;
-            this.LabelLastName2.Text = "Segundo apellido:";
-            // 
-            // LabelLastName1
-            // 
-            this.LabelLastName1.AutoSize = true;
-            this.LabelLastName1.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.LabelLastName1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelLastName1.Location = new System.Drawing.Point(28, 140);
-            this.LabelLastName1.Name = "LabelLastName1";
-            this.LabelLastName1.Size = new System.Drawing.Size(118, 16);
-            this.LabelLastName1.TabIndex = 7;
-            this.LabelLastName1.Text = "Primer apellido:";
-            // 
-            // LabelFirstName
-            // 
-            this.LabelFirstName.AutoSize = true;
-            this.LabelFirstName.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.LabelFirstName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelFirstName.Location = new System.Drawing.Point(28, 100);
-            this.LabelFirstName.Name = "LabelFirstName";
-            this.LabelFirstName.Size = new System.Drawing.Size(67, 16);
-            this.LabelFirstName.TabIndex = 6;
-            this.LabelFirstName.Text = "Nombre:";
             // 
             // CreateTeacherForm
             // 

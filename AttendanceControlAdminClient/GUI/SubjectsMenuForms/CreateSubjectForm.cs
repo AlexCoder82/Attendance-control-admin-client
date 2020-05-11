@@ -8,11 +8,15 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
 {
     public partial class CreateSubjectForm : CustomDialogForm
     {
-        public Subject CreatedSubject { get; set; }//La asignatura creada
+        //Callback con la nueva asignatura creada
+        public delegate void OnCreatedSubjectCallBack(Subject subject);
+        public OnCreatedSubjectCallBack OnCreatedSubjectDelegate;
 
         public CreateSubjectForm()
         {
+
             InitializeComponent();
+
         }
 
         /// <summary>
@@ -34,12 +38,17 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
 
                 try
                 {
-                    this.CreatedSubject = await SubjectHttpService.Save(subject);
+                    //La asignatura pasa a ser la asignatura retornada por el cliente http
+                    subject = await SubjectHttpService.Save(subject);
 
                     string message = string
-                        .Format("Has registrado la asignatura {0}.",CreatedSubject.Name);
+                        .Format("Has registrado la asignatura {0}.", subject.Name);
+
                     new CustomSuccesMessageWindow(message).ShowDialog();
                     this.Close();
+
+                    this.OnCreatedSubjectDelegate(subject);//Respuesta
+
                 }
                 catch (ServerErrorException ex)
                 {
@@ -50,14 +59,15 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         }
 
         /// <summary>
-        ///     Botón al pulsar cancelar
+        ///     Evento al pulsar cancelar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            this.CreatedSubject = null;
+    
             this.Close();
+
         }
 
     }

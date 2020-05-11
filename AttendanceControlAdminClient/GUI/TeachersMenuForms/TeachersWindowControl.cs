@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AttendanceControlAdminClient.Models;
@@ -12,11 +9,17 @@ using AttendanceControlAdminClient.HttpServices;
 using AttendanceControlAdminClient.Exceptions;
 using AttendanceControlAdminClient.GUI.CustomControls;
 
+
 namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
 {
+    /// <summary>
+    ///     Menu profesores
+    /// </summary>
     public partial class TeachersWindowControl : UserControl
     {
-        private List<Teacher> _teachers;
+
+        private List<Teacher> teachers;//Lista de profesores
+        private Teacher selectedTeacher;//El profesor seleccionado
 
         public TeachersWindowControl()
         {
@@ -24,7 +27,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         }
 
         /// <summary>
-        ///     Evento al cargar este formulario
+        ///     Evento Load del formulario
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -38,6 +41,9 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
 
         }
 
+        /// <summary>
+        ///     Establece los tooltips de los iconos
+        /// </summary>
         private void SetToolTips()
         {
 
@@ -46,19 +52,27 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             toolTip.SetToolTip(this.buttonModify, "Modificar datos personales");
 
         }
+
         /// <summary>
-        ///     Establece medidas y opciones de la tabla de profesores
+        ///     Establece medidas de la tabla de profesores
         /// </summary>
         private void SetDataGridViewTeachers()
         {
-            this.dgvTeachers.Columns[1].Width = 100;
+
+            this.dgvTeachers.Columns[1].Width = 150;
             this.dgvTeachers.Columns[1].Resizable = DataGridViewTriState.False;
-            this.dgvTeachers.Columns[2].Width = 200;
-            this.dgvTeachers.Columns[2].Resizable = DataGridViewTriState.False;
-            this.dgvTeachers.Columns[2].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.dgvTeachers.Columns[3].AutoSizeMode =
+            this.dgvTeachers.Columns[1].HeaderCell.Style.Alignment =
+               DataGridViewContentAlignment.MiddleLeft;
+
+            this.dgvTeachers.Columns[2].AutoSizeMode =
                 DataGridViewAutoSizeColumnMode.Fill;
-            this.dgvTeachers.Columns[3].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.dgvTeachers.Columns[2].HeaderCell.Style.Alignment =
+                DataGridViewContentAlignment.MiddleLeft;
+            this.dgvTeachers.Columns[3].Width = 200;
+            this.dgvTeachers.Columns[3].Resizable = DataGridViewTriState.False;
+            this.dgvTeachers.Columns[3].HeaderCell.Style.Alignment =
+                DataGridViewContentAlignment.MiddleLeft;
+
         }
 
         /// <summary>
@@ -67,9 +81,10 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         /// <returns></returns>
         private async Task GetAllTeachers()
         {
+
             try
             {
-                this._teachers = await TeacherHttpService.GetAll();
+                this.teachers = await TeacherHttpService.GetAll();
             }
             catch (ServerErrorException ex)
             {
@@ -85,22 +100,23 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         /// <param name="lastName"></param>
         private void PopulateDataGridViewTeachers(string lastName)
         {
+
             this.dgvTeachers.Rows.Clear();
             int totalTableTeachers = 0;
-            
+
             lastName = lastName.TrimStart();
             int length = lastName.Length;
 
-            if (!(_teachers is null) && _teachers.Count > 0)
+            if (!(teachers is null) && teachers.Count > 0)
             {
-                _teachers.ForEach(t =>
+                teachers.ForEach(t =>
                 {
                     if (t.LastName1.Length >= length && lastName
                         .Equals(t.LastName1.Substring(0, length),
                         StringComparison.InvariantCultureIgnoreCase))
                     {
-                        this.dgvTeachers.Rows.Add(t.Id, t.Dni, t.FirstName,
-                            t.LastName1 + " " + t.LastName2);
+                        this.dgvTeachers.Rows.Add(t.Id, t.Dni,
+                            t.LastName1 + " " + t.LastName2, t.FirstName);
 
                         //Se suma un profesor en la tabla
                         totalTableTeachers++;
@@ -109,9 +125,8 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
                 });
             }
 
-
             //Si no hay profesores, se crea 5 registros vacios
-            if ((_teachers is null) )
+            if ((teachers is null))
             {
                 for (int i = 0; i < 7; i++)
                 {
@@ -119,14 +134,13 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
                 }
             }
             //Se rellena el resto de la tabla
-            if ((_teachers != null) || totalTableTeachers < 7)
+            if ((teachers != null) || totalTableTeachers < 7)
             {
                 for (int i = totalTableTeachers; i < 7; i++)
                 {
                     this.dgvTeachers.Rows.Add();
                 }
             }
-
 
         }
 
@@ -138,54 +152,59 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         /// <param name="e"></param>
         private void ButtonCreate_Click(object sender, EventArgs e)
         {
+
             //Instancia el formulario de alta de profesor
-            CreateTeacherForm ctForm = new CreateTeacherForm();
-            ctForm.ShowDialog();
+            CreateTeacherForm form = new CreateTeacherForm();
+            form.OnTeacherCreatedDelegate += OnTeacherCreatedCallBack;
+            form.ShowDialog();
 
-            //Al cerrarse el formulario, se recupera el profesor creado
-            Teacher createdTeacher = ctForm.CreatedTeacher;
-
-            //Si existe
-            if (!(createdTeacher is null))
-            {
-                //Se agrega a la lista
-                _teachers.Add(createdTeacher);
-                //Ordena la lista
-                _teachers = _teachers
-                    .OrderBy(s => s.FirstName).ToList();
-                //Escribe el apellido del nuevo profesor en el textbox
-                //para disparar el evento y asi aparezca el registro en la tabla
-                this.tbLastName.Text = createdTeacher.LastName1;
-
-                this.SetDataGridViewTeachersSelectedRow(createdTeacher.Id);
-            }
         }
 
         /// <summary>
-        ///     Selecciona en la tabla el profesor 
-        ///     con el id pasado por parametro y centra el scroll
-        ///     en el registro
+        ///         Callback con el profesor creado
         /// </summary>
-        /// <param name="teacherId"></param>
-        private void SetDataGridViewTeachersSelectedRow(int teacherId)
+        /// <param name="teacher"></param>
+        private void OnTeacherCreatedCallBack(Teacher teacher)
         {
-            try
-            {
-                //Recupero el registro de la asignatura
-                DataGridViewRow row = this.dgvTeachers.Rows
+            //Se agrega a la lista
+            teachers.Add(teacher);
+            //Ordena la lista
+            teachers = teachers
+                .OrderBy(s => s.FirstName).ToList();
+            //Escribe el apellido del nuevo profesor en el textbox
+            //para disparar el evento y asi aparezca el registro en la tabla
+            this.tbLastName.Text = "";
+            this.SortTable();
+            this.SelectLastCreatedTeacher(teacher.Id);
+
+        }
+
+        /// <summary>
+        ///     Ordena la tabla de profesores por apellidos 
+        /// </summary>
+        private void SortTable()
+        {
+
+            this.teachers = this.teachers.OrderBy(t => t.LastName1).ToList();
+            this.PopulateDataGridViewTeachers("");
+
+        }
+
+        /// <summary>
+        ///     Al crear un nuevo ciclo, lo selecciona automaticamente en la tabla
+        /// </summary>
+        /// <param name="cycleId"></param>
+        private void SelectLastCreatedTeacher(int teacherId)
+        {
+
+            DataGridViewRow row = dgvTeachers.Rows
                 .Cast<DataGridViewRow>()
-                     .FirstOrDefault(r => r.Cells[0].Value.ToString()
-                     .Equals(teacherId.ToString()));
+                .Where(r => ((int)(r.Cells[0].Value)).Equals(teacherId))
+                .First();
 
-                int index = row.Index;
-                this.dgvTeachers.Rows[index].Selected = true;
-                this.dgvTeachers.FirstDisplayedScrollingRowIndex =
-                    this.dgvTeachers.SelectedRows[0].Index;
-            }
-            catch (Exception ex)
-            {
-
-            }
+            this.dgvTeachers.ClearSelection();
+            this.dgvTeachers.Rows[row.Index].Selected = true; ;
+            this.dgvTeachers.FirstDisplayedScrollingRowIndex = dgvTeachers.SelectedRows[0].Index;
         }
 
 
@@ -205,38 +224,41 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
                         .ToString());
 
                 //Recupera el profesor
-                Teacher teacher = this._teachers
-                    .FirstOrDefault(c => c.Id == selectedId);
+                this.selectedTeacher = this.teachers
+                    .FirstOrDefault(t => t.Id == selectedId);
 
                 //Instancia el formulario de modificacion de los datos del profesor
-                ModifyTeacherForm modifyTeacherForm = new ModifyTeacherForm(teacher);
-                modifyTeacherForm.ShowDialog();
-
-                // Al cerrarse la ventana, se recupera el profesor actualizado
-                Teacher updatedTeacher = modifyTeacherForm.UpdatedTeacher;
-
-                //Si existe
-                if (!(updatedTeacher is null))
-                {
-                    //El profesor original pasa a ser el profesor actualizado
-                    teacher = updatedTeacher;
-                    //Actualiza el registro de la tabla
-                    this.dgvTeachers.SelectedRows[0].Cells[1].Value = teacher.Dni;
-                    this.dgvTeachers.SelectedRows[0].Cells[2].Value = teacher.FirstName;
-                    this.dgvTeachers.SelectedRows[0].Cells[3].Value = teacher.LastName1 
-                        + " " + teacher.LastName2;
-
-                }
+                ModifyTeacherForm form = new ModifyTeacherForm(this.selectedTeacher);
+                form.OnTeacherUpdatedDelegate += OnTeacherUpdatedCallBack;
+                form.ShowDialog();
             }
-
             else
             {
                 new CustomErrorMessageWindow("Debes seleccionar un profesor antes.")
                     .ShowDialog();
             }
+
         }
 
-        
+        /// <summary>
+        ///     Callback con el profesor actualizado
+        /// </summary>
+        /// <param name="teacher"></param>
+        private void OnTeacherUpdatedCallBack(Teacher teacher)
+        {
+
+            //El profesor original pasa a ser el profesor actualizado
+            this.selectedTeacher.Id = teacher.Id;
+            this.selectedTeacher.FirstName = teacher.FirstName;
+            this.selectedTeacher.LastName1 = teacher.LastName1;
+            this.selectedTeacher.LastName2 = teacher.LastName2;
+
+            this.tbLastName.Text = teacher.LastName1;
+            this.SortTable();
+
+        }
+
+
 
         /// <summary>
         ///     Evento al modificar el textbox:
@@ -244,9 +266,11 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void tbLastName_TextChanged(object sender, EventArgs e)
+        private void TbLastName_TextChanged(object sender, EventArgs e)
         {
+
             this.PopulateDataGridViewTeachers(this.tbLastName.Text);
+
         }
 
     }

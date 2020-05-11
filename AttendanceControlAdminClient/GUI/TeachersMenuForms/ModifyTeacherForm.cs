@@ -8,31 +8,39 @@ using System.Drawing;
 
 namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
 {
+    /// <summary>
+    ///     Formulario de modificacion de los datos de un profesor
+    /// </summary>
     public partial class ModifyTeacherForm : CustomDialogForm
     {
-        private Teacher _teacher; //Copia del profesor a modificar
-        public Teacher UpdatedTeacher { get; set; }//El profesor modificado
+        public delegate void OnTeacherUpdatedCallBack(Teacher teacher);
+        public OnTeacherUpdatedCallBack OnTeacherUpdatedDelegate;
+
+        private readonly int teacherId;
+
         public ModifyTeacherForm(Teacher teacher)
         {
-            _teacher = new Teacher();
-            _teacher = teacher;
+            this.teacherId = teacher.Id;
             InitializeComponent();
+            this.PopulateTextBoxes(teacher);
         }
 
         /// <summary>
         ///     Rellena los textbox con los datos del profesor
         /// </summary>
-        private void PopulateTextBoxes()
+        private void PopulateTextBoxes(Teacher teacher)
         {
-            this.tbDni.Text = _teacher.Dni;
-            this.tbFirstName.Text = _teacher.FirstName;
-            this.tbLastName1.Text = _teacher.LastName1;
-            this.tbLastName2.Text = _teacher.LastName2;
+
+            this.tbDni.Text = teacher.Dni;
+            this.tbFirstName.Text = teacher.FirstName;
+            this.tbLastName1.Text = teacher.LastName1;
+            this.tbLastName2.Text = teacher.LastName2;
+
         }
 
         /// <summary>
         ///     Evento al pulsar Guardar cambios:
-        ///     Se modifica la copia del profesor con los nuevos datos
+        ///     Se crea un profesor con los nuevos datos
         ///     introducidos y se envia al cliente http, el cuál retorna
         ///     el profesor actualizado
         /// </summary>
@@ -40,6 +48,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         /// <param name="e"></param>
         private async void ButtonCreateTeacher_Click(object sender, EventArgs e)
         {
+
             this.ResetAsterisks();
 
             string dni = this.tbDni.Text.TrimStart(' ').TrimEnd(' ');
@@ -51,20 +60,25 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             //Si los 3 campos obligatorios tienen texto, se crea el objeto
             if (dni.Length > 0 && firstName.Length > 0 && lastName1.Length > 0)
             {
-                _teacher.Dni = dni;
-                _teacher.FirstName = firstName;
-                _teacher.LastName1 = lastName1;
-                _teacher.LastName2 = lastName2;
-
+                Teacher teacher = new Teacher()
+                {
+                    Id = this.teacherId,
+                    Dni = dni,
+                    FirstName = firstName,
+                    LastName1 = lastName1,
+                    LastName2 = lastName2
+                };
 
                 try
                 {
-                    this.UpdatedTeacher = await TeacherHttpService.Update(_teacher);
+                    teacher = await TeacherHttpService.Update(teacher);
 
                     //Ventanita con mensaje de éxito
                     string message = "Has actualizado los datos del profesor";
                     new CustomSuccesMessageWindow(message).ShowDialog();
                     this.Close();
+
+                    this.OnTeacherUpdatedDelegate(teacher);//Respuesta
                 }
                 catch (ServerErrorException ex)
                 {
@@ -94,9 +108,11 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         /// </summary>
         private void ResetAsterisks()
         {
+
             this.LabelDniAsterisk.ForeColor = Color.Black;
             this.LabelFirstNameAsterisk.ForeColor = Color.Black;
             this.LabelLastNameAsterisk.ForeColor = Color.Black;
+
         }
 
         /// <summary>
@@ -106,19 +122,14 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         /// <param name="e"></param>
         private void ButtonCancel_Click(object sender, EventArgs e)
         {
-            this.UpdatedTeacher = null;
+
             this.Close();
+
         }
 
-        /// <summary>
-        ///     Evento al cargar este formulario
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void ModifyTeacherForm_Load(object sender, EventArgs e)
         {
-            this.PopulateTextBoxes();
-        }
 
+        }
     }
 }

@@ -32,61 +32,22 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnUpdateTeacher = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
-            this.ButtonCancel = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
-            this.LabelDni = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.LabelLastNameAsterisk = new System.Windows.Forms.Label();
             this.LabelFirstNameAsterisk = new System.Windows.Forms.Label();
+            this.btnUpdateTeacher = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
+            this.ButtonCancel = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
+            this.LabelLastName1 = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
+            this.LabelFirstName = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
+            this.LabelDni = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
             this.LabelDniAsterisk = new System.Windows.Forms.Label();
+            this.LabelLastName2 = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
             this.tbLastName2 = new AttendanceControlAdminClient.GUI.CustomControls.CustomTextBox();
             this.tbLastName1 = new AttendanceControlAdminClient.GUI.CustomControls.CustomTextBox();
             this.tbFirstName = new AttendanceControlAdminClient.GUI.CustomControls.CustomTextBox();
             this.tbDni = new AttendanceControlAdminClient.GUI.CustomControls.CustomTextBox();
-            this.LabelLastName2 = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
-            this.LabelLastName1 = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
-            this.LabelFirstName = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnUpdateTeacher
-            // 
-            this.btnUpdateTeacher.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.btnUpdateTeacher.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUpdateTeacher.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.btnUpdateTeacher.ForeColor = System.Drawing.Color.White;
-            this.btnUpdateTeacher.Location = new System.Drawing.Point(254, 235);
-            this.btnUpdateTeacher.Name = "btnUpdateTeacher";
-            this.btnUpdateTeacher.Size = new System.Drawing.Size(75, 25);
-            this.btnUpdateTeacher.TabIndex = 0;
-            this.btnUpdateTeacher.Text = "Guardar ";
-            this.btnUpdateTeacher.UseVisualStyleBackColor = false;
-            this.btnUpdateTeacher.Click += new System.EventHandler(this.ButtonCreateTeacher_Click);
-            // 
-            // ButtonCancel
-            // 
-            this.ButtonCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.ButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonCancel.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
-            this.ButtonCancel.ForeColor = System.Drawing.Color.White;
-            this.ButtonCancel.Location = new System.Drawing.Point(112, 235);
-            this.ButtonCancel.Name = "ButtonCancel";
-            this.ButtonCancel.Size = new System.Drawing.Size(75, 25);
-            this.ButtonCancel.TabIndex = 3;
-            this.ButtonCancel.Text = "Cancelar";
-            this.ButtonCancel.UseVisualStyleBackColor = false;
-            this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
-            // 
-            // LabelDni
-            // 
-            this.LabelDni.AutoSize = true;
-            this.LabelDni.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.LabelDni.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelDni.Location = new System.Drawing.Point(26, 61);
-            this.LabelDni.Name = "LabelDni";
-            this.LabelDni.Size = new System.Drawing.Size(35, 16);
-            this.LabelDni.TabIndex = 5;
-            this.LabelDni.Text = "Dni:";
             // 
             // groupBox
             // 
@@ -103,8 +64,8 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.groupBox.Controls.Add(this.tbLastName1);
             this.groupBox.Controls.Add(this.tbFirstName);
             this.groupBox.Controls.Add(this.tbDni);
-            this.groupBox.Font = new System.Drawing.Font("Arial", 11F, System.Drawing.FontStyle.Bold);
-            this.groupBox.ForeColor = global::AttendanceControlAdminClient.Properties.Settings.Default.OPTIMA_COLOR;
+            this.groupBox.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox.ForeColor = System.Drawing.Color.Black;
             this.groupBox.Location = new System.Drawing.Point(20, 21);
             this.groupBox.Name = "groupBox";
             this.groupBox.Size = new System.Drawing.Size(427, 296);
@@ -134,6 +95,67 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.LabelFirstNameAsterisk.TabIndex = 14;
             this.LabelFirstNameAsterisk.Text = "*";
             // 
+            // btnUpdateTeacher
+            // 
+            this.btnUpdateTeacher.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            this.btnUpdateTeacher.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUpdateTeacher.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.btnUpdateTeacher.ForeColor = System.Drawing.Color.White;
+            this.btnUpdateTeacher.Location = new System.Drawing.Point(254, 235);
+            this.btnUpdateTeacher.Name = "btnUpdateTeacher";
+            this.btnUpdateTeacher.Size = new System.Drawing.Size(75, 25);
+            this.btnUpdateTeacher.TabIndex = 0;
+            this.btnUpdateTeacher.Text = "Guardar ";
+            this.btnUpdateTeacher.UseVisualStyleBackColor = false;
+            this.btnUpdateTeacher.Click += new System.EventHandler(this.ButtonCreateTeacher_Click);
+            // 
+            // ButtonCancel
+            // 
+            this.ButtonCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            this.ButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonCancel.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.ButtonCancel.ForeColor = System.Drawing.Color.White;
+            this.ButtonCancel.Location = new System.Drawing.Point(112, 235);
+            this.ButtonCancel.Name = "ButtonCancel";
+            this.ButtonCancel.Size = new System.Drawing.Size(75, 25);
+            this.ButtonCancel.TabIndex = 3;
+            this.ButtonCancel.Text = "Cancelar";
+            this.ButtonCancel.UseVisualStyleBackColor = false;
+            this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
+            // 
+            // LabelLastName1
+            // 
+            this.LabelLastName1.AutoSize = true;
+            this.LabelLastName1.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.LabelLastName1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            this.LabelLastName1.Location = new System.Drawing.Point(26, 140);
+            this.LabelLastName1.Name = "LabelLastName1";
+            this.LabelLastName1.Size = new System.Drawing.Size(118, 16);
+            this.LabelLastName1.TabIndex = 7;
+            this.LabelLastName1.Text = "Primer apellido:";
+            // 
+            // LabelFirstName
+            // 
+            this.LabelFirstName.AutoSize = true;
+            this.LabelFirstName.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.LabelFirstName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            this.LabelFirstName.Location = new System.Drawing.Point(26, 100);
+            this.LabelFirstName.Name = "LabelFirstName";
+            this.LabelFirstName.Size = new System.Drawing.Size(67, 16);
+            this.LabelFirstName.TabIndex = 6;
+            this.LabelFirstName.Text = "Nombre:";
+            // 
+            // LabelDni
+            // 
+            this.LabelDni.AutoSize = true;
+            this.LabelDni.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.LabelDni.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            this.LabelDni.Location = new System.Drawing.Point(26, 61);
+            this.LabelDni.Name = "LabelDni";
+            this.LabelDni.Size = new System.Drawing.Size(35, 16);
+            this.LabelDni.TabIndex = 5;
+            this.LabelDni.Text = "Dni:";
+            // 
             // LabelDniAsterisk
             // 
             this.LabelDniAsterisk.AutoSize = true;
@@ -144,6 +166,17 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.LabelDniAsterisk.Size = new System.Drawing.Size(17, 22);
             this.LabelDniAsterisk.TabIndex = 13;
             this.LabelDniAsterisk.Text = "*";
+            // 
+            // LabelLastName2
+            // 
+            this.LabelLastName2.AutoSize = true;
+            this.LabelLastName2.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.LabelLastName2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
+            this.LabelLastName2.Location = new System.Drawing.Point(26, 180);
+            this.LabelLastName2.Name = "LabelLastName2";
+            this.LabelLastName2.Size = new System.Drawing.Size(135, 16);
+            this.LabelLastName2.TabIndex = 8;
+            this.LabelLastName2.Text = "Segundo apellido:";
             // 
             // tbLastName2
             // 
@@ -180,39 +213,6 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.tbDni.Name = "tbDni";
             this.tbDni.Size = new System.Drawing.Size(97, 20);
             this.tbDni.TabIndex = 9;
-            // 
-            // LabelLastName2
-            // 
-            this.LabelLastName2.AutoSize = true;
-            this.LabelLastName2.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.LabelLastName2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelLastName2.Location = new System.Drawing.Point(26, 180);
-            this.LabelLastName2.Name = "LabelLastName2";
-            this.LabelLastName2.Size = new System.Drawing.Size(135, 16);
-            this.LabelLastName2.TabIndex = 8;
-            this.LabelLastName2.Text = "Segundo apellido:";
-            // 
-            // LabelLastName1
-            // 
-            this.LabelLastName1.AutoSize = true;
-            this.LabelLastName1.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.LabelLastName1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelLastName1.Location = new System.Drawing.Point(26, 140);
-            this.LabelLastName1.Name = "LabelLastName1";
-            this.LabelLastName1.Size = new System.Drawing.Size(118, 16);
-            this.LabelLastName1.TabIndex = 7;
-            this.LabelLastName1.Text = "Primer apellido:";
-            // 
-            // LabelFirstName
-            // 
-            this.LabelFirstName.AutoSize = true;
-            this.LabelFirstName.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.LabelFirstName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelFirstName.Location = new System.Drawing.Point(26, 100);
-            this.LabelFirstName.Name = "LabelFirstName";
-            this.LabelFirstName.Size = new System.Drawing.Size(67, 16);
-            this.LabelFirstName.TabIndex = 6;
-            this.LabelFirstName.Text = "Nombre:";
             // 
             // ModifyTeacherForm
             // 

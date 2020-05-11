@@ -8,9 +8,13 @@ using System.Drawing;
 
 namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
 {
+    /// <summary>
+    ///     Formulario de alta de un alumno
+    /// </summary>
     public partial class CreateStudentForm : CustomDialogForm
     {
-        public Student CreatedStudent { get; set; }//Alumno creado
+        public delegate void OnStudentCreatedCallBack(Student student);
+        public OnStudentCreatedCallBack OnStudentCreatedDelegate;
 
         public CreateStudentForm()
         {
@@ -18,7 +22,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         }
 
         /// <summary>
-        ///     Evento al pulsar Dar alta:
+        ///     Evento al pulsar Guardar:
         ///     Se instancia un objeto alumno con los datos 
         ///     introducidos y se envia al cliente http
         /// </summary>
@@ -46,14 +50,14 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
 
                 try
                 {
-                    this.CreatedStudent = await StudentHttpService.Save(student);
+                    student = await StudentHttpService.Save(student);
                     //Ventanita con mensaje de éxito
                     string message = string.Format("Has registrado al alumno {0}.",
-                        this.CreatedStudent.FullName);
+                        student.FullName);
                     new CustomSuccesMessageWindow(message).ShowDialog();
+                    this.Close();
 
-                    this.Close();
-                    this.Close();
+                    this.OnStudentCreatedDelegate(student);
 
                 }catch(ServerErrorException ex)
                 {
@@ -97,8 +101,9 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         /// <param name="e"></param>
         private void ButtonCancel_Click(object sender, EventArgs e)
         {
-            this.CreatedStudent = null;
+     
             this.Close();
+
         }
     }
 }

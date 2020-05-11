@@ -41,8 +41,8 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.dgvTeachers = new AttendanceControlAdminClient.GUI.CustomControls.CustomDataGridView();
             this.columnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnDni = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnLastNames = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTeachers)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,18 +76,18 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             // 
             this.tbLastName.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.tbLastName.ForeColor = System.Drawing.Color.Black;
-            this.tbLastName.Location = new System.Drawing.Point(212, 62);
+            this.tbLastName.Location = new System.Drawing.Point(251, 62);
             this.tbLastName.Name = "tbLastName";
             this.tbLastName.Size = new System.Drawing.Size(170, 20);
             this.tbLastName.TabIndex = 5;
-            this.tbLastName.TextChanged += new System.EventHandler(this.tbLastName_TextChanged);
+            this.tbLastName.TextChanged += new System.EventHandler(this.TbLastName_TextChanged);
             // 
             // LabelFilter
             // 
             this.LabelFilter.AutoSize = true;
             this.LabelFilter.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.LabelFilter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(118)))), ((int)(((byte)(5)))), ((int)(((byte)(12)))));
-            this.LabelFilter.Location = new System.Drawing.Point(47, 63);
+            this.LabelFilter.Location = new System.Drawing.Point(86, 63);
             this.LabelFilter.Name = "LabelFilter";
             this.LabelFilter.Size = new System.Drawing.Size(149, 16);
             this.LabelFilter.TabIndex = 4;
@@ -120,8 +120,8 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.dgvTeachers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.columnId,
             this.columnDni,
-            this.columnFirstName,
-            this.columnLastNames});
+            this.columnLastNames,
+            this.columnFirstName});
             this.dgvTeachers.Cursor = System.Windows.Forms.Cursors.Hand;
             dataGridViewDefaultCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewDefaultCellStyle1.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -132,7 +132,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             dataGridViewDefaultCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvTeachers.DefaultCellStyle = dataGridViewDefaultCellStyle1;
             this.dgvTeachers.EnableHeadersVisualStyles = false;
-            this.dgvTeachers.Location = new System.Drawing.Point(50, 100);
+            this.dgvTeachers.Location = new System.Drawing.Point(89, 100);
             this.dgvTeachers.MultiSelect = false;
             this.dgvTeachers.Name = "dgvTeachers";
             this.dgvTeachers.ReadOnly = true;
@@ -143,7 +143,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.dgvTeachers.RowTemplate.Height = 30;
             this.dgvTeachers.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvTeachers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTeachers.Size = new System.Drawing.Size(648, 250);
+            this.dgvTeachers.Size = new System.Drawing.Size(609, 250);
             this.dgvTeachers.TabIndex = 0;
             // 
             // columnId
@@ -159,17 +159,17 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
             this.columnDni.Name = "columnDni";
             this.columnDni.ReadOnly = true;
             // 
-            // columnFirstName
-            // 
-            this.columnFirstName.HeaderText = "Nombre";
-            this.columnFirstName.Name = "columnFirstName";
-            this.columnFirstName.ReadOnly = true;
-            // 
             // columnLastNames
             // 
             this.columnLastNames.HeaderText = "Apellidos";
             this.columnLastNames.Name = "columnLastNames";
             this.columnLastNames.ReadOnly = true;
+            // 
+            // columnFirstName
+            // 
+            this.columnFirstName.HeaderText = "Nombre";
+            this.columnFirstName.Name = "columnFirstName";
+            this.columnFirstName.ReadOnly = true;
             // 
             // TeachersWindowControl
             // 
@@ -194,11 +194,11 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         private CustomDataGridView dgvTeachers;
         private CustomLabel LabelFilter;
         private CustomTextBox tbLastName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnDni;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnFirstName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnLastNames;
         private CustomCircularButton buttonAdd;
         private CustomCircularButton buttonModify;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnDni;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnLastNames;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnFirstName;
     }
 }

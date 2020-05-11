@@ -10,11 +10,17 @@ using System.Threading.Tasks;
 
 namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
 { 
+    /// <summary>
+    ///     Formulario de eleccion de las asignaturas de un alumno
+    /// </summary>
     public partial class AssignSubjectsForm : CustomDialogForm
     {
-        private Student _student;
-        public Student UpdatedStudent { get; set; }
-        private List<Subject> _subjects;
+        private Student _student;//Alumno inyectado      
+        private List<Subject> subjects;
+
+        public delegate void OnAssignedSubjectsCallBack(Student student);
+        public OnAssignedSubjectsCallBack OnAssignedSubjectsDelegate;
+
 
         public AssignSubjectsForm(Student student)
         {
@@ -24,12 +30,13 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         }
 
         /// <summary>
-        ///     Evento al cargar este formulario
+        ///     Evento Load del formulario
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void AssignStudentSubjectsForm_Load(object sender, EventArgs e)
         {
+
             this.SetLabels();
             await this.GetSubjects();
             this.PopulateCheckedListBoxSubjects();
@@ -44,7 +51,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         {
             try
             {
-                _subjects = await SubjectHttpService.GetByCourse(_student.Course.Id);
+                this.subjects = await SubjectHttpService.GetByCourse(_student.Course.Id);
             }
             catch (ServerErrorException ex)
             {
@@ -53,7 +60,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         }
 
         /// <summary>
-        ///     Rellena los lables con los datos del alumno y el curso 
+        ///     Rellena los labels con los datos del alumno y del curso 
         /// </summary>
         private void SetLabels()
         {
@@ -71,11 +78,13 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         private void PopulateCheckedListBoxSubjects()
         {
             
- 
-            if (!(_student.Subjects is null))
+            if (_student.Subjects != null)
             {
-                //Recupera el nombde de las asignaturas en una array 
-                string[] subjectNames = _subjects.Select(s => s.Name).ToArray();
+                //Crea un array de nombres de asignaturas
+                string[] subjectNames = subjects
+                    .Select(s => s.Name)
+                    .ToArray();
+
                 //Asigna el array al checkedListBoxs
                 this.clbSubjects.Items.AddRange(subjectNames);
 
@@ -106,6 +115,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         /// <param name="e"></param>
         private async void ButtonSave_Click(object sender, EventArgs e)
         {
+
             if (this.clbSubjects.Items.Count > 0)
             {
                 //Lista de ids de asignaturas
@@ -115,7 +125,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                 foreach (object itemChecked in this.clbSubjects.CheckedItems)
                 {
                     //Recupero el Id de la asignatura comparando el nombre
-                    int id = _subjects
+                    int id = subjects
                         .Where(s => s.Name == itemChecked.ToString())
                         .Select(s => s.Id)
                         .FirstOrDefault();
@@ -125,7 +135,8 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
 
                 try
                 {
-                    UpdatedStudent = await StudentHttpService
+                    //El cliente http retorna un alumno actualizado
+                    Student student = await StudentHttpService
                         .UpdateSubjects(_student.Id, subjectIds.ToArray());
 
                     string message = string
@@ -133,6 +144,8 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                         _student.FullName);
                     new CustomSuccesMessageWindow(message).ShowDialog();
                     this.Close();
+
+                    this.OnAssignedSubjectsDelegate(student);//Respuesta
                 }
                 catch (ServerErrorException ex)
                 {
@@ -148,7 +161,9 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         /// <param name="e"></param>
         private void ButtonCancel_Click(object sender, EventArgs e)
         {
+
             this.Close();
+
         }
     }
 }

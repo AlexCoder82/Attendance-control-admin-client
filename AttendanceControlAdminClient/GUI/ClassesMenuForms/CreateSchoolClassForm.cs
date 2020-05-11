@@ -17,15 +17,52 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
     public partial class CreateSchoolClassForm : CustomDialogForm
     {
         private Course _course; //Curso de la clase a crear
-        private SchoolClass _schoolClass;//Clase a crear
+        private Schedule _schedule;//Horario de la clase a crear
+        private DayOfWeek _day;//Dia de la semana de la clase a crear
+
+        public delegate void OnSchoolClassCreatedCallBack(SchoolClass schoolClass);
+        public OnSchoolClassCreatedCallBack OnSchoolClassCreatedDelegate;
+
         public SchoolClass CreatedSchoolClass { get; set; }//Clase creada
 
-        public CreateSchoolClassForm(SchoolClass schoolClass)
+        public CreateSchoolClassForm(Course course, DayOfWeek day, Schedule schedule)
         {
-            _course = schoolClass.Course;
-            _schoolClass = schoolClass;
+            _course = course;
+            _day = day;
+            _schedule = schedule;
             InitializeComponent();
             this.CenterToScreen();
+
+        }
+
+        /// <summary>
+        ///     Evento Load del formulario
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void CreateSchoolClassForm_Load(object sender, EventArgs e)
+        {
+
+            await this.GetCourseSUbjects();
+            this.PopulateComboBoxSubjects();
+
+        }
+
+        /// <summary>
+        ///     Obtiene del cliente http, la lista de asignaturas de un curso 
+        /// </summary>
+        private async Task GetCourseSUbjects()
+        {
+
+            try
+            {
+                _course.Subjects = await SubjectHttpService.GetByCourse(_course.Id);
+            }
+            catch (ServerErrorException ex)
+            {
+                new CustomErrorMessageWindow(ex.Message).ShowDialog();
+            }
+
         }
 
         /// <summary>
@@ -34,9 +71,11 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         /// </summary>
         private void PopulateComboBoxSubjects()
         {
+
             this.cbSubjects.DataSource = _course.Subjects;
             this.cbSubjects.DisplayMember = "Name";
             this.cbSubjects.ValueMember = "Id";
+
         }
 
         /// <summary>
@@ -46,57 +85,43 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         /// <param name="e"></param>
         private async void ButtonSave_Click(object sender, EventArgs e)
         {
-            //Recupera la asignatura seleccionada
-            int subjectId = (int)this.cbSubjects.SelectedValue;
-            Subject subject = _course.Subjects.FirstOrDefault(s => s.Id == subjectId);
+            if (this.cbSubjects.SelectedValue != null)
+            {
+                //Recupera la asignatura seleccionada
+                int subjectId = (int)this.cbSubjects.SelectedValue;
+                Subject subject = _course.Subjects.FirstOrDefault(s => s.Id == subjectId);
 
-            
-            if (subject.Teacher is null)
-            {
-                string message = "No puedes crear esta clase porque la asignatura " 
-                    + subject.Name + " no tiene profesor asignado.";
-                CustomErrorMessageWindow dialog = new CustomErrorMessageWindow(message);
-                dialog.ShowDialog();
-            }
-            else
-            {
-                try
+                //Si la asignatura no tiene profesor asignado, no se puede crear una clase
+                if (subject.Teacher is null)
                 {
-                    //Establece la asignatura de la clase
-                    _schoolClass.Subject = subject;
-
-                    CreatedSchoolClass = await SchoolClassHttpService.Save(_schoolClass);
-                    this.Close();
+                    string message = "No puedes crear esta clase porque la asignatura "
+                        + subject.Name + " no tiene profesor asignado.";
+                    CustomErrorMessageWindow dialog = new CustomErrorMessageWindow(message);
+                    dialog.ShowDialog();
                 }
-                catch (ServerErrorException ex)
+                else
                 {
-                    new CustomErrorMessageWindow(ex.Message).ShowDialog();
+                    try
+                    {
+                        SchoolClass schoolClass = new SchoolClass()
+                        {
+                            Course = _course,
+                            Day = _day,
+                            Schedule = _schedule,
+                            Subject = subject
+                        };
+
+                        //El cliente http retorna la misma clase creada 
+                        schoolClass = await SchoolClassHttpService.Save(schoolClass);
+                        this.Close();
+
+                        this.OnSchoolClassCreatedDelegate(schoolClass);
+                    }
+                    catch (ServerErrorException ex)
+                    {
+                        new CustomErrorMessageWindow(ex.Message).ShowDialog();
+                    }
                 }
-            }
-            
-
-        }
-
-        /// <summary>
-        ///     Evento al cargar este formulario
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void CreateSchoolClassForm_Load(object sender, EventArgs e)
-        {
-            await this.GetCourseSUbjects();
-            this.PopulateComboBoxSubjects();
-        }
-
-        private async Task GetCourseSUbjects()
-        {
-            try
-            {
-                _course.Subjects = await SubjectHttpService.GetByCourse(_course.Id);
-            }
-            catch (ServerErrorException ex)
-            {
-                new CustomErrorMessageWindow(ex.Message).ShowDialog();
             }
         }
 
@@ -107,8 +132,10 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         /// <param name="e"></param>
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            this.CreatedSchoolClass = null;
+
             this.Close();
+
         }
+
     }
 }

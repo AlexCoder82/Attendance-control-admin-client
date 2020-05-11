@@ -8,9 +8,14 @@ using System.Drawing;
 
 namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
 {
+    /// <summary>
+    ///     Formulatio de alta de profesor
+    /// </summary>
     public partial class CreateTeacherForm : CustomDialogForm
     {
-        public Teacher CreatedTeacher { get; set; }//El profesor creado
+        // Callback con el profesor creado
+        public delegate void OnTeacherCreatedCallBack(Teacher teacher);
+        public OnTeacherCreatedCallBack OnTeacherCreatedDelegate;
 
         public CreateTeacherForm()
         {
@@ -18,7 +23,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         }
 
         /// <summary>
-        ///     Evento al pulsar el Boton Dar alta:
+        ///     Evento al pulsar el Boton Guardar:
         ///     Se instancia un objecto profesor con los datos introducidos
         ///     y se envia al cliente http, el cuál retorna el profesor 
         ///     creado con su id 
@@ -27,6 +32,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         /// <param name="e"></param>
         private async void ButtonCreateTeacher_Click(object sender, EventArgs e)
         {
+
             this.ResetAsterisks();
 
             string dni = this.tbDni.Text.TrimStart(' ').TrimEnd(' ');
@@ -47,13 +53,15 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
 
                 try
                 {
-                    this.CreatedTeacher = await TeacherHttpService.Save(teacher);
+                    teacher = await TeacherHttpService.Save(teacher);
 
                     //Ventanita con mensaje de éxito
-                    string message = string.Format("Has registrado al profesor {0}.", this.CreatedTeacher.FullName);
+                    string message = string.Format("Has registrado al profesor {0}.", teacher.FullName);
                     new CustomSuccesMessageWindow(message).ShowDialog();
 
                     this.Close();
+
+                    this.OnTeacherCreatedDelegate(teacher);//Respuesta
 
                 }catch(ServerErrorException ex)
                 {
@@ -84,9 +92,11 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         /// </summary>
         private void ResetAsterisks()
         {
+
             this.LabelDniAsterisk.ForeColor = Color.Black;
             this.LabelFirstNameAsterisk.ForeColor = Color.Black;
             this.LabelLastNameAsterisk.ForeColor = Color.Black;
+
         }
 
         /// <summary>
@@ -96,8 +106,9 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
         /// <param name="e"></param>
         private void ButtonCancel_Click(object sender, EventArgs e)
         {
-            this.CreatedTeacher = null;
+
             this.Close();
+
         }
     }
 }

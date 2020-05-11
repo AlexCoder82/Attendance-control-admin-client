@@ -67,7 +67,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             this.tbSubject.Name = "tbSubject";
             this.tbSubject.Size = new System.Drawing.Size(185, 20);
             this.tbSubject.TabIndex = 1;
-            this.tbSubject.TextChanged += new System.EventHandler(this.tbSubject_TextChanged);
+            this.tbSubject.TextChanged += new System.EventHandler(this.TbSubject_TextChanged);
             // 
             // dgvSubjects
             // 

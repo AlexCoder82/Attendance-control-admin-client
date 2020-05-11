@@ -135,7 +135,6 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             this.cbCourses.Name = "cbCourses";
             this.cbCourses.Size = new System.Drawing.Size(42, 22);
             this.cbCourses.TabIndex = 8;
-            this.cbCourses.SelectedIndexChanged += new System.EventHandler(this.cbCourses_SelectedIndexChanged);
             // 
             // groupBox1
             // 

@@ -205,7 +205,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "AssignCourseForm";
             this.Text = "AssignNewCycleForm";
-            this.Load += new System.EventHandler(this.AssignNewCycleForm_Load);
+            this.Load += new System.EventHandler(this.AssignCourseForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCourses)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.customCloseButton1)).EndInit();
             this.groupBox1.ResumeLayout(false);

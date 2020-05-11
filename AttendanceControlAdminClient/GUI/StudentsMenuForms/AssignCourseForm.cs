@@ -4,7 +4,6 @@ using AttendanceControlAdminClient.HttpServices;
 using AttendanceControlAdminClient.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,28 +11,39 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
 {
     public partial class AssignCourseForm : CustomDialogForm
     {
-        private Student _student;
+        private readonly Student _student;
         private List<Course> courses;
-        public Student UpdatedStudent{ get; set; }
+
+        public delegate void OnAssignCourseCallBack(Student student);
+        public OnAssignCourseCallBack OnAssignCourseDelegate;
+
+        public delegate void OnRemovedCourseCallBack();
+        public OnRemovedCourseCallBack OnRemovedCourseDelegate;
+
+
         public AssignCourseForm(Student student)
         {
+
             _student = student;
             InitializeComponent();
             this.CenterToScreen();
+
         }
 
         /// <summary>
-        ///     Evento al cargar este formulario
+        ///     Evento Load del formulario
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void AssignNewCycleForm_Load(object sender, EventArgs e)
+        private async void AssignCourseForm_Load(object sender, EventArgs e)
         {
+
             this.SetLabels();
             this.SetDataGridViewCourses();
             this.SetButtonsToolTips();
             await this.GetAllCourses();
             this.PopulateDataGridViewCourses();
+
         }
 
         /// <summary>
@@ -43,6 +53,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         {
 
             this.groupBox1.Text = this._student.FullName;
+
             if (_student.Course is null)
             {
                 this.LabelCurrentCourse.Text = "Sin asignar";
@@ -67,21 +78,28 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                DataGridViewContentAlignment.MiddleCenter;
             this.dgvCourses.Columns[2].DefaultCellStyle.Alignment =
               DataGridViewContentAlignment.MiddleCenter;
-        }
 
-        private void SetButtonsToolTips()
-        {
-            ToolTip toolTip = new ToolTip();
-            toolTip.SetToolTip(this.buttonAssignCourse, "Asignar el curso.");
-            toolTip.SetToolTip(this.buttonRemoveAssignedCourse, "Retirar asignación");
         }
 
         /// <summary>
-        ///     Recupera la lista de todos los cursos del cliente http
+        ///     Establece los tooltips de los iconos
+        /// </summary>
+        private void SetButtonsToolTips()
+        {
+
+            ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(this.buttonAssignCourse, "Asignar el curso.");
+            toolTip.SetToolTip(this.buttonRemoveAssignedCourse, "Retirar asignación");
+
+        }
+
+        /// <summary>
+        ///     Obtiene la lista de todos los cursos del cliente http
         /// </summary>
         /// <returns></returns>
         private async Task GetAllCourses()
         {
+
             try
             {
                 courses = await CourseHttpService.GetAll();
@@ -90,14 +108,16 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             {
                 new CustomErrorMessageWindow(ex.Message).ShowDialog();
             }
+
         }
-  
+
 
         /// <summary>
         ///     Rellena la tabla de cursos
         /// </summary>
         private void PopulateDataGridViewCourses()
         {
+
             this.dgvCourses.Rows.Clear();
 
             if (!(courses is null) && courses.Count > 0)
@@ -109,7 +129,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                 });
 
             }
-            if ((courses is null) )
+            if (courses is null)
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -135,23 +155,27 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         /// <param name="e"></param>
         private async void ButtonAssign_Click(object sender, EventArgs e)
         {
+
             if (this.dgvCourses.SelectedRows[0].Cells[0].Value != null)
             {
                 try
                 {
                     int id = (int)this.dgvCourses.SelectedRows[0].Cells[0].Value;
-                    this.UpdatedStudent = await StudentHttpService
+                    //El cliente http retornado un objeto alumno con el curso actualizado
+                    Student student = await StudentHttpService
                         .UpdateCourse(_student.Id, id);
 
-                    
                     //Ventanita con mensaje de exito
                     string message = string
                         .Format("El alumno {0} cursará {1}º de {2} y " +
                         "todas las asignaturas del curso por defecto.",
-                        UpdatedStudent.FullName,
-                        UpdatedStudent.Course.Year, UpdatedStudent.Course.Cycle.Name);
+                        student.FullName,
+                        student.Course.Year,
+                        student.Course.Cycle.Name);
                     new CustomSuccesMessageWindow(message).ShowDialog();
                     this.Close();
+
+                    this.OnAssignCourseDelegate(student);
                 }
                 catch (ServerErrorException ex)
                 {
@@ -185,16 +209,14 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
 
                         //Ventanita con mensaje de exito
                         string message = string
-                            .Format("El alumno {0} ya no cursará {1}ª de {2}.", 
+                            .Format("El alumno {0} ya no cursará {1}ª de {2}.",
                             this._student.FullName,
                             this._student.Course.Year,
                             this._student.Course.Cycle.Name);
                         new CustomSuccesMessageWindow(message).ShowDialog();
-
-                        this.UpdatedStudent = _student;
-                        this.UpdatedStudent.Course = null;
-                        this.UpdatedStudent.Subjects = null;
                         this.Close();
+
+                        this.OnRemovedCourseDelegate();
                     }
                     catch (ServerErrorException ex)
                     {
@@ -213,7 +235,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                 new CustomErrorMessageWindow("Debes seleccionar un curso antes.")
                     .ShowDialog();
             }
-        
+
+        }
     }
-}
 }

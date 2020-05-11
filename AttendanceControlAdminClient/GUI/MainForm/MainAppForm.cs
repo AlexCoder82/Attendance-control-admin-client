@@ -1,6 +1,5 @@
 ﻿using AttendanceControlAdminClient.GUI.CyclesMenuForms;
 using AttendanceControlAdminClient.GUI.SchedulesMenuForms;
-using AttendanceControlAdminClient.GUI.ShiftsMenuForms;
 using AttendanceControlAdminClient.GUI.StudentsMenuForms;
 using AttendanceControlAdminClient.GUI.SubjectsMenuForms;
 using AttendanceControlAdminClient.GUI.TeachersMenuForms;

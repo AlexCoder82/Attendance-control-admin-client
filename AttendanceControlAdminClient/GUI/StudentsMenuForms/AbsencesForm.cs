@@ -11,38 +11,40 @@ using System.Windows.Forms;
 
 namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
 {
+    /// <summary>
+    ///     Formulario de ausencias 
+    /// </summary>
     public partial class AbsencesForm : CustomDialogForm
     {
-        private Student _student;
-        private List<Absence> _absences;
+
+        private readonly Student _student;
+        private List<Absence> absences;
         private int _totalExcused;
-        private Dictionary<string, string> days;
+     
         public AbsencesForm(Student student)
         {
-            this.SetDays();
             _student = student;
             _totalExcused = 0;
             InitializeComponent();
             this.CenterToScreen();
         }
 
-        private void SetDays()
-        {
-
-        }
         /// <summary>
-        ///     Evento al cargar este formulario
+        ///     Evento Load del formulario
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void AbsencesForm_Load(object sender, EventArgs e)
         {
+
             this.FillData();
             this.SetDataGridViewAbsences();
             this.SetDataGridViewDelays();
+
             await this.GetStudentAbsences();
 
             this.PopulateTables();
+
         }
 
 
@@ -50,69 +52,66 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         /// <summary>
         ///     Recibe la lista de ausencias del alumno del cliente http
         /// </summary>
-        /// <returns></returns>
         private async Task GetStudentAbsences()
         {
+
             try
             {
-                _absences = await AbsenceHttpService.GetByStudent(_student.Id);
+                this.absences = await AbsenceHttpService.GetByStudent(_student.Id);
                
             }
             catch (ServerErrorException ex)
             {
                 new CustomErrorMessageWindow(ex.Message).ShowDialog();
             }
+
         }
 
         /// <summary>
-        ///     Rellena laa tablaa de ausencias y retrasos
+        ///     Rellena los datos del alumno
         /// </summary>
         private void FillData()
         {
+
             this.labelStudent.Text = _student.FullName;
             if(_student.Course is null)
             {
                 this.labelCourse.Text = "Sin asignar";
-
             }
             else
             {
                 this.labelCourse.Text = _student.Course.Year + "º de " + _student.Course.Cycle.Name;
-
             }
             this.labelTotalClasses.Text = _student.TotalAbsences.ToString();
             this.labelTotalDelays.Text = _student.TotalDelays.ToString();
             this.labelTotal.Text = (_student.TotalAbsences + _student.TotalDelays).ToString();
 
             this.dgvAbsences.Rows.Clear();
-            // this.dgvDelays.Rows.Clear();      
-
-            
-           
-
-
-
+        
         }
 
+        /// <summary>
+        ///     Rellena las tablas
+        /// </summary>
         private void PopulateTables()
         {
-            if (!(_absences is null) && _absences.Count > 0)
+            if (!(absences is null) && absences.Count > 0)
             {
 
-                
+               
                 //ORDENA POR FECHA
-                _absences = _absences.OrderBy(a => a.Date).ThenBy(a => a.Schedule.Start).ToList();
+                absences = absences.OrderBy(a => a.Date).ThenBy(a => a.Schedule.Start).ToList();
 
                 int absenceCounter = 0;
                 int delaysCounter = 0;
                 int totalExcused = 0;
                 CultureInfo cultureInfo = new CultureInfo("es-ES");
-                for (int i = 1; i < _absences.Count; i++)
+                for (int i = 1; i < absences.Count; i++)
                 {
 
-                    if (_absences[i].Date.DayOfYear == _absences[i - 1].Date.DayOfYear)
+                    if (absences[i].Date.DayOfYear == absences[i - 1].Date.DayOfYear)
                     {
-                        if (_absences[i - 1].Type == Enums.AbsenceType.TOTAL)
+                        if (absences[i - 1].Type == Enums.AbsenceType.TOTAL)
                         {
                             absenceCounter++;
 
@@ -122,9 +121,9 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                         {
                             delaysCounter++;
                         }
-                        if (i == _absences.Count - 1)
+                        if (i == absences.Count - 1)
                         {
-                            if (_absences[i].Type == Enums.AbsenceType.TOTAL)
+                            if (absences[i].Type == Enums.AbsenceType.TOTAL)
                             {
                                 absenceCounter++;
                             }
@@ -132,10 +131,10 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                             {
                                 delaysCounter++;
                             }
-                            string date = _absences[i - 1].Date.ToString(cultureInfo.DateTimeFormat.LongDatePattern);
+                            string date = absences[i - 1].Date.ToString(cultureInfo.DateTimeFormat.LongDatePattern);
                             date = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(date.ToLower());
                             this.dgvAbsences.Rows.Add(date, absenceCounter, delaysCounter);
-                            if (_absences[i].IsExcused)
+                            if (absences[i].IsExcused)
                             {
                                 totalExcused++;
                             }
@@ -143,13 +142,13 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                     }
                     else
                     {
-                        string date = _absences[i - 1].Date.ToString(cultureInfo.DateTimeFormat.LongDatePattern);
+                        string date = absences[i - 1].Date.ToString(cultureInfo.DateTimeFormat.LongDatePattern);
                         date = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(date.ToLower());
                         this.dgvAbsences.Rows.Add(date, absenceCounter, delaysCounter);
                         absenceCounter = 0;
                         delaysCounter = 0;
                     }
-                    if (_absences[i - 1].IsExcused)
+                    if (absences[i - 1].IsExcused)
                     {
                         totalExcused++;
                     }
@@ -168,7 +167,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
 
             }
 
-            if(_absences is null)
+            if(absences is null)
             {
                 for(int i =0; i < 5; i++)
                 {
@@ -179,9 +178,9 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                 
             }
 
-            if(_absences != null && _absences.Count < 3)
+            if(absences != null && absences.Count < 3)
             {
-                for (int i = _absences.Count; i < 3; i++)
+                for (int i = absences.Count; i < 3; i++)
                 {
                     this.dgvAbsences.Rows.Add();
                     
@@ -311,7 +310,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
 
         private void dgvAbsences_SelectionChanged(object sender, EventArgs e)
         {
-            if (_absences.Count > 0 && dgvAbsences.Rows.Count > 0
+            if (absences.Count > 0 && dgvAbsences.Rows.Count > 0
                 && dgvAbsences.SelectedRows.Count > 0)
             {
                 //Recupera la fecha de la linea seleccionada
@@ -327,7 +326,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         private void PopulateDataGridViewDetails(DateTime date)
         {
             this.dgvDetails.Rows.Clear();
-            _absences.ForEach(a =>
+            absences.ForEach(a =>
             {
      
                 if (a.Date.DayOfYear == date.DayOfYear)

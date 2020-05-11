@@ -29,12 +29,13 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         }
 
         /// <summary>
-        ///     Evento al cargar este formulario
+        ///     Evento Load del formulario
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void SchedulesWindowControl_Load(object sender, EventArgs e)
         {
+
             this.SetSchedulesTable();
             await this.GetAllCycles();
             this.PopulateDefaultComboBoxes();
@@ -47,24 +48,27 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         private void SetSchedulesTable()
         {
 
-            //Establece el tamaño automatico de cada columna
+            //Establece el tamaño de cada columna
             for (int i = 0; i < this.dgvSchedules.Columns.Count; i++)
             {
-                this.dgvSchedules.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                this.dgvSchedules.Columns[i].AutoSizeMode =
+                        DataGridViewAutoSizeColumnMode.Fill;
             }
 
             //Establece el color de los horarios de la primera columna
             for (int i = 0; i < this.dgvSchedules.Rows.Count; i++)
             {
-                this.dgvSchedules.Rows[i].Cells[0].Style.ForeColor = Settings.Default.OPTIMA_COLOR;
+                this.dgvSchedules.Rows[i].Cells[0]
+                    .Style.ForeColor = Settings.Default.OPTIMA_COLOR;
             }
+
             this.dgvSchedules.Visible = true;
 
         }
 
 
         /// <summary>
-        ///     Recupera la lista de todos los ciclos del cliente http
+        ///     Obtiene la lista de todos los ciclos del cliente http
         /// </summary>
         /// <returns></returns>
         private async Task GetAllCycles()
@@ -72,7 +76,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
 
             try
             {
-                cycles = await CycleHttpService.GetAll();
+                this.cycles = await CycleHttpService.GetAll();
             }
             catch (ServerErrorException ex)
             {
@@ -83,7 +87,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
 
         /// <summary>
         ///     Rellena la tabla con las clases del curso seleccionado
-        ///     A cada asignatura se le asocia un color hasta 10 colores distintos
+        ///     A cada asignatura se le asocia un color de  hasta 10 colores distintos
         /// </summary>
         private void PopulateSchedulesTable()
         {
@@ -129,7 +133,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
                     //Se crea la asociacion
                     subjectsNameColor.Add(sc.Subject.Name, colors[colorIndex]);
                     //Se pasa al color siguiente mientras haya colores
-                    if (colorIndex < 9)
+                    if (colorIndex < colors.Count)
                     {
                         colorIndex++;
                     }
@@ -154,7 +158,8 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         }
 
         /// <summary>
-        ///     Rellena la columna de horarios segun el turno del ciclo formativo seleccionado
+        ///     Rellena la columna de horarios segun el turno 
+        ///     horario del ciclo formativo seleccionado
         /// </summary>
         private void SetSchedulesColumn()
         {
@@ -169,7 +174,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
                 List<Schedule> schedules = selectedCycle.Shift.Schedules;
                 for (int i = 0; i < schedules.Count; i++)
                 {
-                    this.dgvSchedules.Rows.Add(schedules[i].Start + " - " 
+                    this.dgvSchedules.Rows.Add(schedules[i].Start + " - "
                         + schedules[i].End, "", "", "", "", "");
 
                     this.RowBySchedule.Add(schedules[i].Id, i);
@@ -180,7 +185,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
 
         }
 
-        
+
         /// <summary>
         ///     Borra las celdas de la tabla
         /// </summary>
@@ -220,13 +225,13 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
                 this.selectedCycle = this.cycles[0];
                 this.selectedCourse = this.selectedCycle.Courses[0];
 
+                //Activa los eventos de seleccion de los combobox
                 this.cbCycles.SelectedIndexChanged += ComboBoxCycles_SelectedIndexChanged;
-                this.cbCourses.SelectedIndexChanged += cbCourses_SelectedIndexChanged;
+                this.cbCourses.SelectedIndexChanged += CbCourses_SelectedIndexChanged;
 
                 await this.GetClasses();
                 this.SetSchedulesColumn();
                 this.PopulateSchedulesTable();
-
             }
 
         }
@@ -239,12 +244,12 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         private void PopulateCoursesComboBox()
         {
 
-            this.cbCourses.SelectedIndexChanged -= cbCourses_SelectedIndexChanged;
+            this.cbCourses.SelectedIndexChanged -= CbCourses_SelectedIndexChanged;
             this.cbCourses.DataSource = selectedCycle.Courses;
             this.cbCourses.DisplayMember = "Year";
             this.cbCourses.ValueMember = "Id";
             this.cbCourses.SelectedIndex = 0;
-            this.cbCourses.SelectedIndexChanged += cbCourses_SelectedIndexChanged;
+            this.cbCourses.SelectedIndexChanged += CbCourses_SelectedIndexChanged;
 
         }
 
@@ -256,9 +261,10 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         /// <param name="e"></param>
         private async void ComboBoxCycles_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             //Recupera el ciclo seleccionado
             int cycleId = (int)this.cbCycles.SelectedValue;
-            selectedCycle = cycles.Find(c => c.Id == cycleId);
+            this.selectedCycle = cycles.Find(c => c.Id == cycleId);
             this.selectedCourse = this.selectedCycle.Courses[0];
 
             //Refresca el combobox de cursos
@@ -266,8 +272,9 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
 
             await this.GetClasses();
 
-            this.SetSchedulesColumn();
+            this.SetSchedulesColumn();//Refresca la columna de horarios
             this.PopulateSchedulesTable();
+
         }
 
         /// <summary>
@@ -276,7 +283,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void cbCourses_SelectedIndexChanged(object sender, EventArgs e)
+        private async void CbCourses_SelectedIndexChanged(object sender, EventArgs e)
         {
 
             //Recupera el curso seleccionado
@@ -287,6 +294,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
 
             this.SetSchedulesColumn();
             this.PopulateSchedulesTable();
+
         }
 
         /// <summary>
@@ -298,7 +306,8 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
 
             try
             {
-                this.schoolClasses = await SchoolClassHttpService.GetByCourse(this.selectedCourse.Id);
+                this.schoolClasses = await SchoolClassHttpService
+                    .GetByCourse(this.selectedCourse.Id);
             }
             catch (ServerErrorException ex)
             {
@@ -337,31 +346,20 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
                 SchoolClass schoolClass = schoolClasses
                        .FirstOrDefault(sc => sc.Day == (DayOfWeek)day && sc.Schedule.Start == start);
 
-                //Sino hay clase, se crea una nueva 
+                //Sino hay clase prevista ese dia en ese horario, 
+                //se abre el formulario para crear una nueva clase
                 if (schoolClass is null)
-                {
-                    schoolClass = new SchoolClass()
-                    {
-                        Course = selectedCourse,
-                        Day = (DayOfWeek)day,
-                        Schedule = selectedCycle.Shift.Schedules
-                            .FirstOrDefault(sc => sc.Start == start),
-                    };
+                {                 
+                    //Horario correspondiente
+                    Schedule schedule = this.selectedCycle.Shift.Schedules
+                                 .FirstOrDefault(sc => sc.Start == start);
 
-                    //Se intancia el formulario para elegir la asignatura de la clase y guardar la clase
-                    CreateSchoolClassForm sscsForm = new CreateSchoolClassForm(schoolClass);
-                    sscsForm.ShowDialog();
-
-                    //Al cerrarse se recupera la clase creada
-                    SchoolClass createdSchoolClass = sscsForm.CreatedSchoolClass;
-
-                    //Si existe
-                    if (!(createdSchoolClass is null))
-                    {
-                        //Se agrega a la lista
-                        schoolClasses.Add(createdSchoolClass);
-
-                    }
+                    CreateSchoolClassForm form = new CreateSchoolClassForm(
+                        this.selectedCourse, 
+                        (DayOfWeek)day,
+                        schedule);
+                    form.OnSchoolClassCreatedDelegate += OnSchoolClassCreatedCallBack;
+                    form.ShowDialog();                
                 }
                 //Si ya existe una clase en la celda, se propone que la clase deje de ser vigente 
                 else
@@ -376,18 +374,15 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
                     CustomConfirmDialogForm customConfirmDialogForm = new CustomConfirmDialogForm(message);
                     customConfirmDialogForm.ShowDialog();
 
-                    //Si se confirma se envia al cliente http la petición
+                    //Si se confirma 
                     if (customConfirmDialogForm.Confirmed)
                     {
-                        
                         try
                         {
                             int id = schoolClass.Id;
 
                             //Envia al cliente http el id de la clase para cancelarla
                             var res = await SchoolClassHttpService.Cancel(id);
-
-                            
 
                             //Ventanita de exito con aviso
                             message = "La clase ha sido cancelada, recuerda que si " +
@@ -399,7 +394,7 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
 
                             //Se borra la clase de la lista 
                             schoolClasses.Remove(schoolClass);
-                         
+
                         }
                         catch (ServerErrorException ex)
                         {
@@ -408,10 +403,21 @@ namespace AttendanceControlAdminClient.GUI.SchedulesMenuForms
                     }
                 }
 
-                this.PopulateSchedulesTable();
+                this.PopulateSchedulesTable();//Se refresca la tabla en todo caso
             }
 
             this.dgvSchedules.ClearSelection();
+
+        }
+
+        /// <summary>
+        ///     Callback cuando se crea una nueva clase
+        /// </summary>
+        /// <param name="schoolClass"></param>
+        private void OnSchoolClassCreatedCallBack(SchoolClass schoolClass)
+        {
+
+            this.schoolClasses.Add(schoolClass);
 
         }
 

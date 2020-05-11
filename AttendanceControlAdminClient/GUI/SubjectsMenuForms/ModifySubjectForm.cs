@@ -9,14 +9,18 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
 {
     public partial class ModifySubjectForm : CustomDialogForm
     {
-        public Subject UpdatedSubject { get; set; }
-        public Subject _subject;//Copia de la asignatura
+        public delegate void OnUpdatedSubjectCallBack(Subject subject);
+        public OnUpdatedSubjectCallBack OnUpdatedSubjectDelegate;
+        public Subject _subject;//Copia de la asignatura a modificar
+
         public ModifySubjectForm(Subject subject)
         {
+
             InitializeComponent();
-            _subject = new Subject();
+            _subject = new Subject();//Evita el paso por referencia
             _subject = subject;
-            this.tbSubjectName.Text = subject.Name;           
+            this.tbSubjectName.Text = subject.Name;     
+            
         }
 
 
@@ -27,8 +31,9 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         /// <param name="e"></param>
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            this.UpdatedSubject = null;
+
             this.Close();
+
         }
 
         /// <summary>
@@ -40,21 +45,24 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         /// <param name="e"></param>
         private async void BtnModifySubject_Click(object sender, EventArgs e)
         {
+
             string subjectName = this.tbSubjectName.Text;
 
-            if (subjectName.Length > 0)
+            if (subjectName.Length > 0)//Validacion minima
             {
                 _subject.Name = subjectName;
 
                 try
                 {
-                    this.UpdatedSubject = await SubjectHttpService
-                        .Update(_subject);
+                    Subject updatedSubject = await SubjectHttpService
+                            .Update(_subject);
 
                     //Ventanita de mensaje de éxito
                     string message = "Has actualizado el nombre de la asignatura.";
                     new CustomSuccesMessageWindow(message).ShowDialog();
                     this.Close();
+
+                    this.OnUpdatedSubjectDelegate(updatedSubject);//Respuesta
                 }
                 catch (ServerErrorException ex)
                 {
@@ -62,6 +70,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
                 }
 
             }
+
         }
 
     }

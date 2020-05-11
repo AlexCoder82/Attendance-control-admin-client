@@ -12,17 +12,26 @@ using AttendanceControlAdminClient.Models;
 
 namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
 {
+    /// <summary>
+    ///     Formulario para asignar un profesor a una asignatura
+    /// </summary>
     public partial class AssignTeacherForm : CustomDialogForm
     {
+
         private Subject _subject;//La asignatura recibida por referencia
         private List<Teacher> teachers; //La lista de todos los profesores
-        private Teacher selectedTeacher;//El profesor seleccionado en la tabla
+   
+        //Callback con la asignatura actualizada si se ha cambiado el profesor
+        public delegate void OnNewAssignedTeacherCallBack(Subject subject);
+        public OnNewAssignedTeacherCallBack OnNewAssignedTeacherDelegate;
 
         public AssignTeacherForm(Subject subject)
         {
+
             this._subject = subject;
             InitializeComponent();
             this.CenterToScreen();
+
         }
 
         /// <summary>
@@ -42,8 +51,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         }
 
         /// <summary>
-        ///     Rellena los distintos labels con el nombre de la asignatura
-        ///     y el nombre del profesor asignado hasta ahora
+        ///     Rellena el titulo con el nombre de la asignatura
         /// </summary>
         private void SetTitle()
         {
@@ -52,14 +60,19 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
            
         }
 
+        /// <summary>
+        ///     Establece los tooltips de los iconos
+        /// </summary>
         private void SetToolTips()
         {
+
             ToolTip toolTip = new ToolTip();
             toolTip.SetToolTip(this.buttonAssign, "Asignar profesor");
+
         }
 
         /// <summary>
-        ///     Establece diseño de la cabezera de la tabla.
+        ///     Establece diseño de la cabecera de la tabla.
         /// </summary>
         private void SetDataGridViewTeachers()
         {
@@ -78,6 +91,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         /// </summary>
         private void PopulateTeachersTable()
         {
+
             this.dgvTeachers.ClearSelection();
 
             //Si hay al menos un profesor, se rellena la tabla
@@ -104,9 +118,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
                     this.dgvTeachers.Rows.Add();
                 }
             }
-
-            
-    
+             
         }
 
         /// <summary>
@@ -115,6 +127,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         /// <returns></returns>
         private async Task GetAllTeachers()
         {
+
             try
             {
                 teachers = await TeacherHttpService.GetAll();
@@ -123,6 +136,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
             {
                 new CustomErrorMessageWindow(ex.Message).ShowDialog();
             }
+
         }
 
 
@@ -135,6 +149,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
         /// <param name="e"></param>
         private async void BtnAssign_Click(object sender, EventArgs e)
         {
+
             if (this.dgvTeachers.SelectedRows[0].Cells[0].Value != null)
             {
                 try
@@ -144,21 +159,17 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
                         .Parse(this.dgvTeachers.SelectedRows[0].Cells[0].Value
                         .ToString());
 
-                    //Recupera el profesor seleccionado y lo guarda en la proprieda de clase
-                    this.selectedTeacher = this.teachers
-                            .FirstOrDefault(c => c.Id == selectedId);
-
                     //El cliente http retorna la asignatura actualizada
                     Subject subject = await SubjectHttpService
-                        .UpdateAssignedTeacher(this._subject.Id, this.selectedTeacher.Id);
-
-                    this._subject.Teacher = subject.Teacher;
-
+                        .UpdateAssignedTeacher(this._subject.Id, selectedId);
+             
                     //Ventanita de mensaje de éxito
                     string message = string.Format("{0} es ahora el profesor de {1}.",
-                        selectedTeacher.FullName, this._subject.Name);
+                        subject.Teacher.FullName, this._subject.Name);
                     new CustomSuccesMessageWindow(message).ShowDialog();
                     this.Close();
+
+                    this.OnNewAssignedTeacherDelegate(subject);//Respuesta
                 }
                 catch (ServerErrorException ex)
                 {

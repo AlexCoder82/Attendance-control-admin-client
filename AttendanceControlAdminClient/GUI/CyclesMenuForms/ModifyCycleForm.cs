@@ -10,17 +10,19 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
 {
     public partial class ModifyCycleForm : CustomDialogForm
     {
-        private List<Shift> shifts; //La lista de turnos disponibles
-        private int defaultShiftid;
+        public delegate void OnCycleUpdatedCallBack(Cycle cycle);
+        public OnCycleUpdatedCallBack OnCycleUpdatedDelegate;
 
-        public Cycle UpdatedCycle { get; set; }//El ciclo a modificar
-        public string UpdatedName { get; set; }//El nombre actualizado    
-        public bool Updated { get; set; }//Indica si se ha actualizado
+        private List<Shift> shifts; //La lista de turnos disponibles
+        private readonly int defaultShiftid;//El id del turno actual
+
+        private readonly Cycle cycle; //El ciclo a modificar
+
 
         public ModifyCycleForm(Cycle cycle)
         {
-            UpdatedCycle = new Cycle();//Para evitar el paso por referencia
-            UpdatedCycle = cycle;
+            this.cycle = new Cycle();//Para evitar el paso por referencia
+            this.cycle = cycle;
             this.defaultShiftid = cycle.Shift.Id;
             InitializeComponent();
         }
@@ -34,7 +36,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         private async void ModifyCycleForm_Load(object sender, EventArgs e)
         {
             
-            this.tbCycleName.Text = UpdatedCycle.Name;
+            this.tbCycleName.Text = cycle.Name;
             await this.ListAllShiftes();
             this.PopulateShiftsComboBox();
 
@@ -60,7 +62,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             this.cbShiftes.DisplayMember = "Description";
             this.cbShiftes.ValueMember = "Id";
 
-            this.cbShiftes.SelectedValue = UpdatedCycle.Shift.Id;
+            this.cbShiftes.SelectedValue = cycle.Shift.Id;
             Console.WriteLine(this.cbShiftes.SelectedValue);
         }
         //protected override void OnPaint(PaintEventArgs pe)
@@ -80,23 +82,24 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
 
         /// <summary>
         ///     Evento al pulsar Modificar:
-        ///     Se envia el nuevo nombre del ciclo al cliente http
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void ButtonModifyCycle_Click(object sender, EventArgs e)
         {
+
             string cycleName = this.tbCycleName.Text;
 
             if (cycleName.Length > 0)
             {
                 this.btnModifyCycle.Enabled = false;
+
                 try
                 {
                     bool confirmed = true;
 
                     int shiftId = (int)this.cbShiftes.SelectedValue;
-                    //Si se cambia el turno -> mensaje de aviso
+                    //Si se cambia el turno -> mensaje de confirmacion con aviso
                     if ( shiftId != this.defaultShiftid)
                     {
                         string message = "Si cambias el turno, se cancelaran todas las clases del ciclo," +
@@ -107,24 +110,23 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
                         if (!dialog.Confirmed)
                         {
                             confirmed = false;
+                            this.btnModifyCycle.Enabled = true;
                         }
                     }
 
                     if (confirmed)
                     {
-                        UpdatedCycle.Name = cycleName;
-                        UpdatedCycle.Shift = this.shifts.Find(s => s.Id == shiftId);
-                        bool updated = await CycleHttpService.Update(UpdatedCycle);
+                        cycle.Name = cycleName;
+                        cycle.Shift = this.shifts.Find(s => s.Id == shiftId);
 
-                        //Si el cliente http devuelve true, se guarda el nuevo nobre en un objecto ciclo
-                        if (updated)
-                        {
-                            this.Updated = true;
-                        }
+                        await CycleHttpService.Update(cycle);
 
+                        this.OnCycleUpdatedDelegate(cycle);
+                      
                         //Ventanita con mensaje de éxito
                         string message = "Se han guardado los cambios del ciclo formativo.";
                         new CustomSuccesMessageWindow(message).ShowDialog();
+
                         this.Close();
                     }
                    
@@ -132,6 +134,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
                 catch (ServerErrorException ex)
                 {
                     new CustomErrorMessageWindow(ex.Message).ShowDialog();
+
                     this.btnModifyCycle.Enabled = true;
                 }
             }

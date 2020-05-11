@@ -64,7 +64,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             this.buttonAbsences.Size = new System.Drawing.Size(50, 50);
             this.buttonAbsences.TabIndex = 15;
             this.buttonAbsences.UseVisualStyleBackColor = true;
-            this.buttonAbsences.Click += new System.EventHandler(this.buttonAbsences_Click);
+            this.buttonAbsences.Click += new System.EventHandler(this.ButtonAbsences_Click);
             // 
             // buttonAssignSubjects
             // 
@@ -90,7 +90,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             this.buttonAssignCycle.Size = new System.Drawing.Size(50, 50);
             this.buttonAssignCycle.TabIndex = 13;
             this.buttonAssignCycle.UseVisualStyleBackColor = true;
-            this.buttonAssignCycle.Click += new System.EventHandler(this.ButtonAssignCycle_Click);
+            this.buttonAssignCycle.Click += new System.EventHandler(this.ButtonAssignCourse_Click);
             // 
             // buttonModifyStudent
             // 
@@ -141,7 +141,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             this.buttonNext.TabIndex = 8;
             this.buttonNext.Text = ">";
             this.buttonNext.UseVisualStyleBackColor = false;
-            this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
+            this.buttonNext.Click += new System.EventHandler(this.ButtonNext_Click);
             // 
             // buttonPrevious
             // 
@@ -155,7 +155,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             this.buttonPrevious.TabIndex = 7;
             this.buttonPrevious.Text = "<";
             this.buttonPrevious.UseVisualStyleBackColor = false;
-            this.buttonPrevious.Click += new System.EventHandler(this.buttonPrevious_Click);
+            this.buttonPrevious.Click += new System.EventHandler(this.ButtonPrevious_Click);
             // 
             // tbLastName
             // 

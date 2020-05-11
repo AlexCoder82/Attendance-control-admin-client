@@ -113,12 +113,6 @@
     <Compile Include="GUI\CustomControls\CustomTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\ShiftsMenuForms\ShiftsWindowControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\ShiftsMenuForms\ShiftsWindowControl.Designer.cs">
-      <DependentUpon>ShiftsWindowControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\StudentsMenuForms\ModifyStudentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -276,9 +270,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomControls\CustomSuccesMessageWindow.resx">
       <DependentUpon>CustomSuccesMessageWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\ShiftsMenuForms\ShiftsWindowControl.resx">
-      <DependentUpon>ShiftsWindowControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\StudentsMenuForms\ModifyStudentForm.resx">
       <DependentUpon>ModifyStudentForm.cs</DependentUpon>

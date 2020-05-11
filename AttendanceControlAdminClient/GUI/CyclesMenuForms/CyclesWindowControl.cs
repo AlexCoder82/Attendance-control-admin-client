@@ -23,16 +23,18 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         }
 
         /// <summary>
-        ///     Evento al crear este formulario:
+        ///     Evento Load del formulario:
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void CyclesWindowControl_Load(object sender, EventArgs e)
         {
+
             this.SetDataGridViews();
             this.SetIconsToolTips();
             await this.GetAllCycles();
             this.PopulateCyclesTable();
+
         }
 
         /// <summary>
@@ -51,17 +53,18 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         }
 
         /// <summary>
-        ///     Establece una anchura automática
+        ///     Establece una anchura 
         ///     a las columnas de cada tabla
         /// </summary>
         private void SetDataGridViews()
         {
+
             this.dgvCycles.Columns[1].AutoSizeMode =
                 DataGridViewAutoSizeColumnMode.Fill;
             this.dgvCycles.Columns[1].HeaderCell.Style.Alignment =
                 DataGridViewContentAlignment.MiddleLeft;
             this.dgvCycles.Columns[2].Width = 120;
-            this.dgvSubjects1.Columns[1].AutoSizeMode =
+            this.dgvSubjects.Columns[1].AutoSizeMode =
                 DataGridViewAutoSizeColumnMode.Fill;
             this.dgvCycles.Columns[2].HeaderCell.Style.Alignment =
                 DataGridViewContentAlignment.MiddleLeft;
@@ -73,6 +76,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         /// </summary>
         private async Task GetAllCycles()
         {
+
             try
             {
                 cycles = await CycleHttpService.GetAll();
@@ -91,6 +95,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         /// </summary>
         private void PopulateCyclesTable()
         {
+
             this.dgvCycles.Rows.Clear();
 
             //Si hay ciclos 
@@ -100,29 +105,33 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
                 {
                     this.dgvCycles.Rows.Add(c.Id, c.Name, c.Shift.Description);
                 });
-                //si hay al menos una asignatura, se instancia el evento de selección
+                //si hay al menos una asignatura, se crea el evento de selección
                 this.dgvCycles.SelectionChanged +=
                     new EventHandler(DataGridViewCycles_SelectionChanged);
-
-
             }
             //si la lista es nula o no hay ciclos
-            if ((this.cycles is null) || this.cycles.Count == 0)
+            if (this.cycles is null)
             {
                 for (int i = 0; i < 5; i++)
                 {
                     this.dgvCycles.Rows.Add();
                 }
-                //si no hay al menos un ciclo, se retira el evento de selección
+                //Se retira el evento de selección
                 this.dgvCycles.SelectionChanged -=
                     new EventHandler(DataGridViewCycles_SelectionChanged);
+            }
+            //Si hay menos de 5 ciclos, se crean filas vacias para llegar hasta 5 filas
+            if (this.cycles != null && this.cycles.Count < 5)
+            {
+                for (int i = this.cycles.Count; i < 5; i++)
+                {
+                    this.dgvCycles.Rows.Add();
+                }
             }
 
             //Provoca evento de seleccion
             this.dgvCycles.Rows[1].Selected = true;
             this.dgvCycles.Rows[0].Selected = true;
-
-
 
         }
 
@@ -132,17 +141,17 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         /// </summary>
         private void PopulateSubjectsTable()
         {
-            this.dgvSubjects1.SelectionChanged -=
+            this.dgvSubjects.SelectionChanged -=
                     new EventHandler(DataGridViewSubjects_SelectionChanged);
-            this.dgvSubjects1.Rows.Clear();
+            this.dgvSubjects.Rows.Clear();
             if (!(selectedCourse is null) && !(selectedCourse.Subjects is null) && selectedCourse.Subjects.Count > 0)
             {
                 selectedCourse.Subjects.ForEach(s =>
                 {
-                    this.dgvSubjects1.Rows.Add(s.Id, s.Name);
+                    this.dgvSubjects.Rows.Add(s.Id, s.Name);
                 });
                 //si hay al menos una asignatura, se instancia el evento de selección
-                this.dgvSubjects1.SelectionChanged +=
+                this.dgvSubjects.SelectionChanged +=
                     new EventHandler(DataGridViewSubjects_SelectionChanged);
 
             }
@@ -152,7 +161,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    this.dgvSubjects1.Rows.Add();
+                    this.dgvSubjects.Rows.Add();
                 }
             }
 
@@ -162,7 +171,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
                 int last = this.selectedCourse.Subjects.Count;
                 for (int i = last; i < 5; i++)
                 {
-                    this.dgvSubjects1.Rows.Add();
+                    this.dgvSubjects.Rows.Add();
                 }
             }
 
@@ -202,19 +211,51 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         private void ButtonAddCycle_Click(object sender, EventArgs e)
         {
 
-            CreateCycleForm createCycleForm = new CreateCycleForm();
-            createCycleForm.ShowDialog();
+            CreateCycleForm form = new CreateCycleForm();
+            form.OnCycleCreatedDelegate += OnCycleCreatedCallback;
+            form.ShowDialog();
 
-            //Al cerrarse la ventana, se recupera el nuevo ciclo creado
-            Cycle createdCycle = createCycleForm.CreatedCycle;
+        }
 
-            //Si existe se agrega
-            if (!(createdCycle is null))
-            {
-                this.cycles.Add(createdCycle);
-                this.dgvCycles.Rows.Add(createdCycle.Id, createdCycle.Name, createdCycle.Shift.Description);
-            }
+        /// <summary>
+        ///     Callback cuando se crea un nuevo ciclo
+        /// </summary>
+        /// <param name="cycle"></param>
+        private void OnCycleCreatedCallback(Cycle cycle)
+        {
 
+            this.cycles.Add(cycle);
+            this.SortTable();
+            this.SelectLastCreatedCycle(cycle.Id);
+
+        }
+
+        /// <summary>
+        ///     Ordena la tabla de ciclos por nombres 
+        /// </summary>
+        private void SortTable()
+        {
+
+            this.cycles = this.cycles.OrderBy(c => c.Name).ToList();
+            this.PopulateCyclesTable();
+
+        }
+
+        /// <summary>
+        ///     Al crear un nuevo ciclo, lo selecciona automaticamente en la tabla
+        /// </summary>
+        /// <param name="cycleId"></param>
+        private void SelectLastCreatedCycle(int cycleId)
+        {
+
+            DataGridViewRow row = dgvCycles.Rows
+                .Cast<DataGridViewRow>()
+                .Where(r => ((int)(r.Cells[0].Value)).Equals(cycleId))
+                .First();
+
+            this.dgvCycles.ClearSelection();
+            this.dgvCycles.Rows[row.Index].Selected = true; ;
+            this.dgvCycles.FirstDisplayedScrollingRowIndex = dgvCycles.SelectedRows[0].Index;
         }
 
         /// <summary>
@@ -235,26 +276,32 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
 
                 //Recupera el ciclo
                 Cycle cycle = this.cycles.FirstOrDefault(c => c.Id == selectedId);
-
-                ModifyCycleForm mcForm = new ModifyCycleForm(cycle);
-                mcForm.ShowDialog();
-
-                //Al cerrarse la ventana, se recupera el ciclo modificado
+                this.selectedCycle = cycle;
 
 
-                //Si existe se actualiza la lista y la tabla
-                if (mcForm.Updated)
-                {
-                    this.selectedCycle = mcForm.UpdatedCycle;
-                    this.dgvCycles.SelectedRows[0].Cells[1].Value = cycle.Name;
-                    this.dgvCycles.SelectedRows[0].Cells[2].Value = cycle.Shift.Description;
-                }
+                ModifyCycleForm form = new ModifyCycleForm(cycle);
+                form.OnCycleUpdatedDelegate += OnCycleUpdatedCallback;
+                form.ShowDialog();
+
             }
             else
             {
                 new CustomErrorMessageWindow("Debes seleccionar un ciclo formativo antes.")
                     .ShowDialog();
             }
+
+        }
+
+        /// <summary>
+        ///     Callback cuando se modifica un ciclo, actualiza el ciclo y la tabla
+        /// </summary>
+        /// <param name="cycle"></param>
+        private void OnCycleUpdatedCallback(Cycle updatedCycle)
+        {
+
+            this.selectedCycle = updatedCycle;
+            this.dgvCycles.SelectedRows[0].Cells[1].Value = updatedCycle.Name;
+            this.dgvCycles.SelectedRows[0].Cells[2].Value = updatedCycle.Shift.Description;
 
         }
 
@@ -338,7 +385,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         {
 
             if (!(selectedCourse is null) && selectedCourse.Subjects.Count > 0
-                            && this.dgvSubjects1.SelectedRows.Count > 0)
+                            && this.dgvSubjects.SelectedRows.Count > 0)
             {
 
             }
@@ -356,25 +403,29 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         {
             if (this.dgvCycles.SelectedRows[0].Cells[0].Value != null)
             {
-                AssignSubjectForm asForm = new AssignSubjectForm(selectedCourse, selectedCycle.Name);
-                asForm.ShowDialog();
+                AssignSubjectForm form = new AssignSubjectForm(selectedCycle.Name, selectedCourse);
+                form.OnSubjectAddedDelegate += OnSubjectAddedCallback;
+                form.ShowDialog();
 
-                //Al cerrarse el formulario, se recupera una copia del curso 
-                //con la asignatura añadida
-                bool isAssigned = asForm.IsAdded;
-
-                //Si la copia existe
-                if (isAssigned)
-                {
-                    //Se refresca la tabla
-                    this.PopulateSubjectsTable();
-                }
             }
             else
             {
                 new CustomErrorMessageWindow("Debes seleccionar un ciclo formativo antes.")
                     .ShowDialog();
             }
+        }
+
+        /// <summary>
+        ///     Callback al agregar una asignatura a un curso
+        /// </summary>
+        /// <param name="subject"></param>
+        private void OnSubjectAddedCallback(Subject subject)
+        {
+
+            this.selectedCourse.Subjects.Add(subject);
+            //Se refresca la tabla
+            this.PopulateSubjectsTable();
+
         }
 
         /// <summary>
@@ -385,22 +436,29 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         private async void ButtonRemoveSubject1_Click(object sender, EventArgs e)
         {
 
-            if (this.dgvSubjects1.SelectedRows[0].Cells[0].Value != null)
+            if (this.dgvSubjects.Rows.Count > 0 
+                && this.dgvSubjects.SelectedRows[0].Cells[0].Value != null)
             {
                 try
                 {
 
                     //Recupera el Id de la asignatura seleccionada
                     int selectedId = int
-                        .Parse(this.dgvSubjects1.SelectedRows[0].Cells[0].Value.ToString());
-                    //Recupero la asignatura de la copia del curso
-                    Subject subject = selectedCourse.Subjects.FirstOrDefault(s => s.Id == selectedId);
+                        .Parse(this.dgvSubjects
+                            .SelectedRows[0].Cells[0].Value.ToString());
 
+                    //Recupero la asignatura de la lista de asignaturas del curso
+                    Subject subject = selectedCourse.Subjects
+                            .FirstOrDefault(s => s.Id == selectedId);
 
                     //Abre dialogo de confirmación
-                    string message = string.Format("Si retiras la asignatura {0} de {1}º de {2}, " +
-                         "se cancelaran todas las clases, ¿Estás seguro de querer retirarla? ",
-                         subject.Name, selectedCourse.Year, selectedCycle.Name);
+                    string message = string.
+                        Format("Si retiras la asignatura {0} de {1}º de {2}, " +
+                         "se cancelarán todas las clases, " +
+                         "¿Estás seguro de querer retirarla? ",
+                         subject.Name, 
+                         selectedCourse.Year,
+                         selectedCycle.Name);
 
                     CustomConfirmDialogForm dialog = new CustomConfirmDialogForm(message);
                     dialog.ShowDialog();
@@ -410,10 +468,10 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
                     {
                         //Envio el curso copiado al servicio http y este retorna 
                         //el curso modificado por el servidor
-                        bool isRemoved = await CourseHttpService
+                        await CourseHttpService
                             .RemoveAssignedSubject(selectedCourse.Id, selectedId);
 
-                        //Borro la asignatura en la copia del curso
+                        //Borro la asignatura del curso
                         selectedCourse.Subjects.Remove(subject);
 
                         //Refresca la tabla de asignaturas del primer curso

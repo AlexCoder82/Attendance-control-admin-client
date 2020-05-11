@@ -12,12 +12,15 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
 {
     public partial class AssignSubjectForm : CustomDialogForm
     {
-        private string _cycleName;
-        private Course _course;//El curso recibido 
+        private string _cycleName;//El nombre del ciclo formativo
+        private readonly Course _course;//El curso recibido 
         private List<Subject> subjects;//La lista de todas las asignaturas 
-        public bool IsAdded { get; set; }//Indica si se ha añadido la nueva asignatura o no
 
-        public AssignSubjectForm(Course course, string cycleName)
+        //Callback con la asignatura añadida al curso
+        public delegate void OnSubjectAddedCallBack(Subject subject);
+        public OnSubjectAddedCallBack OnSubjectAddedDelegate;
+
+        public AssignSubjectForm(string cycleName, Course course)
         {
             _course = course;
             _cycleName = cycleName;
@@ -43,18 +46,21 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         /// </summary>
         private void SetTitle()
         {
+
             string courseName = string.Format("{0}º de {1}", _course.Year, _cycleName);
             this.groupBoxSubjects.Text = "Nueva asignatura de " + courseName;
-        }
 
+        }
 
         /// <summary>
         ///     Asigna medidas a la tabla de asignaturas
         /// </summary>
         private void SetDataGridViewSubjects()
         {
+
             this.dgvSubjects.Columns[1].AutoSizeMode =
                 DataGridViewAutoSizeColumnMode.Fill;
+
         }
 
         /// <summary>
@@ -63,6 +69,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         /// <returns></returns>
         private async Task GetAllSubjects()
         {
+
             try
             {
                 subjects = await SubjectHttpService.GetAll();
@@ -85,13 +92,11 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         {
 
             this.dgvSubjects.Rows.Clear();
-            this.buttonAsign.Visible = false;
-
 
             subjectName = subjectName.TrimStart();
             int length = subjectName.Length;
 
-            if (!(subjects is null) && subjects.Count > 0)
+            if (!(subjects is null))
             {
                 subjects.ForEach(s =>
                 {
@@ -121,30 +126,27 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
 
             }
 
-
-            //Si se ha añadido al menos una asignatura a la tabla ,
-            //se crea el evento de selección
-            if (this.dgvSubjects.Rows.Count > 0)
-            {
-                this.buttonAsign.Visible = true;
-                this.dgvSubjects.Rows[0].Selected = true;
-
-            }
-
-            //Si no hay asignaturas, se crean 5 registros vacios(diseño)
+            //Si la lista es nula, se crean 5 registros vacios(diseño)
             //y se desabilita el botón
-            if (subjects is null || subjects.Count == 0)
+            if (subjects is null)
             {
                 for (int i = 0; i < 5; i++)
                 {
                     this.dgvSubjects.Rows.Add();
                 }
-
-                this.buttonAsign.Visible = false;
             }
 
-        }
+            if (this.subjects != null && this.dgvSubjects.Rows.Count < 5)
+            {
+                for (int i = this.dgvSubjects.Rows.Count; i < 5; i++)
+                {
+                    this.dgvSubjects.Rows.Add();
+                }
+            }
 
+            this.dgvSubjects.Rows[0].Selected = true;
+
+        }
 
         /// <summary>
         ///     Evento al escribir en el textbox:
@@ -152,8 +154,9 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void tbSubject_TextChanged(object sender, EventArgs e)
+        private void TbSubject_TextChanged(object sender, EventArgs e)
         {
+
             this.PopulateSubjectsTable(this.tbSubject.Text);
 
         }
@@ -161,41 +164,49 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
 
 
         /// <summary>
-        ///     Evento al pulsar asignar:
-        ///     Se crea una copia del curso a la cuál se agrega la asignatura
-        ///     seleccionada y se envia el cliente http, el cuál retorna 
-        ///     el curso modificado del servidor
+        ///     Evento al pulsar asignar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void ButtonAssign_Click(object sender, EventArgs e)
         {
-            //Recupera el id de la asignatura seleccionada
-            int selectedId = (int)this.dgvSubjects
-                .SelectedRows[0].Cells[0].Value;
-
-            //Recupera la asignatura
-            Subject subject = subjects.FirstOrDefault(s => s.Id == selectedId);
-
-            try
+            if (this.dgvSubjects.SelectedRows[0].Cells[0].Value != null)
             {
-                IsAdded = await CourseHttpService.AssignSubject(_course.Id, selectedId);
-                _course.Subjects.Add(subject);
+                //Recupera el id de la asignatura seleccionada
+                int selectedId = (int)this.dgvSubjects
+                    .SelectedRows[0].Cells[0].Value;
 
-                string name = (string)this.dgvSubjects
-                    .SelectedRows[0].Cells[1].Value;
+                //Recupera la asignatura
+                Subject subject = subjects.FirstOrDefault(s => s.Id == selectedId);
 
-                string message = string.Format("Se ha añadidio la asignatura {0} a {1}º de {2}.",
-                    name, _course.Year, _cycleName);
-                CustomSuccesMessageWindow dialog = new CustomSuccesMessageWindow(message);
-                dialog.ShowDialog();
-                this.Close();
+                try
+                {
+                    //Agrega la asignatura al curso
+                    await CourseHttpService.AssignSubject(_course.Id, selectedId);
+
+
+                    string name = (string)this.dgvSubjects
+                        .SelectedRows[0].Cells[1].Value;
+
+                    string message = string.Format("Se ha añadidio la asignatura {0} a {1}º de {2}.",
+                        name, _course.Year, _cycleName);
+                    CustomSuccesMessageWindow dialog = new CustomSuccesMessageWindow(message);
+                    dialog.ShowDialog();
+
+                    this.OnSubjectAddedDelegate(subject);//Callback con la asignatura añadida
+                    this.Close();
+                }
+                catch (ServerErrorException ex)
+                {
+                    new CustomErrorMessageWindow(ex.Message).ShowDialog();
+                }
             }
-            catch (ServerErrorException ex)
+            else
             {
-                IsAdded = false;
-                new CustomErrorMessageWindow(ex.Message).ShowDialog();
+                new CustomErrorMessageWindow("Debes seleccionar una asignatura antes.")
+                   .ShowDialog();
             }
+
         }
 
 
