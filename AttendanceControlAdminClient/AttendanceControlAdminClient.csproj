@@ -61,7 +61,6 @@
     <Compile Include="Enums\AbsenceType.cs" />
     <Compile Include="Enums\Role.cs" />
     <Compile Include="Exceptions\ServerErrorException.cs" />
-    <Compile Include="Exceptions\ServerErrorExceptionHandler.cs" />
     <Compile Include="GUI\CustomControls\CustomCircularButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -233,9 +232,8 @@
     <Compile Include="HttpServices\AbsenceHttpService.cs" />
     <Compile Include="HttpServices\CourseHttpService.cs" />
     <Compile Include="HttpServices\CycleHttpService.cs" />
-    <Compile Include="HttpServices\ScheduleHttpService.cs" />
     <Compile Include="HttpServices\SchoolClassHttpService.cs" />
-    <Compile Include="HttpServices\SessionService.cs" />
+    <Compile Include="Session\SessionService.cs" />
     <Compile Include="HttpServices\ShiftHttpService.cs" />
     <Compile Include="HttpServices\SignInHttpService.cs" />
     <Compile Include="HttpServices\StudentHttpService.cs" />
@@ -243,7 +241,6 @@
     <Compile Include="HttpServices\TeacherHttpService.cs" />
     <Compile Include="Models\Absence.cs" />
     <Compile Include="Models\Admin.cs" />
-    <Compile Include="Models\APIError.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Cycle.cs" />
     <Compile Include="Models\PersonData.cs" />

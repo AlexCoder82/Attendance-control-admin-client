@@ -35,7 +35,6 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 var result = await _baseUrl
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/students/" + page)
                     .SetQueryParam("lastname", lastname)
@@ -58,10 +57,10 @@ namespace AttendanceControlAdminClient.HttpServices
         /// <returns></returns>
         public static async Task<Student> Save(Student student)
         {
+
             try
             {
                 var result = await _baseUrl
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/students")
                     .PostJsonAsync(student)
@@ -69,7 +68,6 @@ namespace AttendanceControlAdminClient.HttpServices
 
                 return result;
             }
-
             catch (FlurlHttpException flurlHttpException)
             {
                 var status = flurlHttpException.Call.HttpStatus;
@@ -102,7 +100,6 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 var result = await _baseUrl
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/students")
                     .PutJsonAsync(student)
@@ -142,7 +139,7 @@ namespace AttendanceControlAdminClient.HttpServices
         {
             try
             {
-                var result = await _baseUrl.WithHeader("Role", SessionService.Role)
+                var result = await _baseUrl
                     .WithOAuthBearerToken(SessionService.Token)
                     .AppendPathSegment("/students/" + studentId + "/courses/" + courseId)
                     .PutAsync(null)
@@ -168,7 +165,6 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 var result = await _baseUrl
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/students/" + studentId + "/courses")
                     .PutAsync(null)
@@ -196,7 +192,6 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 var result = await _baseUrl
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/students/" + studentId + "/subjects")
                     .SetQueryParam("subjectIds", subjectIds)

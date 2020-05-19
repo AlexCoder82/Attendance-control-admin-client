@@ -32,7 +32,6 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 List<Subject> result = await _baseUrl
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/subjects")
                     .GetJsonAsync<List<Subject>>();
@@ -59,7 +58,6 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 List<Subject> result = await _baseUrl
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/subjects/courses/" + courseId)
                     .GetJsonAsync<List<Subject>>();
@@ -87,7 +85,6 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 Subject result = await _baseUrl
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/subjects")
                     .PostJsonAsync(subject)
@@ -130,7 +127,6 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 Subject result = await _baseUrl
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/subjects")
                     .PutJsonAsync(subject)
@@ -173,7 +169,6 @@ namespace AttendanceControlAdminClient.HttpServices
             {
                 string url = "/subjects/" + subjectId + "/teachers/" + teacherId;
                 Subject result = await _baseUrl
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)
                     .AppendPathSegment(url)
                     .PutAsync(null)
@@ -201,7 +196,6 @@ namespace AttendanceControlAdminClient.HttpServices
             {
                 string url = "/subjects/" + subjectId + "/teachers";
                 var result = await _baseUrl
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment(url)
                     .PutAsync(null)

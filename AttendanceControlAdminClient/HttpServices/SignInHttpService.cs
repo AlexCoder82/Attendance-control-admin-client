@@ -39,8 +39,7 @@ namespace AttendanceControlAdminClient.HttpServices
                 SignInResponse signInResponse = await url.PostJsonAsync(admin)
                     .ReceiveJson<SignInResponse>();
 
-                //Guarda el token y el role en el objeto SessionService
-                SessionService.Role = signInResponse.Role;
+                //Guarda el token  en el objeto SessionService
                 SessionService.Token = signInResponse.Token;
 
                 return true;

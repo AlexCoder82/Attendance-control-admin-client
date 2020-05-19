@@ -34,7 +34,6 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 var result = await _baseUrl
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/schoolclasses")
                     .PostJsonAsync(schoolClass)
@@ -76,7 +75,6 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 var result = await _baseUrl
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/schoolclasses/" + schoolClassId)
                     .PutAsync(null)
@@ -101,7 +99,6 @@ namespace AttendanceControlAdminClient.HttpServices
             try
             {
                 var result = await _baseUrl
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .AppendPathSegment("/schoolclasses/courses/" + courseId)
                     .GetJsonAsync<List<SchoolClass>>();

@@ -36,7 +36,6 @@ namespace AttendanceControlAdminClient.HttpServices
             {
                 string url = _baseUrl + _controllerUrl;
                 List<Cycle> result = await url
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .GetJsonAsync<List<Cycle>>();
 
@@ -63,7 +62,6 @@ namespace AttendanceControlAdminClient.HttpServices
             {
                 string url = _baseUrl + _controllerUrl;
                 Cycle result = await url
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .PostJsonAsync(cycle)
                     .ReceiveJson<Cycle>();
@@ -102,7 +100,6 @@ namespace AttendanceControlAdminClient.HttpServices
             {
                 string url = _baseUrl + _controllerUrl;
                 var result = await url
-                    .WithHeader("Role", SessionService.Role)
                     .WithOAuthBearerToken(SessionService.Token)//Ruta protegida
                     .PutJsonAsync(cycle)
                     .ReceiveJson<bool>();

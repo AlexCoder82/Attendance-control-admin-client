@@ -9,7 +9,6 @@ namespace AttendanceControlAdminClient.Session
     {
 
         public static string Token;
-        public static string Role;
 
     }
 }
