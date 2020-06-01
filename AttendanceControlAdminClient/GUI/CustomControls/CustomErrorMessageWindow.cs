@@ -30,11 +30,15 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
         private void SetMessageLocation(string message)
         {
 
+            this.labelMessage.TextAlign = ContentAlignment.MiddleCenter;
+
+           
             if (message.Length > 50 && message.Length < 100)
             {
                 this.labelMessage.Location = new Point(
                     this.labelMessage.Location.X, 70);
                 this.labelMessage.Height = 40;
+                
 
 
             }
@@ -91,9 +95,9 @@ namespace AttendanceControlAdminClient.GUI.CustomControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblErrorIcon = new CustomLabel();
-            this.labelMessage = new CustomLabel();
-            this.btnAccept = new CustomButton();
+            this.lblErrorIcon = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
+            this.labelMessage = new AttendanceControlAdminClient.GUI.CustomControls.CustomLabel();
+            this.btnAccept = new AttendanceControlAdminClient.GUI.CustomControls.CustomButton();
             this.SuspendLayout();
             // 
             // lblErrorIcon

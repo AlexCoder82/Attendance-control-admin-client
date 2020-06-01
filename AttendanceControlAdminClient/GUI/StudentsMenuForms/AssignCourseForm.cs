@@ -155,7 +155,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         /// <param name="e"></param>
         private async void ButtonAssign_Click(object sender, EventArgs e)
         {
-
+            
             if (this.dgvCourses.SelectedRows[0].Cells[0].Value != null)
             {
                 try
@@ -164,7 +164,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                     //El cliente http retornado un objeto alumno con el curso actualizado
                     Student student = await StudentHttpService
                         .AssignCourse(_student.Id, id);
-
+                    
                     //Ventanita con mensaje de exito
                     string message = string
                         .Format("El alumno {0} cursará {1}º de {2} y " +

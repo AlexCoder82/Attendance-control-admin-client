@@ -249,6 +249,7 @@ namespace AttendanceControlAdminClient.GUI.TeachersMenuForms
 
             //El profesor original pasa a ser el profesor actualizado
             this.selectedTeacher.Id = teacher.Id;
+            this.selectedTeacher.Dni = teacher.Dni;
             this.selectedTeacher.FirstName = teacher.FirstName;
             this.selectedTeacher.LastName1 = teacher.LastName1;
             this.selectedTeacher.LastName2 = teacher.LastName2;

@@ -110,11 +110,7 @@ namespace AttendanceControlAdminClient.GUI.SubjectsMenuForms
                         }
                         else
                         {
-                            string teacherFullName = String
-                            .Format("{0} {1} {2}", s.Teacher.FirstName,
-                                s.Teacher.LastName1, s.Teacher.LastName2);
-
-                            this.dgvSubjects.Rows.Add(s.Id, s.Name, teacherFullName);
+                            this.dgvSubjects.Rows.Add(s.Id, s.Name, s.Teacher.FullName);
                         }
 
                         //Suma una asignatura en la tabla
