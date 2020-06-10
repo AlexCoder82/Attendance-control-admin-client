@@ -2,14 +2,14 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="AttendanceControlAdminClient.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="OPTIMA_COLOR" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="OPTIMA_COLOR" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">118, 5, 12</Value>
     </Setting>
-    <Setting Name="MAIN_COLOR" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="MAIN_COLOR" Type="System.Drawing.Color" Scope="Application">
       <Value Profile="(Default)">White</Value>
     </Setting>
     <Setting Name="API_URL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://192.168.0.102:5000/api/</Value>
+      <Value Profile="(Default)">http://192.168.0.101:5000/api/</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -23,33 +23,27 @@ namespace AttendanceControlAdminClient.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("118, 5, 12")]
         public global::System.Drawing.Color OPTIMA_COLOR {
             get {
                 return ((global::System.Drawing.Color)(this["OPTIMA_COLOR"]));
             }
-            set {
-                this["OPTIMA_COLOR"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("White")]
         public global::System.Drawing.Color MAIN_COLOR {
             get {
                 return ((global::System.Drawing.Color)(this["MAIN_COLOR"]));
             }
-            set {
-                this["MAIN_COLOR"] = value;
-            }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.0.102:5000/api/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.0.101:5000/api/")]
         public string API_URL {
             get {
                 return ((string)(this["API_URL"]));

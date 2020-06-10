@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttendanceControlAdminClient", "AttendanceControlAdminClient\AttendanceControlAdminClient.csproj", "{51321280-396E-4E20-9DDF-32B8BA6C5AED}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup_x64", "Setup\Setup.vdproj", "{5F70ED6A-A93C-4AE1-B96C-367C00944723}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup_x86", "Setup_x86\Setup_x86.vdproj", "{1ADF564B-3F15-4A15-9291-99898A4C53AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,10 @@ Global
 		{51321280-396E-4E20-9DDF-32B8BA6C5AED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51321280-396E-4E20-9DDF-32B8BA6C5AED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51321280-396E-4E20-9DDF-32B8BA6C5AED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F70ED6A-A93C-4AE1-B96C-367C00944723}.Debug|Any CPU.ActiveCfg = Debug
+		{5F70ED6A-A93C-4AE1-B96C-367C00944723}.Release|Any CPU.ActiveCfg = Release
+		{1ADF564B-3F15-4A15-9291-99898A4C53AC}.Debug|Any CPU.ActiveCfg = Debug
+		{1ADF564B-3F15-4A15-9291-99898A4C53AC}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

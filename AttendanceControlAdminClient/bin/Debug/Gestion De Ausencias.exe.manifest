@@ -66,14 +66,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Gestion De Ausencias.exe" size="535040">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Gestion De Ausencias.exe" size="534016">
       <assemblyIdentity name="Gestion De Ausencias" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>jSF4dA6dA6QZ0OXvfKjF4UBmufBHe2hU3zYKnirLK3M=</dsig:DigestValue>
+        <dsig:DigestValue>VJVTB0exY8i0IjyKI2C1Yn0dXehK6K1FAK57sGghU48=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -89,13 +89,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Gestion De Ausencias.exe.config" size="1260">
+  <file name="Gestion De Ausencias.exe.config" size="1873">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>0NZ7OvP4gwj/byxu5RcF/qN85UV4CuRL4SxdyslwhnE=</dsig:DigestValue>
+      <dsig:DigestValue>D2L4eqNWRco0g7xnrcQEOFKTDvo3sRMQ6eBfRL0iONU=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

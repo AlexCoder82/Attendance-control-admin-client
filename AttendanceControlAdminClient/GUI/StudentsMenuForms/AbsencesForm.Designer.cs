@@ -119,7 +119,7 @@
             this.dgvAbsences.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAbsences.Size = new System.Drawing.Size(543, 150);
             this.dgvAbsences.TabIndex = 0;
-            this.dgvAbsences.SelectionChanged += new System.EventHandler(this.dgvAbsences_SelectionChanged);
+            this.dgvAbsences.SelectionChanged += new System.EventHandler(this.DgvAbsences_SelectionChanged);
             // 
             // columnDate
             // 

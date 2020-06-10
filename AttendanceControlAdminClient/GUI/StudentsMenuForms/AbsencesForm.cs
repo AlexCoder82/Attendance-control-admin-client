@@ -40,10 +40,8 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
             this.FillData();
             this.SetDataGridViewAbsences();
             this.SetDataGridViewDelays();
-
             await this.GetStudentAbsences();
-
-            this.PopulateTables();
+            this.PopulateDataGridViewAbsences();
 
         }
 
@@ -57,8 +55,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
 
             try
             {
-                this.absences = await AbsenceHttpService.GetByStudent(_student.Id);
-               
+                this.absences = await AbsenceHttpService.GetByStudent(_student.Id);       
             }
             catch (ServerErrorException ex)
             {
@@ -91,75 +88,50 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
         }
 
         /// <summary>
-        ///     Rellena las tablas
+        ///     Rellena la tabla de ausencias por dia
         /// </summary>
-        private void PopulateTables()
+        private void PopulateDataGridViewAbsences()
         {
             if (!(absences is null) && absences.Count > 0)
-            {
-
-               
+            {         
                 //ORDENA POR FECHA
                 absences = absences.OrderBy(a => a.Date).ThenBy(a => a.Schedule.Start).ToList();
 
-                int absenceCounter = 0;
-                int delaysCounter = 0;
-                int totalExcused = 0;
-                CultureInfo cultureInfo = new CultureInfo("es-ES");
-                for (int i = 1; i < absences.Count; i++)
-                {
+                
+                int totalExcused = 0;// Total justificado
 
-                    if (absences[i].Date.DayOfYear == absences[i - 1].Date.DayOfYear)
+                CultureInfo cultureInfo = new CultureInfo("es-ES");
+
+                //Filtra las ausencia por día
+                List<List<Absence>> dayAbsences = absences.GroupBy(a => a.Date).Select(group=>group.ToList()).ToList();
+
+                foreach(List<Absence> absences in dayAbsences)//Cada dia
+                {
+                    int absenceCounter = 0;//Contador de clases perdidas un mismo dia
+                    int delaysCounter = 0;//Contador de retrasos un mismo día
+                    string date = absences[0].Date.ToString(cultureInfo.DateTimeFormat.LongDatePattern);
+                    date = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(date.ToLower());
+
+                    foreach(Absence absence in absences)//Cada ausencia del dia
                     {
-                        if (absences[i - 1].Type == Enums.AbsenceType.TOTAL)
+                        if(absence.Type == Enums.AbsenceType.TOTAL)
                         {
                             absenceCounter++;
-
-
                         }
                         else
                         {
                             delaysCounter++;
                         }
-                        if (i == absences.Count - 1)
+
+                        if (absence.IsExcused)
                         {
-                            if (absences[i].Type == Enums.AbsenceType.TOTAL)
-                            {
-                                absenceCounter++;
-                            }
-                            else
-                            {
-                                delaysCounter++;
-                            }
-                            string date = absences[i - 1].Date.ToString(cultureInfo.DateTimeFormat.LongDatePattern);
-                            date = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(date.ToLower());
-                            this.dgvAbsences.Rows.Add(date, absenceCounter, delaysCounter);
-                            if (absences[i].IsExcused)
-                            {
-                                totalExcused++;
-                            }
+                            totalExcused++;
                         }
-                    }
-                    else
-                    {
-                        string date = absences[i - 1].Date.ToString(cultureInfo.DateTimeFormat.LongDatePattern);
-                        date = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(date.ToLower());
-                        this.dgvAbsences.Rows.Add(date, absenceCounter, delaysCounter);
-                        absenceCounter = 0;
-                        delaysCounter = 0;
-                    }
-                    if (absences[i - 1].IsExcused)
-                    {
-                        totalExcused++;
-                    }
+                    };
+                    this.dgvAbsences.Rows.Add(date, absenceCounter, delaysCounter);
+                };
 
-
-
-
-
-                }
-
-               
+      
                 this.dgvAbsences.Rows[0].Selected = true;
                 this.dgvDetails.Visible = true;
                 _totalExcused = totalExcused;
@@ -297,7 +269,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                         _totalExcused--;
                     }
 
-                    //Refresco el contado de ausencias justificadas
+                    //Refresco el contador de ausencias justificadas
                     this.labelTotalExcused.Text = _totalExcused.ToString();
 
                 }
@@ -306,10 +278,12 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                     new CustomErrorMessageWindow(ex.Message).ShowDialog();
                 }
             }
+
         }
 
-        private void dgvAbsences_SelectionChanged(object sender, EventArgs e)
+        private void DgvAbsences_SelectionChanged(object sender, EventArgs e)
         {
+
             if (absences.Count > 0 && dgvAbsences.Rows.Count > 0
                 && dgvAbsences.SelectedRows.Count > 0)
             {
@@ -321,10 +295,16 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                 //Rellena la tabla con las ausencias de dicha fecha
                 this.PopulateDataGridViewDetails(date);
             }
+
         }
 
+        /// <summary>
+        ///     Rellena la tabla de detalles de ausencias
+        /// </summary>
+        /// <param name="date"></param>
         private void PopulateDataGridViewDetails(DateTime date)
         {
+
             this.dgvDetails.Rows.Clear();
             absences.ForEach(a =>
             {
@@ -346,6 +326,7 @@ namespace AttendanceControlAdminClient.GUI.StudentsMenuForms
                         a.Subject.Name, absenceType, a.IsExcused);
                 }
             });
+
         }
     }
 }

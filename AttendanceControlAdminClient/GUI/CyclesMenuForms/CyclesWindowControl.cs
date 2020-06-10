@@ -157,7 +157,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             }
 
             //si la lista es nula ,crea 5 registros vacios
-            if ((this.selectedCourse.Subjects is null))
+            if (this.selectedCourse is null || this.selectedCourse.Subjects is null)
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -166,7 +166,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             }
 
             //si la lista tiene menos de 5 asignaturas 
-            if (!(this.selectedCourse.Subjects is null) && this.selectedCourse.Subjects.Count < 5)
+            if (!(this.selectedCourse is null) && !(this.selectedCourse.Subjects is null) && this.selectedCourse.Subjects.Count < 5)
             {
                 int last = this.selectedCourse.Subjects.Count;
                 for (int i = last; i < 5; i++)
@@ -188,7 +188,7 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         private void DataGridViewCycles_SelectionChanged(object sender, EventArgs e)
         {
 
-            if (!(cycles is null) && cycles.Count > 0 && this.dgvCycles.SelectedRows.Count > 0)
+            if (this.dgvCycles.SelectedRows.Count >0 && this.dgvCycles.SelectedRows[0].Cells[0].Value != null)
             {
                 //Recupera el Id del ciclo del registro seleccionado
                 int selectedId = int
@@ -198,8 +198,14 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
                 //Recupera el ciclo seleccionado
                 selectedCycle = this.cycles
                     .FirstOrDefault(c => c.Id == selectedId);
-                this.PopulateCoursesComboBoxes();
+                
             }
+            else
+            {
+                selectedCycle = null;
+                this.selectedCourse = null;
+            }
+            this.PopulateCoursesComboBoxes();
 
         }
 
@@ -312,21 +318,31 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
         /// </summary>
         private async void PopulateCoursesComboBoxes()
         {
-            //Retira el evento de seleccion hasta 
-            this.CbCourses.SelectedIndexChanged -= new EventHandler(CbCourses_SelectedIndexChanged);
+            if (selectedCycle != null)
+            {
 
 
-            this.CbCourses.DataSource = selectedCycle.Courses;
-            this.CbCourses.DisplayMember = "Year";
-            this.CbCourses.ValueMember = "Id";
+                //Retira el evento de seleccion hasta 
+                this.CbCourses.SelectedIndexChanged -= new EventHandler(CbCourses_SelectedIndexChanged);
 
-            //Primer curso por defecto y listo sus asignaturas
-            this.CbCourses.SelectedIndex = 0;
-            await this.GetSubjects();
-            this.PopulateSubjectsTable();
+                this.CbCourses.DataSource = selectedCycle.Courses;
+                this.CbCourses.DisplayMember = "Year";
+                this.CbCourses.ValueMember = "Id";
 
-            //Vuelve a poner el evento de seleccion
-            this.CbCourses.SelectedIndexChanged += new EventHandler(CbCourses_SelectedIndexChanged);
+                //Primer curso por defecto y listo sus asignaturas
+                this.CbCourses.SelectedIndex = 0;
+                await this.GetSubjects();
+                this.PopulateSubjectsTable();
+
+                //Vuelve a poner el evento de seleccion
+                this.CbCourses.SelectedIndexChanged += new EventHandler(CbCourses_SelectedIndexChanged);
+            }
+            else
+            {
+                this.CbCourses.DataSource = null;
+                this.PopulateSubjectsTable();
+            }
+            
         }
 
 
@@ -342,7 +358,6 @@ namespace AttendanceControlAdminClient.GUI.CyclesMenuForms
             {
                 try
                 {
-                    Console.WriteLine("YYYYYYYYYYYYYYYYYYYYYYYYY");
                     await this.GetSubjects();
                     this.PopulateSubjectsTable();
                 }
